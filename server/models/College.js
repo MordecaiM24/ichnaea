@@ -24,7 +24,7 @@ const CollegeSchema = new mongoose.Schema({
   numStudents: Number,
   public: Boolean,
   baseCost: Number,
-  costAfterAid: String,
+  costAfterAid: Number,
   decisionMetrics: [String],
   suppEssays: [String],
   testRange: {
