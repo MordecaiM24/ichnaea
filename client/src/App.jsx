@@ -370,7 +370,6 @@ export const App = () => {
           name="75thUnweighted"
           onChange={handleGPAChange}
         />
-
         <button type="submit">Create College</button>
       </form>
     </div>
