@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ichnaea</title>
+    <link href="/css/main.min.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+    />
+  </head>
+  <body>
+    <!-- navbar -->
+    <nav class="navbar navbar-expand-md bg-primary mb-5 navbar-dark">
+      <div class="container-fluid px-5">
+        <a href="#intro" class="navbar-brand me-5">
+          <!-- TODO: change logo to text/svg. SVG not working for w/e reason atm -->
+          <!-- BIGGER TODO: Change logo. Think of new name lol -->
+          <img
+            src="assets/ichnaea-logo-zip-file/png/logo-no-background.png"
+            alt="Bootstrap"
+            width="128"
+          />
+        </a>
+        <!-- toggle button for mobile nav -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#main-nav"
+          aria-controls="main-nav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <!-- navbar links -->
+        <div class="collapse navbar-collapse" id="main-nav">
+          <ul class="navbar-nav w-100 justify-content-around ms-md-5 pt-3">
+            <!-- TODO: change justify-around to make myprofile sit at end while keeping distance from logo -->
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p class="lead"><i class="bi bi-bank"></i> Colleges</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p class="lead"><i class="bi bi-coin"></i> Scholarships</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link">
+                <p class="lead">
+                  <i class="bi bi-mortarboard-fill"></i> My Profile
+                </p>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- grid w/ colleges-->
+    <div class="container-fluid px-5" ;>
+      <div class="row gx-5 gy-5">
+        <div class="col-12 col-xl-4 col-md-6">
+          <div
+            class="card mb-3 border-primary border-2 p-0 btn btn-outline-primary text-start"
+          >
+            <div class="row gx-0">
+              <!-- TODO: make aspect ratio constant if possible for image (& card) -->
+              <div class="col-6 col-md-5">
+                <img
+                  src="assets/unc-chapel-hill-1.jpg"
+                  class="img-fluid rounded-start"
+                />
+              </div>
+              <div class="col-6 col-md-7">
+                <div class="card-body p-2" style="height: 100%">
+                  <div
+                    class="card-text d-flex flex-column justify-content-between overflow-hidden"
+                    style="height: 100%"
+                  >
+                    <!-- TODO: Change information shown depending on screen size. ATM Only name shown on small screens. -->
+                    <p class="lead mb-0">UNC Chapel Hill</p>
+                    <small class="d-none d-sm-block">
+                      <strong>Chapel Hill, NC</strong>
+                    </small>
+                    <small class="d-none d-sm-block">
+                      4 Year &#183; Public &#183; Suburban
+                    </small>
+                    <small class="d-none d-sm-block">
+                      General Ranking: #29
+                    </small>
+                    <small class="d-none d-sm-block"> 29,000 Students </small>
+                    <small class="d-none d-sm-block"> Test Optional </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-4 col-md-6">
+          <div
+            class="card mb-3 border-primary border-2 p-0 btn btn-outline-primary text-start"
+          >
+            <div class="row g-0">
+              <div class="col-6 col-md-5">
+                <img
+                  src="assets/cornell-1.jpg"
+                  class="img-fluid rounded-start w-100 h-100"
+                />
+              </div>
+              <div class="col-6 col-md-7">
+                <div class="card-body p-2" style="height: 100%">
+                  <div
+                    class="card-text d-flex flex-column justify-content-between overflow-hidden"
+                    style="height: 100%"
+                  >
+                    <p class="lead mb-0">Cornell University</p>
+                    <small class="d-none d-sm-block">
+                      <strong>Ithaca, NY</strong>
+                    </small>
+                    <small class="d-none d-sm-block">
+                      4 Year &#183; Private &#183; Rural
+                    </small>
+                    <small class="d-none d-sm-block">
+                      General Ranking: #8
+                    </small>
+                    <small class="d-none d-sm-block"> 15,000 Students </small>
+                    <small class="d-none d-sm-block"> Test Optional </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-12 col-xl-4 col-md-6">
+          <div
+            class="card mb-3 border-primary border-2 p-0 btn btn-outline-primary text-start"
+          >
+            <div class="row g-0">
+              <div class="col-6 col-md-5">
+                <img
+                  src="assets/harvard-1.jpg"
+                  class="img-fluid rounded-start w-100 h-100"
+                />
+              </div>
+              <div class="col-6 col-md-7">
+                <div class="card-body p-2" style="height: 100%">
+                  <div
+                    class="card-text d-flex flex-column justify-content-between overflow-hidden"
+                    style="height: 100%"
+                  >
+                    <p class="lead mb-0">Harvard University</p>
+                    <small class="d-none d-sm-block">
+                      <strong>Boston, MA</strong>
+                    </small>
+                    <small class="d-none d-sm-block">
+                      4 Year &#183; Private &#183; Urban
+                    </small>
+                    <small class="d-none d-sm-block">
+                      General Ranking: #1 (tie)
+                    </small>
+                    <small class="d-none d-sm-block"> 8,000 Students </small>
+                    <small class="d-none d-sm-block"> Test Optional </small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- tooltip -->
+    <script>
+      const tooltipTriggerList = document.querySelectorAll(".tt");
+      const tooltipList = [...tooltipTriggerList].map(
+        (tooltipTriggerEl) => new bootstrap.Tooltip(tooltipTriggerEl)
+      );
+    </script>
+  </body>
+</html>
+
+<!-- Short data: 4 year, publicity, urbanity, gen ranking, num students, "most important metric" (test optional, required) -->
