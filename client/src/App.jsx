@@ -63,7 +63,18 @@ export const App = () => {
 
   const handleTestChange = (event) => {
     const { name, value } = event.target;
-    setCollege({ ...college, testRange: { [name]: value } });
+    setCollege({
+      ...college,
+      testRange: { ...college.testRange, [name]: value },
+    });
+  };
+
+  const handleGPAChange = (event) => {
+    const { name, value } = event.target;
+    setCollege({
+      ...college,
+      gpaRange: { ...college.gpaRange, [name]: value },
+    });
   };
 
   const publicChange = (event) => {
@@ -77,11 +88,11 @@ export const App = () => {
     event.preventDefault();
     try {
       console.log(college);
-      const res = await axios.post(
-        "http://localhost:5000/api/colleges/create",
-        college
-      );
-      console.log(res);
+      // const res = await axios.post(
+      //   "http://localhost:5000/api/colleges/create",
+      //   college
+      // );
+      // console.log(res);
       alert("College created");
     } catch (err) {
       console.error(err);
@@ -270,6 +281,92 @@ export const App = () => {
           id="costAfterAid"
           name="costAfterAid"
           onChange={handleChange}
+        />
+
+        <label htmlFor="25thACT">25th ACT</label>
+        <input
+          type="number"
+          id="25thACT"
+          name="25thACT"
+          onChange={handleTestChange}
+        />
+        <label htmlFor="50thACT">50th ACT</label>
+        <input
+          type="number"
+          id="50thACT"
+          name="50thACT"
+          onChange={handleTestChange}
+        />
+        <label htmlFor="75thACT">75th ACT</label>
+        <input
+          type="number"
+          id="75thACT"
+          name="75thACT"
+          onChange={handleTestChange}
+        />
+        <label htmlFor="25thSAT">25th SAT</label>
+        <input
+          type="number"
+          id="25thSAT"
+          name="25thSAT"
+          onChange={handleTestChange}
+        />
+        <label htmlFor="50thSAT">50th SAT</label>
+        <input
+          type="number"
+          id="50thSAT"
+          name="50thSAT"
+          onChange={handleTestChange}
+        />
+        <label htmlFor="75thSAT">75th SAT</label>
+        <input
+          type="number"
+          id="75thSAT"
+          name="75thSAT"
+          onChange={handleTestChange}
+        />
+
+        <label htmlFor="25thWeighted">25th Weighted</label>
+        <input
+          type="number"
+          id="25thWeighted"
+          name="25thWeighted"
+          onChange={handleGPAChange}
+        />
+        <label htmlFor="50thWeighted">50th Weighted</label>
+        <input
+          type="number"
+          id="50thWeighted"
+          name="50thWeighted"
+          onChange={handleGPAChange}
+        />
+        <label htmlFor="75thWeighted">75th Weighted</label>
+        <input
+          type="number"
+          id="75thWeighted"
+          name="75thWeighted"
+          onChange={handleGPAChange}
+        />
+        <label htmlFor="25thUnweighted">25th Unweighted</label>
+        <input
+          type="number"
+          id="25thUnweighted"
+          name="25thUnweighted"
+          onChange={handleGPAChange}
+        />
+        <label htmlFor="50thUnweighted">50th Unweighted</label>
+        <input
+          type="number"
+          id="50thUnweighted"
+          name="50thUnweighted"
+          onChange={handleGPAChange}
+        />
+        <label htmlFor="75thUnweighted">75th Unweighted</label>
+        <input
+          type="number"
+          id="75thUnweighted"
+          name="75thUnweighted"
+          onChange={handleGPAChange}
         />
 
         <button type="submit">Create College</button>
