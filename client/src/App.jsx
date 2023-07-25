@@ -88,14 +88,16 @@ export const App = () => {
     event.preventDefault();
     try {
       console.log(college);
-      // const res = await axios.post(
-      //   "http://localhost:5000/api/colleges/create",
-      //   college
-      // );
-      // console.log(res);
+      const res = await axios.post(
+        "http://localhost:5000/api/colleges/create",
+        college
+      );
+      console.log(res);
+      alert(res);
       alert("College created");
     } catch (err) {
       console.error(err);
+      alert(err);
     }
   };
 

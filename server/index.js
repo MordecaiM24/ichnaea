@@ -13,9 +13,7 @@ app.use(cors());
 app.use("/api/colleges", collegeRouter);
 app.use("/api/users", userRouter);
 
-mongoose.connect(
-  `mongodb+srv://${process.env.ATLAS_ID}:${process.env.ATLAS_PASSWORD}@cluster0.rnqhvef.mongodb.net/?retryWrites=true&w=majority`
-);
+mongoose.connect(`mongodb://localhost:27017/`);
 
 app.listen(5000, () => {
   console.log("Server listening on port 5000...");
