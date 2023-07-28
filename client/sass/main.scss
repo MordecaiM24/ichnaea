@@ -1,0 +1,19 @@
+// custom variables
+$white: #ffffff;
+
+$theme-colors: (
+  "light": #eaeaea,
+  "dark": #030305,
+  "primary": #910016,
+  "secondary": #175e54,
+  "info": #a6b168,
+  "success": #589c00,
+  "warning": #ffbc5e,
+  "danger": #ee0064,
+);
+// import the functions & variables
+@import "../node_modules/bootstrap/scss/_functions";
+@import "../node_modules/bootstrap/scss/variables";
+
+// import bootstrap
+@import "../node_modules/bootstrap/scss/bootstrap.scss";
