@@ -3,9 +3,10 @@ import mongoose from "mongoose";
 const CollegeSchema = new mongoose.Schema({
   fullName: String,
   shortName: String,
+  kebabName: String,
   location: String,
   setting: String,
-  campusSize: String,
+  campusSize: Number,
   genRanking: Number,
   programRankings: {
     bestValue: Number,
@@ -44,12 +45,16 @@ const CollegeSchema = new mongoose.Schema({
     "75thUnweighted": Number,
   },
   imgLinks: [String],
-  deadlines: [
-    { earlyAction: Date },
-    { earlyDecision: Date },
-    { regularDecision: Date },
-    { rolling: Boolean },
-  ],
+  deadlines: {
+    earlyAction: Date,
+    earlyDecision: Date,
+    earlyDecision2: Date,
+    earlyAid: Date,
+    ed2Aid: Date,
+    financialAid: Date,
+    regularDecision: Date,
+    rolling: Boolean,
+  },
 });
 
 export const CollegeModel = mongoose.model("colleges", CollegeSchema);

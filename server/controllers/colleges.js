@@ -15,6 +15,12 @@ const createCollege = async (req, res) => {
   res.status(200).json({ msg: "College registered successfully" });
 };
 
+const getColleges = async (req, res) => {
+  console.log("Getting colleges");
+  const colleges = await CollegeModel.find({});
+  res.status(200).json(colleges);
+};
+
 //TODO Get college, possibly separate file with support for queries
 // Possible queries: Sort and filter by ranking, program ranking, SAT/ACT/GPA
-export { createCollege };
+export { createCollege, getColleges };

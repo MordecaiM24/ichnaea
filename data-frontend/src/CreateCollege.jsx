@@ -5,22 +5,23 @@ export const CreateCollege = () => {
   const [college, setCollege] = useState({
     fullName: "",
     shortName: "",
+    kebabName: "",
     location: "",
     setting: "",
-    campusSize: "",
-    genRanking: "",
+    campusSize: 0,
+    genRanking: 0,
     programRankings: {
-      bestValue: "",
-      engineering: "",
-      biomedEng: "",
-      eeEng: "",
-      mechEng: "",
-      compSci: "",
-      ai: "",
-      cyberSec: "",
-      dataScience: "",
-      writing: "",
-      studyAbroad: "",
+      bestValue: 0,
+      engineering: 0,
+      biomedEng: 0,
+      eeEng: 0,
+      mechEng: 0,
+      compSci: 0,
+      ai: 0,
+      cyberSec: 0,
+      dataScience: 0,
+      writing: 0,
+      studyAbroad: 0,
     },
     acceptanceRate: 0,
     numStudents: 0,
@@ -46,43 +47,34 @@ export const CreateCollege = () => {
       "75thUnweighted": 0,
     },
     imgLinks: [""],
-    deadlines: [
-      { earlyAction: Date },
-      { earlyDecision: Date },
-      { regularDecision: Date },
-      { rolling: false },
-    ],
+    deadlines: {
+      earlyAction: Date,
+      earlyDecision: Date,
+      earlyDecision2: Date,
+      earlyAid: Date,
+      ed2Aid: Date,
+      financialAid: Date,
+      regularDecision: Date,
+      rolling: false,
+    },
   });
 
   const handleDateChange = (event) => {
     const { name, value } = event.target;
-    let index;
-    switch (name) {
-      case "earlyAction":
-        index = 0;
-        break;
-      case "earlyDecision":
-        index = 1;
-        break;
-      case "regularDecision":
-        index = 2;
-        break;
-      case "rolling":
-        index = 3;
-    }
-
-    console.log(index);
-    const newCollege = { ...college };
-    if (index < 3) {
-      console.log("IN TRUE CONDITION");
-      newCollege.deadlines[index][name] = value;
-      setCollege(newCollege);
+    if (name !== "rolling") {
+      setCollege({
+        ...college,
+        deadlines: { ...college.deadlines, [name]: value },
+      });
     } else {
-      newCollege.deadlines[3].rolling = !newCollege.deadlines[3].rolling;
-      setCollege(newCollege);
+      setCollege({
+        ...college,
+        deadlines: {
+          ...college.deadlines,
+          rolling: !college.deadlines.rolling,
+        },
+      });
     }
-
-    console.log(college);
   };
 
   const handleChange = (event) => {
@@ -172,6 +164,14 @@ export const CreateCollege = () => {
           onChange={handleChange}
         />
 
+        <label htmlFor="kebabName">Kebab Name</label>
+        <input
+          type="text"
+          id="kebabName"
+          name="kebabName"
+          onChange={handleChange}
+        />
+
         <label htmlFor="location">Location</label>
         <input
           type="text"
@@ -180,7 +180,7 @@ export const CreateCollege = () => {
           onChange={handleChange}
         />
 
-        <label htmlFor="setting">setting</label>
+        <label htmlFor="setting">Setting</label>
         <input
           type="text"
           id="setting"
@@ -190,7 +190,7 @@ export const CreateCollege = () => {
 
         <label htmlFor="campusSize">Campus Size</label>
         <input
-          type="text"
+          type="number"
           id="campusSize"
           name="campusSize"
           onChange={handleChange}
@@ -212,7 +212,7 @@ export const CreateCollege = () => {
           onChange={handleRankChange}
         />
 
-        <label htmlFor="engineering">Engineering Ranking</label>
+        {/* <label htmlFor="engineering">Engineering Ranking</label>
         <input
           type="number"
           id="engineering"
@@ -285,7 +285,7 @@ export const CreateCollege = () => {
           id="studyAbroad"
           name="studyAbroad"
           onChange={handleRankChange}
-        />
+        /> */}
 
         <label htmlFor="acceptanceRate">Acceptance Rate</label>
         <input
@@ -293,6 +293,7 @@ export const CreateCollege = () => {
           id="acceptanceRate"
           name="acceptanceRate"
           onChange={handleChange}
+          step="0.01"
         />
 
         <label htmlFor="numStudents">Num Students</label>
@@ -306,7 +307,7 @@ export const CreateCollege = () => {
         <label htmlFor="public">Public</label>
         <input type="text" id="public" name="public" onChange={publicChange} />
 
-        <label htmlFor="baseCost">Num Students</label>
+        <label htmlFor="baseCost">Base Cost</label>
         <input
           type="number"
           id="baseCost"
@@ -314,7 +315,7 @@ export const CreateCollege = () => {
           onChange={handleChange}
         />
 
-        <label htmlFor="costAfterAid">Num Students</label>
+        <label htmlFor="costAfterAid">Cost After Aid</label>
         <input
           type="number"
           id="costAfterAid"
@@ -365,7 +366,7 @@ export const CreateCollege = () => {
           onChange={handleTestChange}
         />
 
-        <label htmlFor="25thWeighted">25th Weighted</label>
+        {/* <label htmlFor="25thWeighted">25th Weighted</label>
         <input
           type="number"
           id="25thWeighted"
@@ -406,7 +407,7 @@ export const CreateCollege = () => {
           id="75thUnweighted"
           name="75thUnweighted"
           onChange={handleGPAChange}
-        />
+        /> */}
 
         <label htmlFor="earlyAction">Early Action Date</label>
         <input
@@ -424,11 +425,43 @@ export const CreateCollege = () => {
           onChange={handleDateChange}
         />
 
+        <label htmlFor="earlyDecision2">Early Decision 2 Date</label>
+        <input
+          type="date"
+          id="earlyDecision2"
+          name="earlyDecision2"
+          onChange={handleDateChange}
+        />
+
         <label htmlFor="regularDecision">Regular Decision Date</label>
         <input
           type="date"
           id="regularDecision"
           name="regularDecision"
+          onChange={handleDateChange}
+        />
+
+        <label htmlFor="earlyAid">Early Aid Date</label>
+        <input
+          type="date"
+          id="earlyAid"
+          name="earlyAid"
+          onChange={handleDateChange}
+        />
+
+        <label htmlFor="ed2Aid">Early Decision 2 Aid Date</label>
+        <input
+          type="date"
+          id="ed2Aid"
+          name="ed2Aid"
+          onChange={handleDateChange}
+        />
+
+        <label htmlFor="financialAid">Financial Aid Date</label>
+        <input
+          type="date"
+          id="financialAid"
+          name="financialAid"
           onChange={handleDateChange}
         />
 

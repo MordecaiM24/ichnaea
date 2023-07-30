@@ -1,5 +1,7 @@
 import { ichnaeaLogo } from "src/assets/assets";
 import { Bank, Coin, MortarboardFill } from "react-bootstrap-icons";
+import "bootstrap/dist/js/bootstrap.bundle";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   return (
@@ -18,40 +20,41 @@ export const Navbar = () => {
             type="button"
             data-bs-toggle="collapse"
             data-bs-target="#main-nav"
-            aria-expanded="false"
+            aria-controls="main-nav"
+            aria-expanded="true"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon"></span>
+            <span className="navbar-toggler-icon"></span>
           </button>
 
           {/* navbar links */}
           <div className="collapse navbar-collapse" id="main-nav">
-            <ul className="navbar-nav w-100 justify-content-around ms-md-5 pt-3 align-items-center">
+            <ul className="navbar-nav w-100 justify-content-around ms-md-5 pt-3 align-items-start">
               {/* TODO: change justify-around to make profile sit at end */}
               {/* TODO: Maybe make navbar smaller overall (?) */}
               <li className="nav-item">
-                <a href="#" className="nav-link">
+                <Link to="/colleges" className="nav-link">
                   <p className="lead d-flex align-items-center gap-2">
                     <Bank />
                     Colleges
                   </p>
-                </a>
+                </Link>
               </li>
               <li className="nav-item">
-                <a href="#" className="nav-link">
+                <Link to="/scholarships" className="nav-link">
                   <p className="lead d-flex align-items-center gap-2">
                     <Coin />
                     Scholarships
                   </p>
-                </a>
+                </Link>
               </li>
               <li className="nav-item ">
-                <a href="#" className="nav-link">
+                <Link to="/profile" className="nav-link">
                   <p className="lead  d-flex align-items-center gap-2">
                     <MortarboardFill />
                     My Profile
                   </p>
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
