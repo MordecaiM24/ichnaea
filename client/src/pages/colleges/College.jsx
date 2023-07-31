@@ -55,12 +55,12 @@ export const College = (props) => {
     } else {
       if (isCollegeSaved) {
         const res = await axios.delete(
-          `http://localhost:5000/api/users/removeCollege/${userID}/${_id}`
+          `http://192.168.1.77:5000/api/users/removeCollege/${userID}/${_id}`
         );
         updateSaved(shouldUpdate + 1);
       } else {
         const res = await axios.patch(
-          "http://localhost:5000/api/users/saveCollege",
+          "http://192.168.1.77:5000/api/users/saveCollege",
           { userID, collegeToSave: _id }
         );
         updateSaved(shouldUpdate + 1);

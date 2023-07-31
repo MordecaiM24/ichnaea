@@ -14,7 +14,7 @@ export const CollegeGrid = () => {
 
   useEffect(() => {
     const getColleges = async () => {
-      const res = await axios.get("http://localhost:5000/api/colleges");
+      const res = await axios.get("http://192.168.1.77:5000/api/colleges");
       const newColleges = res.data;
       setColleges(newColleges);
     };
@@ -26,7 +26,7 @@ export const CollegeGrid = () => {
     if (userID) {
       const getSavedColleges = async () => {
         const res = await axios.get(
-          `http://localhost:5000/api/users/savedColleges/${userID}`
+          `http://192.168.1.77:5000/api/users/savedColleges/${userID}`
         );
 
         setSavedColleges(res.data);

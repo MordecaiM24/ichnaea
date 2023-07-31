@@ -1,6 +1,7 @@
 import { ichnaeaLogo } from "src/assets/assets";
 import { Bank, Coin, MortarboardFill } from "react-bootstrap-icons";
 import { Link } from "react-router-dom";
+import "bootstrap/dist/js/bootstrap.js";
 
 export const Navbar = () => {
   return (
@@ -20,7 +21,7 @@ export const Navbar = () => {
             data-bs-toggle="collapse"
             data-bs-target="#main-nav"
             aria-controls="main-nav"
-            aria-expanded="true"
+            aria-expanded="false"
             aria-label="Toggle navigation"
           >
             <span className="navbar-toggler-icon"></span>
