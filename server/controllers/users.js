@@ -56,4 +56,48 @@ const verifyToken = (req, res, next) => {
   }
 };
 
-export { createUser, login, verifyToken };
+const saveCollege = async (req, res, next) => {
+  const collegeToSave = req.body.collegeToSave;
+  const userID = req.body.userID;
+
+  const response = await UserModel.updateOne(
+    { _id: userID },
+    { $addToSet: { savedColleges: collegeToSave } }
+  );
+
+  console.log(response);
+
+  res.status(200).json({ isModified: Boolean(response.modifiedCount) });
+};
+
+const removeCollege = async (req, res, next) => {
+  const collegeToRemove = req.params.collegeID;
+  const userID = req.params.userID;
+
+  const response = await UserModel.updateOne(
+    { _id: userID },
+    { $pull: { savedColleges: collegeToRemove } }
+  );
+
+  console.log(response);
+
+  res.status(200).json(response);
+};
+
+const getSavedColleges = async (req, res, next) => {
+  const userID = req.params.userID;
+  const savedColleges = await UserModel.findOne({ _id: userID })
+    .select("savedColleges")
+    .populate("savedColleges", "fullName");
+
+  res.json(savedColleges.savedColleges); //Original json returns full user with all fields except savedColleges omitted. Using ".savedColleges" returns only the array of colleges
+};
+
+export {
+  createUser,
+  login,
+  verifyToken,
+  saveCollege,
+  getSavedColleges,
+  removeCollege,
+};

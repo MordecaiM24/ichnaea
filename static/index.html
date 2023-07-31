@@ -14,14 +14,18 @@
       .add-college-btn {
         position: absolute;
         font-size: 2rem;
-        margin-top: -34px;
-        top: 50%;
-        right: -3rem;
+        margin: -34px;
+        /* top: 50%;
+        right: -3rem; */
+        left: 20.833%;
+        /* 20.833 = 2.5/12; image:text ratio is 5:7, halfway across image is 1/2 (5/(7+5)) */
+        bottom: -1rem;
         z-index: 10;
       }
 
       .college-card {
         position: relative;
+        z-index: 11;
       }
     </style>
   </head>
@@ -125,7 +129,7 @@
           </div>
         </div>
 
-        <div class="col-12 col-xl-4 col-md-6">
+        <div class="col-12 col-xl-4 col-md-6 college-card">
           <div
             class="card mb-3 border-primary border-2 p-0 btn btn-outline-primary text-start"
           >
@@ -159,6 +163,11 @@
               </div>
             </div>
           </div>
+          <button
+            class="btn btn-outline-primary rounded-circle add-college-btn btn-lg border-2"
+          >
+            <i class="bi bi-plus-lg"></i>
+          </button>
         </div>
 
         <div class="col-12 col-xl-4 col-md-6">

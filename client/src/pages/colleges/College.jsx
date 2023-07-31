@@ -1,8 +1,16 @@
+import { Plus, PlusLg, Trash3Fill } from "react-bootstrap-icons";
+import "./College.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 export const College = (props) => {
+  // Is college saved will look at _id and check if it has a match in savedColleges. Each button should be rendered as isSaved ? trash : plus
+  // Whenever the button is clicked, if the college is saved it will delete it and reload savedColleges.
+
   const college = props.college;
 
-  const characteristic = "Test Optional";
-  const length = "4 Year";
+  const savedColleges = props.savedColleges;
+  const setSavedColleges = props.setSavedColleges;
 
   const {
     fullName,
@@ -13,7 +21,43 @@ export const College = (props) => {
     setting,
     genRanking,
     numStudents,
+    _id,
   } = college;
+
+  const userID = window.localStorage.getItem("userID");
+
+  const [isCollegeSaved, setCollegeSaved] = useState(false);
+
+  const characteristic = "Test Optional";
+  const length = "4 Year";
+
+  const [addBtnVisibility, setVisibility] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
+  // TODO: Make loading animation for user feedback when adding college. Grey out card, possibly put spinner in the middle.
+
+  useEffect(() => {
+    console.log(savedColleges);
+    setCollegeSaved(savedColleges.find((college) => college._id === _id));
+    console.log(isCollegeSaved);
+  }, [savedColleges]);
+
+  const handleMouseOver = () => {
+    setVisibility(true);
+  };
+
+  const handleMouseOut = () => {
+    setVisibility(false);
+  };
+
+  const handleClick = async () => {
+    if (isCollegeSaved) {
+    } else {
+      const res = await axios.patch(
+        "http://localhost:5000/api/users/saveCollege",
+        { userID, collegeToSave: _id }
+      );
+    }
+  };
 
   const imgLinks = {
     upenn: "https://ucarecdn.com/6a6dba25-379f-40c4-bf0c-5ea3e2a62f3c/",
@@ -35,7 +79,11 @@ export const College = (props) => {
 
   return (
     <div className="col-12  col-md-6 col-xl-4">
-      <div className="card mb-3 border-primary border-2 p-0 btn btn-outline-primary text-start">
+      <div
+        className="card mb-3 border-primary border-2 p-0 btn btn-outline-primary text-start college-card"
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+      >
         {/* Row gx-0 makes a horizontal card with no space */}
         <div className="row gx-0">
           <div className="col-6 col-md-5 bg-primary">
@@ -58,11 +106,12 @@ export const College = (props) => {
                   <strong>{location}</strong>
                 </small>
                 <small className="d-none d-sm-block">
-                  {length} &#183; {privacy ? "Public" : "Private"} &#183;{" "}
+                  {length} &#183; {privacy ? "Public" : "Private"} &#183;
                   {setting}
                 </small>
                 <small className="d-none d-sm-block">
                   General Ranking: #{genRanking}
+                  {/* TODO: add (tie) if genRanking matches other colleges genRanking */}
                 </small>
                 <small className="d-none d-sm-block">
                   {numStudents.toLocaleString("en-US")} Undergraduate Students
@@ -73,6 +122,17 @@ export const College = (props) => {
             </div>
           </div>
         </div>
+        {addBtnVisibility && (
+          //TODO: Use isCollegeSaved to see if college is saved, and if so, replace plus button with trash button
+
+          <button
+            className="btn btn-outline-secondary rounded-circle add-college-btn btn-lg border-2"
+            onClick={handleClick}
+          >
+            {isCollegeSaved ? <Trash3Fill /> : <PlusLg />}
+            {/* <PlusLg /> */}
+          </button>
+        )}
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import { ichnaeaLogo } from "src/assets/assets";
 import { Bank, Coin, MortarboardFill } from "react-bootstrap-icons";
-import "bootstrap/dist/js/bootstrap.bundle";
 import { Link } from "react-router-dom";
 
 export const Navbar = () => {
@@ -9,11 +8,11 @@ export const Navbar = () => {
       {/* navbar */}
       <nav className="navbar navbar-expand-md bg-primary mb-5 navbar-dark">
         <div className="container-fluid px-5">
-          <a href="#intro" className="navbar-brand me-5">
+          <Link to="/" className="navbar-brand me-5">
             {/* TODO: change logo to text/svg. SVG not working (?) atm */}
             {/* BIGGER TODO: Change logo. Think of new name lol */}
             <img src={ichnaeaLogo} alt="bootstrap" width="128" />
-          </a>
+          </Link>
           {/* toggle button for mobile nav */}
           <button
             className="navbar-toggler"

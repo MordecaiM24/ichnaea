@@ -16,7 +16,6 @@ const createCollege = async (req, res) => {
 };
 
 const getColleges = async (req, res) => {
-  console.log("Getting colleges");
   const colleges = await CollegeModel.find({});
   res.status(200).json(colleges);
 };
