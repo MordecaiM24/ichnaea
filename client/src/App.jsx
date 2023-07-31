@@ -2,8 +2,14 @@ import { Navbar } from "./common/Navbar";
 import { CollegeGrid } from "./pages/colleges/CollegeGrid";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Profile } from "./pages/profile/auth/Profile";
+import { useCookies } from "react-cookie";
 
 function App() {
+  const [cookies, setCookies] = useCookies(["access_token"]);
+  if (!cookies.access_token) {
+    window.localStorage.clear();
+  }
+
   return (
     <>
       <Router>

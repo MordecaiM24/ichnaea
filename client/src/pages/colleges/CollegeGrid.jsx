@@ -23,15 +23,17 @@ export const CollegeGrid = () => {
   }, []);
 
   useEffect(() => {
-    const getSavedColleges = async () => {
-      const res = await axios.get(
-        `http://localhost:5000/api/users/savedColleges/${userID}`
-      );
+    if (userID) {
+      const getSavedColleges = async () => {
+        const res = await axios.get(
+          `http://localhost:5000/api/users/savedColleges/${userID}`
+        );
 
-      setSavedColleges(res.data);
-    };
+        setSavedColleges(res.data);
+      };
 
-    getSavedColleges();
+      getSavedColleges();
+    }
   }, [shouldUpdate]);
 
   return (

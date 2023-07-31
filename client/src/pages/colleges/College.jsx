@@ -50,17 +50,21 @@ export const College = (props) => {
   };
 
   const handleClick = async () => {
-    if (isCollegeSaved) {
-      const res = await axios.delete(
-        `http://localhost:5000/api/users/removeCollege/${userID}/${_id}`
-      );
-      updateSaved(shouldUpdate + 1);
+    if (!userID) {
+      alert("You must be logged in to save colleges and scholarships");
     } else {
-      const res = await axios.patch(
-        "http://localhost:5000/api/users/saveCollege",
-        { userID, collegeToSave: _id }
-      );
-      updateSaved(shouldUpdate + 1);
+      if (isCollegeSaved) {
+        const res = await axios.delete(
+          `http://localhost:5000/api/users/removeCollege/${userID}/${_id}`
+        );
+        updateSaved(shouldUpdate + 1);
+      } else {
+        const res = await axios.patch(
+          "http://localhost:5000/api/users/saveCollege",
+          { userID, collegeToSave: _id }
+        );
+        updateSaved(shouldUpdate + 1);
+      }
     }
   };
 
@@ -111,7 +115,7 @@ export const College = (props) => {
                   <strong>{location}</strong>
                 </small>
                 <small className="d-none d-sm-block">
-                  {length} &#183; {privacy ? "Public" : "Private"} &#183;
+                  {length} &#183; {privacy ? "Public" : "Private"} &#183;{" "}
                   {setting}
                 </small>
                 <small className="d-none d-sm-block">
