@@ -51,11 +51,20 @@ export const College = (props) => {
 
   const handleClick = async () => {
     if (isCollegeSaved) {
+      const newSavedColleges = savedColleges.filter((college) => {
+        college._id != _id;
+      });
+      console.log(newSavedColleges);
+      setSavedColleges(newSavedColleges);
     } else {
       const res = await axios.patch(
         "http://localhost:5000/api/users/saveCollege",
         { userID, collegeToSave: _id }
       );
+      const newSavedColleges = savedColleges;
+      newSavedColleges.push({ _id, fullName });
+      console.log(newSavedColleges);
+      setSavedColleges(newSavedColleges);
     }
   };
 
