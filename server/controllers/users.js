@@ -2,6 +2,7 @@ import jwt from "jsonwebtoken";
 import bcrypt, { hash } from "bcrypt";
 import { UserModel } from "../models/User.js";
 import "dotenv/config";
+import { CollegeModel } from "../models/College.js";
 
 const createUser = async (req, res) => {
   const { username, password } = req.body;
@@ -65,9 +66,46 @@ const saveCollege = async (req, res, next) => {
     { $addToSet: { savedColleges: collegeToSave } }
   );
 
-  console.log(response);
+  //Will only add supplemental essays to userTodo if the college isn't added yet
+  if (response.modifiedCount) {
+    //Get the college that im adding's supplemental essays
+    const college = await CollegeModel.findOne({
+      _id: collegeToSave,
+    });
 
-  res.status(200).json({ isModified: Boolean(response.modifiedCount) });
+    const user = await UserModel.findOne({ _id: userID });
+    console.log(user.todo);
+
+    const collegeName = college.fullName;
+
+    const suppEssays = college.suppEssays.map((essay) => {
+      return { [essay]: false };
+    });
+
+    user.todo.suppEssays.push({ [collegeName]: suppEssays });
+    console.log(user.todo);
+
+    //Upload to user todo with all supplemental essay status false.
+    // const newRes = await UserModel.updateOne(
+    //   { _id: userID },
+    //   {
+    //     $push: {
+    //       "todo.suppEssays": "fuck",
+
+    //       // "todo.suppEssays": {
+    //       //   [collegeName]: college.suppEssays,
+    //       // },
+    //     },
+    //   }
+    // );
+
+    const newRes = await user.save();
+
+    res.status(200).json(newRes);
+    return;
+  }
+
+  res.status(404).send("Did not update todo list");
 };
 
 const removeCollege = async (req, res, next) => {
@@ -88,7 +126,7 @@ const getSavedColleges = async (req, res, next) => {
   const userID = req.params.userID;
   const savedColleges = await UserModel.findOne({ _id: userID })
     .select("savedColleges")
-    .populate("savedColleges", "fullName");
+    .populate("savedColleges", ["suppEssays", "fullName"]);
 
   res.json(savedColleges.savedColleges); //Original json returns full user with all fields except savedColleges omitted. Using ".savedColleges" returns only the array of colleges
 };

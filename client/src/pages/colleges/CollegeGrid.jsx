@@ -1,4 +1,3 @@
-import { uncChapelHill1 } from "../../assets/assets";
 import { College } from "./College";
 import { useState, useEffect } from "react";
 import axios from "axios";
@@ -33,6 +32,7 @@ export const CollegeGrid = () => {
       };
 
       getSavedColleges();
+      console.log(savedColleges);
     }
   }, [shouldUpdate]);
 
