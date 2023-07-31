@@ -10,7 +10,9 @@ export const College = (props) => {
   const college = props.college;
 
   const savedColleges = props.savedColleges;
-  const setSavedColleges = props.setSavedColleges;
+
+  const shouldUpdate = props.shouldUpdate;
+  const updateSaved = props.updateSaved;
 
   const {
     fullName,
@@ -36,9 +38,7 @@ export const College = (props) => {
   // TODO: Make loading animation for user feedback when adding college. Grey out card, possibly put spinner in the middle.
 
   useEffect(() => {
-    console.log(savedColleges);
     setCollegeSaved(savedColleges.find((college) => college._id === _id));
-    console.log(isCollegeSaved);
   }, [savedColleges]);
 
   const handleMouseOver = () => {
@@ -51,20 +51,16 @@ export const College = (props) => {
 
   const handleClick = async () => {
     if (isCollegeSaved) {
-      const newSavedColleges = savedColleges.filter((college) => {
-        college._id != _id;
-      });
-      console.log(newSavedColleges);
-      setSavedColleges(newSavedColleges);
+      const res = await axios.delete(
+        `http://localhost:5000/api/users/removeCollege/${userID}/${_id}`
+      );
+      updateSaved(shouldUpdate + 1);
     } else {
       const res = await axios.patch(
         "http://localhost:5000/api/users/saveCollege",
         { userID, collegeToSave: _id }
       );
-      const newSavedColleges = savedColleges;
-      newSavedColleges.push({ _id, fullName });
-      console.log(newSavedColleges);
-      setSavedColleges(newSavedColleges);
+      updateSaved(shouldUpdate + 1);
     }
   };
 

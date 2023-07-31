@@ -8,6 +8,8 @@ export const CollegeGrid = () => {
 
   const [savedColleges, setSavedColleges] = useState([]);
 
+  const [shouldUpdate, updateSaved] = useState(0);
+
   const userID = window.localStorage.getItem("userID");
 
   useEffect(() => {
@@ -17,6 +19,10 @@ export const CollegeGrid = () => {
       setColleges(newColleges);
     };
 
+    getColleges();
+  }, []);
+
+  useEffect(() => {
     const getSavedColleges = async () => {
       const res = await axios.get(
         `http://localhost:5000/api/users/savedColleges/${userID}`
@@ -26,10 +32,7 @@ export const CollegeGrid = () => {
     };
 
     getSavedColleges();
-
-    getColleges();
-    console.log(savedColleges);
-  }, []);
+  }, [shouldUpdate]);
 
   return (
     <div className="container-fluid px-5">
@@ -40,6 +43,8 @@ export const CollegeGrid = () => {
               college={college}
               savedColleges={savedColleges}
               setSavedColleges={setSavedColleges}
+              shouldUpdate={shouldUpdate}
+              updateSaved={updateSaved}
               key={college._id}
             />
           );
