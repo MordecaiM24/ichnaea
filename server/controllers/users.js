@@ -108,6 +108,13 @@ const saveCollege = async (req, res, next) => {
   res.status(404).send("Did not update todo list");
 };
 
+const getTodo = async (req, res, next) => {
+  const userID = req.params.userID;
+  const response = await UserModel.find({ _id: userID });
+
+  res.json(response[0].todo);
+};
+
 const removeCollege = async (req, res, next) => {
   const collegeToRemove = req.params.collegeID;
   const userID = req.params.userID;
@@ -131,6 +138,11 @@ const getSavedColleges = async (req, res, next) => {
   res.json(savedColleges.savedColleges); //Original json returns full user with all fields except savedColleges omitted. Using ".savedColleges" returns only the array of colleges
 };
 
+const completeTask = async (req, res, next) => {
+  taskToComplete = req.body;
+  console.log(taskToComplete);
+};
+
 export {
   createUser,
   login,
@@ -138,4 +150,5 @@ export {
   saveCollege,
   getSavedColleges,
   removeCollege,
+  getTodo,
 };

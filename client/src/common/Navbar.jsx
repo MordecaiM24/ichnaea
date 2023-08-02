@@ -40,6 +40,7 @@ export const Navbar = () => {
                   </p>
                 </Link>
               </li>
+
               <li className="nav-item">
                 <Link to="/scholarships" className="nav-link">
                   <p className="lead d-flex align-items-center gap-2">
@@ -48,6 +49,7 @@ export const Navbar = () => {
                   </p>
                 </Link>
               </li>
+
               <li className="nav-item ">
                 <Link to="/profile" className="nav-link">
                   <p className="lead  d-flex align-items-center gap-2">
