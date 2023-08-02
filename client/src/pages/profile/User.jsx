@@ -66,10 +66,6 @@ export const User = () => {
 
       <h1>Supplemental Essays:</h1>
 
-      <ul style={{ listStyleType: "none" }}>
-        <li>Princeton: Why Us?</li>
-      </ul>
-
       <SuppEssays todo={todo} />
       {/* {savedColleges.map((college) => {
         return (
@@ -124,7 +120,64 @@ export const SuppEssays = (props) => {
 
   const suppEssays = todo.find((task) => {
     return Object.keys(task)[0] === "suppEssays";
-  });
+  })?.suppEssays;
 
-  return <p>{JSON.stringify(suppEssays)}</p>;
+  const collegeArr = [];
+
+  for (let i = 0; i < suppEssays?.length; i++) {
+    collegeArr.push(Object.keys(suppEssays[i])[0]);
+  }
+
+  const questionStyle = (qStatus) => {
+    console.log(qStatus);
+    // get index of college asking. given that index, search for the question in that index.
+    // after searching for the question in that index,
+    const color = qStatus ? "grey" : "black";
+    const textDecoration = qStatus ? "line-through" : "none";
+
+    return { color, textDecoration };
+  };
+
+  //JFC THIS CODE IS FUCKING DOGSHIT
+  // FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  return (
+    <>
+      {suppEssays?.map((college, idx) => {
+        console.log(suppEssays[idx]?.[collegeArr[idx]]);
+        const essaySet = suppEssays[idx]?.[collegeArr[idx]];
+        const collegeQs = essaySet.map((question) => {
+          return Object.keys(question)[0];
+        });
+
+        const collegeQStatus = [];
+
+        for (let i = 0; i < collegeQs.length; i++) {
+          collegeQStatus.push(essaySet[i][collegeQs[i]]);
+        }
+
+        // const collegeQStatus = suppEssays[idx]?.[collegeArr[idx]].map(
+        //   (question) => {
+        //     return question;
+        //   }
+        // );
+        console.log(essaySet);
+
+        console.log(collegeQStatus);
+
+        console.log(collegeQs);
+
+        return (
+          <>
+            <h3>{Object.keys(college)}:</h3>
+
+            {collegeQs.map((question, idx) => {
+              return (
+                <li style={questionStyle(collegeQStatus[idx])}>{question}</li>
+              );
+            })}
+          </>
+        );
+      })}
+    </>
+  );
 };
