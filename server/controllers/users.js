@@ -74,7 +74,6 @@ const saveCollege = async (req, res, next) => {
     });
 
     const user = await UserModel.findOne({ _id: userID });
-    console.log(user.todo);
 
     const collegeName = college.fullName;
 
@@ -82,8 +81,18 @@ const saveCollege = async (req, res, next) => {
       return { [essay]: false };
     });
 
-    user.todo.suppEssays.push({ [collegeName]: suppEssays });
-    console.log(user.todo);
+    console.log(user);
+
+    const suppEssaysIdx = () => {
+      return user.todo.findIndex((el) => {
+        return Object.keys(el)[0] === "suppEssays";
+      });
+    };
+
+    const x = suppEssaysIdx();
+    console.log("X:" + x);
+
+    // user.todo[suppEssaysIdx].suppEssays.push({ [collegeName]: suppEssays });
 
     //Upload to user todo with all supplemental essay status false.
     // const newRes = await UserModel.updateOne(

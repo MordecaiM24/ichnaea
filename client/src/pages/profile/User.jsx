@@ -58,8 +58,8 @@ export const User = () => {
     <>
       <button onClick={logout}>Logout</button>
       <h1>Saved Colleges:</h1>
-      {savedColleges.map((college) => {
-        return <div>{college.fullName}</div>;
+      {savedColleges.map((college, idx) => {
+        return <div key={idx}>{college.fullName}</div>;
       })}
 
       <TodoList todo={todo} />
@@ -78,15 +78,15 @@ export const User = () => {
   );
 };
 
-export const TodoList = (props) => {
+const TodoList = (props) => {
   const todo = props.todo;
 
   const findTaskCompletion = (taskToFind) => {
-    const task = todo.find((task) => {
-      return Object.keys(task)[0] === taskToFind;
+    const taskIdx = todo.findIndex((obj) => {
+      return obj.task == taskToFind;
     });
 
-    return task?.[taskToFind];
+    return todo[taskIdx]?.completed;
   };
 
   const elementStyle = (elementName) => {
@@ -102,8 +102,8 @@ export const TodoList = (props) => {
     <>
       <h1>General TODO list: </h1>
       <a style={elementStyle("commonAppEssay")}>Finish Personal Statement</a>
-      <a style={elementStyle("actUploaded")}>Upload ACT</a>
-      <a style={elementStyle("satUploaded")}>Upload SAT</a>
+      <a style={elementStyle("actUpload")}>Upload ACT</a>
+      <a style={elementStyle("satUpload")}>Upload SAT</a>
       <a style={elementStyle("extracurriculars")}>Upload extracurriculars</a>
       <a style={elementStyle("teacherRecs")}>
         Ask for / upload teacher recommendations
@@ -115,67 +115,50 @@ export const TodoList = (props) => {
   );
 };
 
-export const SuppEssays = (props) => {
+const SuppEssays = (props) => {
   const todo = props.todo;
 
-  const suppEssays = todo.find((task) => {
-    return Object.keys(task)[0] === "suppEssays";
-  })?.suppEssays;
+  const essayObj = todo.find((task) => {
+    return task.task === "suppEssays";
+  });
 
-  const collegeArr = [];
+  const suppEssays = essayObj?.suppEssays;
 
-  for (let i = 0; i < suppEssays?.length; i++) {
-    collegeArr.push(Object.keys(suppEssays[i])[0]);
-  }
+  return (
+    <>
+      {suppEssays?.map((college, idx) => {
+        return <CollegeQs college={college} key={idx} />;
+      })}
+    </>
+  );
+};
 
-  const questionStyle = (qStatus) => {
-    console.log(qStatus);
-    // get index of college asking. given that index, search for the question in that index.
-    // after searching for the question in that index,
-    const color = qStatus ? "grey" : "black";
-    const textDecoration = qStatus ? "line-through" : "none";
+const CollegeQs = (props) => {
+  const college = props.college;
+
+  const questionStyle = (question) => {
+    const isCompleted = question.completed;
+
+    const color = isCompleted ? "grey" : "black";
+    const textDecoration = isCompleted ? "line-through" : "none";
 
     return { color, textDecoration };
   };
 
-  //JFC THIS CODE IS FUCKING DOGSHIT
-  // FIX!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+  const handleQCompletion = () => {};
+
   return (
     <>
-      {suppEssays?.map((college, idx) => {
-        console.log(suppEssays[idx]?.[collegeArr[idx]]);
-        const essaySet = suppEssays[idx]?.[collegeArr[idx]];
-        const collegeQs = essaySet.map((question) => {
-          return Object.keys(question)[0];
-        });
-
-        const collegeQStatus = [];
-
-        for (let i = 0; i < collegeQs.length; i++) {
-          collegeQStatus.push(essaySet[i][collegeQs[i]]);
-        }
-
-        // const collegeQStatus = suppEssays[idx]?.[collegeArr[idx]].map(
-        //   (question) => {
-        //     return question;
-        //   }
-        // );
-        console.log(essaySet);
-
-        console.log(collegeQStatus);
-
-        console.log(collegeQs);
-
+      <h3>{college.collegeName}</h3>
+      {college.questions?.map((questionObj, idx) => {
         return (
-          <>
-            <h3>{Object.keys(college)}:</h3>
-
-            {collegeQs.map((question, idx) => {
-              return (
-                <li style={questionStyle(collegeQStatus[idx])}>{question}</li>
-              );
-            })}
-          </>
+          <p
+            style={questionStyle(questionObj)}
+            onClick={handleQCompletion}
+            key={idx}
+          >
+            {questionObj.question}
+          </p>
         );
       })}
     </>
