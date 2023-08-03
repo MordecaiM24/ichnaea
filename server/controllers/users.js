@@ -13,7 +13,7 @@ const createUser = async (req, res) => {
   }
 
   const hashedPassword = await bcrypt.hash(password, 10);
-  console.log(hashedPassword);
+
   const newUser = new UserModel({ username, password: hashedPassword });
   await newUser.save();
 
@@ -25,13 +25,12 @@ const createUser = async (req, res) => {
 
 const login = async (req, res) => {
   const { username, password } = req.body;
-  console.log(username);
+
   const user = await UserModel.findOne({ username });
 
   if (!user) {
     return res.status(403).json({ msg: "User doesn't exist" });
   }
-  console.log(user._id);
 
   const isPasswordValid = await bcrypt.compare(password, user.password);
 
@@ -72,43 +71,26 @@ const saveCollege = async (req, res, next) => {
     const college = await CollegeModel.findOne({
       _id: collegeToSave,
     });
+    const collegeName = college.fullName;
+    const collegeQs = college.suppEssays;
 
     const user = await UserModel.findOne({ _id: userID });
 
-    const collegeName = college.fullName;
-
-    const suppEssays = college.suppEssays.map((essay) => {
-      return { [essay]: false };
+    const essayIdx = user.todo.findIndex((obj) => {
+      return obj.task == "suppEssays";
     });
 
-    console.log(user);
+    const questions = collegeQs.map((question) => {
+      return { question: question, completed: false };
+    });
 
-    const suppEssaysIdx = () => {
-      return user.todo.findIndex((el) => {
-        return Object.keys(el)[0] === "suppEssays";
-      });
-    };
+    user.todo[essayIdx].suppEssays.push({ collegeName, questions });
 
-    const x = suppEssaysIdx();
-    console.log("X:" + x);
-
-    // user.todo[suppEssaysIdx].suppEssays.push({ [collegeName]: suppEssays });
-
-    //Upload to user todo with all supplemental essay status false.
-    // const newRes = await UserModel.updateOne(
-    //   { _id: userID },
-    //   {
-    //     $push: {
-    //       "todo.suppEssays": "fuck",
-
-    //       // "todo.suppEssays": {
-    //       //   [collegeName]: college.suppEssays,
-    //       // },
-    //     },
-    //   }
-    // );
+    console.log(user.todo[7].suppEssays);
+    user.markModified("todo");
 
     const newRes = await user.save();
+    console.log(newRes.todo[7].suppEssays);
 
     res.status(200).json(newRes);
     return;
@@ -132,8 +114,6 @@ const removeCollege = async (req, res, next) => {
     { _id: userID },
     { $pull: { savedColleges: collegeToRemove } }
   );
-
-  console.log(response);
 
   res.status(200).json(response);
 };
