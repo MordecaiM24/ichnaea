@@ -169,11 +169,6 @@ const completeQuestion = async (req, res, next) => {
   user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].completed =
     !qStatus;
 
-  console.log(taskIndex);
-  console.log(collegeIndex);
-  console.log(qIndex);
-  console.log(qStatus);
-
   user.markModified("todo");
   user.save();
 
