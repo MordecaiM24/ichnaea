@@ -6,8 +6,14 @@ import {
   getSavedColleges,
   removeCollege,
   getTodo,
+  completeTask,
+  completeQuestion,
 } from "../controllers/users.js";
 const router = express.Router();
+
+router.patch("/completeTask", completeTask);
+
+router.patch("/completeQuestion", completeQuestion);
 
 router.post("/register", createUser);
 

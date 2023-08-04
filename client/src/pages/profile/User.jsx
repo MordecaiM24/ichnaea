@@ -17,6 +17,8 @@ export const User = () => {
 
   const [updateSaved, shouldUpdate] = useState(0);
 
+  const [todoReq, updateTodo] = useState([]);
+
   const userID = window.localStorage.getItem("userID");
 
   useEffect(() => {
@@ -45,7 +47,7 @@ export const User = () => {
 
       getTodo();
     }
-  }, []);
+  }, [todoReq]);
   //Only have dependency for todos because todos depends on savedColleges but not vice versa
 
   const logout = () => {
@@ -62,11 +64,11 @@ export const User = () => {
         return <div key={idx}>{college.fullName}</div>;
       })}
 
-      <TodoList todo={todo} />
+      <TodoList todo={todo} updateTodo={updateTodo} />
 
       <h1>Supplemental Essays:</h1>
 
-      <SuppEssays todo={todo} />
+      <SuppEssays todo={todo} updateTodo={updateTodo} />
       {/* {savedColleges.map((college) => {
         return (
           <div>
@@ -80,6 +82,7 @@ export const User = () => {
 
 const TodoList = (props) => {
   const todo = props.todo;
+  const updateTodo = props.updateTodo;
 
   const findTaskCompletion = (taskToFind) => {
     const taskIdx = todo.findIndex((obj) => {
@@ -95,20 +98,85 @@ const TodoList = (props) => {
     const color = isCompleted ? "grey" : "black";
     const textDecoration = isCompleted ? "line-through" : "none";
 
-    return { color, textDecoration };
+    return {
+      color,
+      textDecoration,
+      cursor: "pointer",
+      display: "inline-block",
+    };
+  };
+
+  const completeTask = async (task) => {
+    const res = await axios.patch(
+      "http://localhost:5000/api/users/completetask",
+      {
+        userID: window.localStorage.getItem("userID"),
+        taskToComplete: task,
+      }
+    );
+
+    updateTodo(["hello"]);
   };
 
   return (
     <>
       <h1>General TODO list: </h1>
-      <a style={elementStyle("commonAppEssay")}>Finish Personal Statement</a>
-      <a style={elementStyle("actUpload")}>Upload ACT</a>
-      <a style={elementStyle("satUpload")}>Upload SAT</a>
-      <a style={elementStyle("extracurriculars")}>Upload extracurriculars</a>
-      <a style={elementStyle("teacherRecs")}>
+      <a
+        style={elementStyle("commonAppEssay")}
+        onClick={() => {
+          completeTask("commonAppEssay");
+        }}
+      >
+        Finish Personal Statement
+      </a>
+      <br />
+
+      <a
+        style={elementStyle("actUpload")}
+        onClick={() => {
+          completeTask("actUpload");
+        }}
+      >
+        Upload ACT
+      </a>
+      <br />
+
+      <a
+        style={elementStyle("satUpload")}
+        onClick={() => {
+          completeTask("satUpload");
+        }}
+      >
+        Upload SAT
+      </a>
+      <br />
+
+      <a
+        style={elementStyle("extracurriculars")}
+        onClick={() => {
+          completeTask("extracurriculars");
+        }}
+      >
+        Upload extracurriculars
+      </a>
+      <br />
+
+      <a
+        style={elementStyle("teacherRecs")}
+        onClick={() => {
+          completeTask("teacherRecs");
+        }}
+      >
         Ask for / upload teacher recommendations
       </a>
-      <a style={elementStyle("writingSupplement")}>
+      <br />
+
+      <a
+        style={elementStyle("writingSupplement")}
+        onClick={() => {
+          completeTask("writingSupplement");
+        }}
+      >
         Finish / upload writing supplement
       </a>
     </>
@@ -117,6 +185,7 @@ const TodoList = (props) => {
 
 const SuppEssays = (props) => {
   const todo = props.todo;
+  const updateTodo = props.updateTodo;
 
   const essayObj = todo.find((task) => {
     return task.task === "suppEssays";
@@ -127,7 +196,9 @@ const SuppEssays = (props) => {
   return (
     <>
       {suppEssays?.map((college, idx) => {
-        return <CollegeQs college={college} key={idx} />;
+        return (
+          <CollegeQs college={college} key={idx} updateTodo={updateTodo} />
+        );
       })}
     </>
   );
@@ -135,6 +206,7 @@ const SuppEssays = (props) => {
 
 const CollegeQs = (props) => {
   const college = props.college;
+  const updateTodo = props.updateTodo;
 
   const questionStyle = (question) => {
     const isCompleted = question.completed;
@@ -142,10 +214,22 @@ const CollegeQs = (props) => {
     const color = isCompleted ? "grey" : "black";
     const textDecoration = isCompleted ? "line-through" : "none";
 
-    return { color, textDecoration };
+    return { color, textDecoration, cursor: "pointer" };
   };
 
-  const handleQCompletion = () => {};
+  const completeQuestion = async (question) => {
+    const res = await axios.patch(
+      "http://localhost:5000/api/users/completeQuestion",
+      {
+        userID: window.localStorage.getItem("userID"),
+        questionToUpdate: question,
+        collegeName: college.collegeName,
+      }
+    );
+
+    console.log(res);
+    updateTodo([""]);
+  };
 
   return (
     <>
@@ -154,7 +238,7 @@ const CollegeQs = (props) => {
         return (
           <p
             style={questionStyle(questionObj)}
-            onClick={handleQCompletion}
+            onClick={() => completeQuestion(questionObj.question)}
             key={idx}
           >
             {questionObj.question}

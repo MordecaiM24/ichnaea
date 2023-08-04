@@ -128,8 +128,56 @@ const getSavedColleges = async (req, res, next) => {
 };
 
 const completeTask = async (req, res, next) => {
-  taskToComplete = req.body;
-  console.log(taskToComplete);
+  const user = await UserModel.findOne({ _id: req.body.userID });
+  const taskToComplete = req.body.taskToComplete;
+
+  const taskIndex = user.todo.findIndex((obj) => {
+    return obj.task === taskToComplete;
+  });
+  const taskStatus = user.todo[taskIndex].completed;
+
+  user.todo[taskIndex].completed = !taskStatus;
+  user.markModified("todo");
+
+  user.save();
+
+  res.status(200).json({});
+};
+
+const completeQuestion = async (req, res, next) => {
+  const user = await UserModel.findOne({ _id: req.body.userID });
+  const questionCollege = req.body.collegeName;
+  const question = req.body.questionToUpdate;
+
+  const taskIndex = user.todo.findIndex((obj) => {
+    return obj.task === "suppEssays";
+  });
+
+  const collegeIndex = user.todo[taskIndex].suppEssays.findIndex((college) => {
+    return college.collegeName === questionCollege;
+  });
+
+  const qIndex = user.todo[taskIndex].suppEssays[
+    collegeIndex
+  ].questions.findIndex((q) => {
+    return q.question === question;
+  });
+
+  const qStatus =
+    user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].completed;
+
+  user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].completed =
+    !qStatus;
+
+  console.log(taskIndex);
+  console.log(collegeIndex);
+  console.log(qIndex);
+  console.log(qStatus);
+
+  user.markModified("todo");
+  user.save();
+
+  res.status(200).json({});
 };
 
 export {
@@ -140,4 +188,6 @@ export {
   getSavedColleges,
   removeCollege,
   getTodo,
+  completeTask,
+  completeQuestion,
 };
