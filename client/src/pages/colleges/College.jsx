@@ -41,7 +41,10 @@ export const College = (props) => {
   // TODO: Make loading animation for user feedback when adding college. Grey out card, possibly put spinner in the middle.
 
   useEffect(() => {
-    setCollegeSaved(savedColleges.find((college) => college._id === _id));
+    const savedState = savedColleges.find((college) => college._id === _id);
+    if (isCollegeSaved !== savedState) {
+      setCollegeSaved(savedColleges.find((college) => college._id === _id));
+    }
   }, [savedColleges]);
 
   const handleMouseOver = () => {
@@ -78,6 +81,7 @@ export const College = (props) => {
       );
       updateSaved(shouldUpdate + 1);
     }
+    setCollegeSaved(!isCollegeSaved);
     setLoading(false);
   };
 
