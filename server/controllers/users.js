@@ -5,41 +5,34 @@ import "dotenv/config";
 import { CollegeModel } from "../models/College.js";
 
 const createUser = async (req, res) => {
-  const { username, password } = req.body;
-  let user = await UserModel.findOne({ username }); // key value are the same, just passing key
+  console.log("NEW USER CREATED");
+  console.log(req.body);
 
-  if (user) {
-    return res.status(409).json({ msg: "User already exists" });
-  }
+  const newUser = await UserModel.create({
+    _id: req.body.user.uid,
+    firstName: req.body._tokenResponse.firstName,
+    lastName: req.body._tokenResponse.lastName,
+    email: req.body.user.email,
+    savedColleges: [],
+    todo: [
+      { task: "commonAppEssay", completed: false },
+      { task: "satUpload", completed: false },
+      { task: "actUpload", completed: false },
+      { task: "extracurriculars", completed: false },
+      { task: "teacherRecs", completed: false },
+      { task: "writingSupplement", completed: false },
+      { task: "suppEssays", suppEssays: [] },
+    ],
+  });
 
-  const hashedPassword = await bcrypt.hash(password, 10);
+  console.log(newUser);
 
-  const newUser = new UserModel({ username, password: hashedPassword });
-  await newUser.save();
-
-  user = await UserModel.findOne({ username });
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-
-  res.json({ msg: "User registered successfully", token, userID: user._id });
+  res.status(200).json(newUser);
 };
 
 const login = async (req, res) => {
-  const { username, password } = req.body;
-
-  const user = await UserModel.findOne({ username });
-
-  if (!user) {
-    return res.status(403).json({ msg: "User doesn't exist" });
-  }
-
-  const isPasswordValid = await bcrypt.compare(password, user.password);
-
-  if (!isPasswordValid) {
-    return res.status(403).json({ msg: "Username or password is incorrect" });
-  }
-
-  const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
-  res.json({ token, userID: user._id });
+  console.log("OLD USER LOGGED IN");
+  res.status(200).send("received");
 };
 
 const verifyToken = (req, res, next) => {

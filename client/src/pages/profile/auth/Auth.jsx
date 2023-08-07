@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { Google } from "react-bootstrap-icons";
-import { auth } from "src/firebase-config";
+import { auth, signInWithGoogle } from "src/firebase-config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -29,8 +29,6 @@ const Login = (props) => {
     password: "",
   });
 
-  const navigate = useNavigate();
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     try {
@@ -41,6 +39,9 @@ const Login = (props) => {
       );
       console.log(login);
       localStorage.setItem("userID", login.user.uid);
+      await axios.post(
+        `http://${import.meta.env.VITE_IP}:5000/api/users/login`
+      );
       window.location.reload();
     } catch (error) {
       console.log(error.message);
@@ -127,6 +128,7 @@ const Login = (props) => {
                 className="btn btn-outline-secondary btn-lg w-100"
                 href="#!"
                 role="button"
+                onClick={signInWithGoogle}
               >
                 <i className="bi bi-google"></i>
                 Continue with Google
@@ -174,6 +176,10 @@ const Register = (props) => {
       );
       console.log(signUp);
       localStorage.setItem("userID", signUp.user.uid);
+      await axios.post(
+        `http:/${import.meta.env.VITE_IP}:5000/api/users/register`,
+        signUp
+      );
       // Add "remember me state" to use sessionstorage instead of local storage if remember me not checked
       window.location.reload();
     } catch (error) {
@@ -305,6 +311,7 @@ const Register = (props) => {
                 className="btn btn-outline-secondary btn-lg w-100 d-flex align-items-center "
                 href="#!"
                 role="button"
+                onClick={signInWithGoogle}
               >
                 <Google />
                 Continue with Google

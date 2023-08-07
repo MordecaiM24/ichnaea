@@ -55,12 +55,14 @@ export const College = (props) => {
     } else {
       if (isCollegeSaved) {
         const res = await axios.delete(
-          `http://localhost:5000/api/users/removeCollege/${userID}/${_id}`
+          `http://${
+            import.meta.env.VITE_IP
+          }:5000/api/users/removeCollege/${userID}/${_id}`
         );
         updateSaved(shouldUpdate + 1);
       } else {
         const res = await axios.patch(
-          "http://localhost:5000/api/users/saveCollege",
+          `http://${import.meta.env.VITE_IP}:5000/api/users/saveCollege`,
           { userID, collegeToSave: _id }
         );
         updateSaved(shouldUpdate + 1);

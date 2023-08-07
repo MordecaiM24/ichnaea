@@ -30,7 +30,9 @@ export const User = () => {
     if (userID) {
       const getSavedColleges = async () => {
         const res = await axios.get(
-          `http://localhost:5000/api/users/savedColleges/${userID}`
+          `http://${
+            import.meta.env.VITE_IP
+          }:5000/api/users/savedColleges/${userID}`
         );
 
         setSavedColleges(res.data);
@@ -44,7 +46,7 @@ export const User = () => {
     if (userID) {
       const getTodo = async () => {
         const res = await axios.get(
-          `http://localhost:5000/api/users/todo/${userID}`
+          `http://${import.meta.env.VITE_IP}:5000/api/users/todo/${userID}`
         );
 
         setTodo(res.data);
@@ -113,7 +115,7 @@ const TodoList = (props) => {
 
   const completeTask = async (task) => {
     const res = await axios.patch(
-      "http://localhost:5000/api/users/completetask",
+      `http://${import.meta.env.VITE_IP}:5000/api/users/completetask`,
       {
         userID: window.localStorage.getItem("userID"),
         taskToComplete: task,
@@ -224,7 +226,7 @@ const CollegeQs = (props) => {
 
   const completeQuestion = async (question) => {
     const res = await axios.patch(
-      "http://localhost:5000/api/users/completeQuestion",
+      `http://${import.meta.env.VITE_IP}:5000/api/users/completeQuestion`,
       {
         userID: window.localStorage.getItem("userID"),
         questionToUpdate: question,

@@ -118,7 +118,7 @@ export const CreateCollege = () => {
     try {
       console.log(college);
       const res = await axios.post(
-        "http://localhost:5000/api/colleges/create",
+        `http://${import.meta.env.VITE_IP}:5000/api/colleges/create`,
         college
       );
       console.log(res);

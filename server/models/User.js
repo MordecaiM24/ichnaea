@@ -1,7 +1,8 @@
 import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
   _id: String,
-  username: { type: String, required: true, unique: true },
+  firstName: String,
+  lastName: String,
   email: String,
   savedColleges: [{ type: mongoose.Schema.Types.ObjectId, ref: "colleges" }],
   todo: Array,
