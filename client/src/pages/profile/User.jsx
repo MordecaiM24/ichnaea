@@ -2,8 +2,13 @@ import { useCookies } from "react-cookie";
 import { useState, useEffect } from "react";
 import axios from "axios";
 
+import { signOut } from "firebase/auth";
+import { auth } from "../../firebase-config";
+import { useNavigate } from "react-router-dom";
+
 export const User = () => {
   const [cookies, setCookies] = useCookies(["access_token"]);
+  const navigate = useNavigate();
 
   const [todo, setTodo] = useState([]);
   // Should I use savedColleges state or supp essay state?
@@ -50,10 +55,10 @@ export const User = () => {
   }, [todoReq]);
   //Only have dependency for todos because todos depends on savedColleges but not vice versa
 
-  const logout = () => {
-    setCookies("access_token", "");
-    window.localStorage.clear();
-    navigate("/profile");
+  const logout = async () => {
+    await signOut(auth);
+    localStorage.clear();
+    window.location.reload();
   };
 
   return (

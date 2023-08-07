@@ -5,11 +5,6 @@ import { Profile } from "./pages/profile/auth/Profile";
 import { useCookies } from "react-cookie";
 
 function App() {
-  const [cookies, setCookies] = useCookies(["access_token"]);
-  if (!cookies.access_token) {
-    window.localStorage.clear();
-  }
-
   return (
     <>
       <Router>
