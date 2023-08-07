@@ -11,20 +11,16 @@ import {
 } from "../controllers/users.js";
 const router = express.Router();
 
-// router.patch("/completeTask", completeTask);
-
-// router.patch("/completeQuestion", completeQuestion);
-
 router.post("/register", createUser);
 
 router.post("/login", login);
 
-// router.patch("/saveCollege", saveCollege);
+router.patch("/saveCollege", saveCollege);
 
-// router.get("/savedColleges/:userID", getSavedColleges);
+router.get("/savedColleges/:userID", getSavedColleges);
 
-// router.delete("/removeCollege/:userID/:collegeID", removeCollege);
+router.delete("/removeCollege/:userID/:collegeID", removeCollege);
 
-// router.get("/todo/:userID", getTodo);
+router.get("/todo/:userID", getTodo);
 
 export { router as userRouter };

@@ -5,9 +5,6 @@ import "dotenv/config";
 import { CollegeModel } from "../models/College.js";
 
 const createUser = async (req, res) => {
-  console.log("NEW USER CREATED");
-  console.log(req.body);
-
   const newUser = await UserModel.create({
     _id: req.body.user.uid,
     firstName: req.body._tokenResponse.firstName,
@@ -25,13 +22,10 @@ const createUser = async (req, res) => {
     ],
   });
 
-  console.log(newUser);
-
   res.status(200).json(newUser);
 };
 
 const login = async (req, res) => {
-  console.log("OLD USER LOGGED IN");
   res.status(200).send("received");
 };
 
@@ -79,11 +73,9 @@ const saveCollege = async (req, res, next) => {
 
     user.todo[essayIdx].suppEssays.push({ collegeName, questions });
 
-    console.log(user.todo[7].suppEssays);
     user.markModified("todo");
 
     const newRes = await user.save();
-    console.log(newRes.todo[7].suppEssays);
 
     res.status(200).json(newRes);
     return;
@@ -100,13 +92,32 @@ const getTodo = async (req, res, next) => {
 };
 
 const removeCollege = async (req, res, next) => {
-  const collegeToRemove = req.params.collegeID;
+  const collegeToRemove = await CollegeModel.findOne({
+    _id: req.params.collegeID,
+  });
   const userID = req.params.userID;
 
   const response = await UserModel.updateOne(
     { _id: userID },
-    { $pull: { savedColleges: collegeToRemove } }
+    { $pull: { savedColleges: req.params.collegeID } }
   );
+
+  const user = await UserModel.findOne({
+    _id: userID,
+  });
+
+  const currentEssays = user.todo[6].suppEssays;
+  console.log(currentEssays);
+  const newEssays = currentEssays.filter((essay) => {
+    console.log(collegeToRemove.fullName);
+    return essay.collegeName !== collegeToRemove.fullName;
+  });
+  console.log(newEssays);
+
+  user.todo[6].suppEssays = newEssays;
+
+  user.markModified("todo");
+  user.save();
 
   res.status(200).json(response);
 };

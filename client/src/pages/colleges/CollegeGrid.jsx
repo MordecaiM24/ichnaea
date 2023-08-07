@@ -27,7 +27,7 @@ export const CollegeGrid = () => {
     if (userID) {
       const getSavedColleges = async () => {
         const res = await axios.get(
-          `http:/${
+          `http://${
             import.meta.env.VITE_IP
           }:5000/api/users/savedColleges/${userID}`
         );
