@@ -70,6 +70,7 @@ export const College = (props) => {
         }:5000/api/users/removeCollege/${userID}/${_id}`
       );
       updateSaved(shouldUpdate + 1);
+      setTimeout(() => {}, 500);
     } else {
       const res = await axios.patch(
         `http://${import.meta.env.VITE_IP}:5000/api/users/saveCollege`,
@@ -100,12 +101,12 @@ export const College = (props) => {
 
   if (isLoading) {
     return (
-      <div className="col-12 col-md-6 col-xl-4">
+      <div className="col-12 col-md-6 col-xl-4 pb-3">
         <div class="card h-100 mb-1" aria-hidden="true">
           <div className="row gx-0 h-100">
-            <div className="col-6 col-md-5  h-100"></div>
-            <div className="col-6 col-md-7  h-100">
-              <div className="card-body p-2 h-100">
+            <div className="col-6 col-md-5 bg-gray placeholder-glow h-100 rounded-start"></div>
+            <div className="col-6 col-md-7 h-100">
+              <div className="card-body p-2 h-100 d-flex flex-column justify-content-between overflow-hidden">
                 <p class="lead mb-0 placeholder-glow">
                   <span class="placeholder col-6"></span>
                 </p>
