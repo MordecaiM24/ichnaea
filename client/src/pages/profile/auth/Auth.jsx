@@ -37,15 +37,13 @@ const Login = (props) => {
         user.email,
         user.password
       );
-      console.log(login);
+
       localStorage.setItem("userID", login.user.uid);
       await axios.post(
         `http://${import.meta.env.VITE_IP}:5000/api/users/login`
       );
       window.location.reload();
-    } catch (error) {
-      console.log(error.message);
-    }
+    } catch (error) {}
   };
 
   const handleChange = (event) => {
@@ -174,7 +172,7 @@ const Register = (props) => {
         newUser.email,
         newUser.password
       );
-      console.log(signUp);
+
       localStorage.setItem("userID", signUp.user.uid);
       await axios.post(
         `http:/${import.meta.env.VITE_IP}:5000/api/users/register`,
@@ -182,9 +180,7 @@ const Register = (props) => {
       );
       // Add "remember me state" to use sessionstorage instead of local storage if remember me not checked
       window.location.reload();
-    } catch (error) {
-      console.log(error.message);
-    }
+    } catch (error) {}
   };
 
   const handleChange = (event) => {

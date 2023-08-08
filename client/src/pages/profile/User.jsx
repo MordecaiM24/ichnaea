@@ -32,7 +32,6 @@ export const User = () => {
       };
 
       getSavedColleges();
-      console.log(savedColleges);
     }
   }, [updateSaved]);
 
@@ -84,19 +83,35 @@ const TodoList = (props) => {
   const updateTodo = props.updateTodo;
   const [_, rerender] = useState([]);
 
-  const findTaskCompletion = (taskToFind) => {
+  const findTaskStatus = (taskToFind) => {
     const taskIdx = todo.findIndex((obj) => {
       return obj.task == taskToFind;
     });
 
-    return todo[taskIdx]?.status === 2;
+    return todo[taskIdx]?.status;
   };
 
   const elementStyle = (elementName) => {
-    const isCompleted = findTaskCompletion(elementName);
+    const isCompleted = findTaskStatus(elementName);
+    const status = findTaskStatus(elementName);
 
-    const color = isCompleted ? "grey" : "black";
+    let color;
+    switch (status) {
+      case 0:
+        color = "red";
+        break;
+      case 1:
+        color = "yellow";
+        break;
+      case 2:
+        color = "green";
+        break;
+      default:
+        color = "black";
+    }
+
     const textDecoration = isCompleted ? "line-through" : "none";
+    //Should replade with something else b/c textdecoration isn't gonna apply to final v.
 
     return {
       color,
@@ -115,7 +130,6 @@ const TodoList = (props) => {
       }
     );
     rerender([..._]); // Force rerender via state update or else todo list will be one update behind
-    console.log("Component should rerender");
     updateTodo([...todo]);
   };
 
@@ -212,8 +226,23 @@ const CollegeQs = (props) => {
 
   const questionStyle = (question) => {
     const isCompleted = question.status === 2;
+    const qStatus = question.status;
 
-    const color = isCompleted ? "grey" : "black";
+    let color;
+    switch (qStatus) {
+      case 0:
+        color = "red";
+        break;
+      case 1:
+        color = "yellow";
+        break;
+      case 2:
+        color = "green";
+        break;
+      default:
+        color = "black";
+    }
+
     const textDecoration = isCompleted ? "line-through" : "none";
 
     return {
@@ -234,7 +263,6 @@ const CollegeQs = (props) => {
       }
     );
 
-    console.log(res);
     rerender((_) => _ + 1); // Force rerender via state update or else todo list will be one update behind
     updateTodo([""]);
   };

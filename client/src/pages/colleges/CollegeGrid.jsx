@@ -36,7 +36,6 @@ export const CollegeGrid = () => {
       };
 
       getSavedColleges();
-      console.log(savedColleges);
     }
   }, [shouldUpdate]);
 

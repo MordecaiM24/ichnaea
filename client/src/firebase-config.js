@@ -28,7 +28,7 @@ const provider = new GoogleAuthProvider();
 export const signInWithGoogle = async () => {
   try {
     const result = await signInWithPopup(auth, provider);
-    console.log(result);
+
     window.localStorage.setItem("userID", result.user.uid);
     if (result._tokenResponse.isNewUser) {
       await axios.post(
@@ -42,7 +42,5 @@ export const signInWithGoogle = async () => {
       );
     }
     window.location.reload();
-  } catch (err) {
-    console.log(err);
-  }
+  } catch (err) {}
 };

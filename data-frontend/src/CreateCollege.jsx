@@ -116,7 +116,6 @@ export const CreateCollege = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     try {
-      console.log(college);
       const res = await axios.post(
         `http://${import.meta.env.VITE_IP}:5000/api/colleges/create`,
         college

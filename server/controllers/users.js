@@ -9,15 +9,19 @@ const createUser = async (req, res) => {
     _id: req.body.user.uid,
     firstName: req.body._tokenResponse.firstName,
     lastName: req.body._tokenResponse.lastName,
+    userName:
+      req.body._tokenResponse.firstName +
+      " " +
+      req.body._tokenResponse.lastName,
     email: req.body.user.email,
     savedColleges: [],
     todo: [
-      { task: "commonAppEssay", status: "Not Started" },
-      { task: "satUpload", status: "Not Started" },
-      { task: "actUpload", status: "Not Started" },
-      { task: "extracurriculars", status: "Not Started" },
-      { task: "teacherRecs", status: "Not Started" },
-      { task: "writingSupplement", status: "Not Started" },
+      { task: "commonAppEssay", status: 0 },
+      { task: "satUpload", status: 0 },
+      { task: "actUpload", status: 0 },
+      { task: "extracurriculars", status: 0 },
+      { task: "teacherRecs", status: 0 },
+      { task: "writingSupplement", status: 0 },
       { task: "suppEssays", suppEssays: [] },
     ],
   });
@@ -68,7 +72,7 @@ const saveCollege = async (req, res, next) => {
     });
 
     const questions = collegeQs.map((question) => {
-      return { question: question, status: "Not Started" };
+      return { question: question, status: 0 };
     });
 
     user.todo[essayIdx].suppEssays.push({ collegeName, questions });
@@ -107,12 +111,10 @@ const removeCollege = async (req, res, next) => {
   });
 
   const currentEssays = user.todo[6].suppEssays;
-  console.log(currentEssays);
+
   const newEssays = currentEssays.filter((essay) => {
-    console.log(collegeToRemove.fullName);
     return essay.collegeName !== collegeToRemove.fullName;
   });
-  console.log(newEssays);
 
   user.todo[6].suppEssays = newEssays;
 
