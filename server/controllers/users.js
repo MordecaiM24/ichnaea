@@ -12,12 +12,12 @@ const createUser = async (req, res) => {
     email: req.body.user.email,
     savedColleges: [],
     todo: [
-      { task: "commonAppEssay", completed: false },
-      { task: "satUpload", completed: false },
-      { task: "actUpload", completed: false },
-      { task: "extracurriculars", completed: false },
-      { task: "teacherRecs", completed: false },
-      { task: "writingSupplement", completed: false },
+      { task: "commonAppEssay", status: "Not Started" },
+      { task: "satUpload", status: "Not Started" },
+      { task: "actUpload", status: "Not Started" },
+      { task: "extracurriculars", status: "Not Started" },
+      { task: "teacherRecs", status: "Not Started" },
+      { task: "writingSupplement", status: "Not Started" },
       { task: "suppEssays", suppEssays: [] },
     ],
   });
@@ -68,7 +68,7 @@ const saveCollege = async (req, res, next) => {
     });
 
     const questions = collegeQs.map((question) => {
-      return { question: question, completed: false };
+      return { question: question, status: "Not Started" };
     });
 
     user.todo[essayIdx].suppEssays.push({ collegeName, questions });
@@ -138,9 +138,14 @@ const completeTask = async (req, res, next) => {
   const taskIndex = user.todo.findIndex((obj) => {
     return obj.task === taskToComplete;
   });
-  const taskStatus = user.todo[taskIndex].completed;
+  const taskStatus = user.todo[taskIndex].status;
 
-  user.todo[taskIndex].completed = !taskStatus;
+  if (taskStatus === 2) {
+    user.todo[taskIndex].status = 0;
+  } else {
+    user.todo[taskIndex].status = 2;
+  }
+
   user.markModified("todo");
 
   user.save();
@@ -168,10 +173,13 @@ const completeQuestion = async (req, res, next) => {
   });
 
   const qStatus =
-    user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].completed;
+    user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].status;
 
-  user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].completed =
-    !qStatus;
+  if (qStatus === 0) {
+    user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].status = 2;
+  } else {
+    user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].status = 0;
+  }
 
   user.markModified("todo");
   user.save();

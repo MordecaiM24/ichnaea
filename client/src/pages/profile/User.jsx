@@ -10,12 +10,6 @@ export const User = () => {
   const navigate = useNavigate();
 
   const [todo, setTodo] = useState([]);
-  // Should I use savedColleges state or supp essay state?
-  // If I connect supp essays to saved colleges in backend, then supp essays will have all information of saved colleges.
-  // If I have both then I can set to only remove
-  // Later add functionality to remove colleges from this page
-  // Should have pop up that removing a college will remove the status of the essays
-  // Likely will not need
 
   const [savedColleges, setSavedColleges] = useState([]);
 
@@ -38,6 +32,7 @@ export const User = () => {
       };
 
       getSavedColleges();
+      console.log(savedColleges);
     }
   }, [updateSaved]);
 
@@ -64,7 +59,12 @@ export const User = () => {
 
   return (
     <>
-      <button onClick={logout}>Logout</button>
+      <button
+        onClick={logout}
+        style={{ position: "fixed", top: "10px", right: "10px" }}
+      >
+        Logout
+      </button>
       <h1>Saved Colleges:</h1>
       {savedColleges.map((college, idx) => {
         return <div key={idx}>{college.fullName}</div>;
@@ -75,13 +75,6 @@ export const User = () => {
       <h1>Supplemental Essays:</h1>
 
       <SuppEssays todo={todo} updateTodo={updateTodo} />
-      {/* {savedColleges.map((college) => {
-        return (
-          <div>
-            {Object.keys(todo.suppEssays[0])}: {college.Todo[0]}
-          </div>
-        );
-      })} */}
     </>
   );
 };
@@ -96,7 +89,7 @@ const TodoList = (props) => {
       return obj.task == taskToFind;
     });
 
-    return todo[taskIdx]?.completed;
+    return todo[taskIdx]?.status === 2;
   };
 
   const elementStyle = (elementName) => {
@@ -218,7 +211,7 @@ const CollegeQs = (props) => {
   const [_, rerender] = useState(0);
 
   const questionStyle = (question) => {
-    const isCompleted = question.completed;
+    const isCompleted = question.status === 2;
 
     const color = isCompleted ? "grey" : "black";
     const textDecoration = isCompleted ? "line-through" : "none";
