@@ -1,0 +1,80 @@
+{
+  "hash": "9fb02d12",
+  "browserHash": "7faa0c9d",
+  "optimized": {
+    "react": {
+      "src": "../../node_modules/react/index.js",
+      "file": "react.js",
+      "fileHash": "50953224",
+      "needsInterop": true
+    },
+    "react-dom/client": {
+      "src": "../../node_modules/react-dom/client.js",
+      "file": "react-dom_client.js",
+      "fileHash": "77aa3f47",
+      "needsInterop": true
+    },
+    "react-router-dom": {
+      "src": "../../node_modules/react-router-dom/dist/index.js",
+      "file": "react-router-dom.js",
+      "fileHash": "d202f02c",
+      "needsInterop": false
+    },
+    "react-cookie": {
+      "src": "../../node_modules/react-cookie/es6/index.js",
+      "file": "react-cookie.js",
+      "fileHash": "fb66f4a2",
+      "needsInterop": false
+    },
+    "react-bootstrap-icons": {
+      "src": "../../node_modules/react-bootstrap-icons/dist/index.js",
+      "file": "react-bootstrap-icons.js",
+      "fileHash": "19a1612e",
+      "needsInterop": false
+    },
+    "bootstrap/dist/js/bootstrap.js": {
+      "src": "../../node_modules/bootstrap/dist/js/bootstrap.js",
+      "file": "bootstrap_dist_js_bootstrap__js.js",
+      "fileHash": "9c550fbd",
+      "needsInterop": true
+    },
+    "axios": {
+      "src": "../../node_modules/axios/index.js",
+      "file": "axios.js",
+      "fileHash": "3ccaf732",
+      "needsInterop": false
+    },
+    "firebase/auth": {
+      "src": "../../node_modules/firebase/auth/dist/esm/index.esm.js",
+      "file": "firebase_auth.js",
+      "fileHash": "08ade380",
+      "needsInterop": false
+    },
+    "firebase/app": {
+      "src": "../../node_modules/firebase/app/dist/esm/index.esm.js",
+      "file": "firebase_app.js",
+      "fileHash": "b4a425f3",
+      "needsInterop": false
+    },
+    "firebase/analytics": {
+      "src": "../../node_modules/firebase/analytics/dist/esm/index.esm.js",
+      "file": "firebase_analytics.js",
+      "fileHash": "9d353b94",
+      "needsInterop": false
+    }
+  },
+  "chunks": {
+    "chunk-KEE3L4NC": {
+      "file": "chunk-KEE3L4NC.js"
+    },
+    "chunk-2PA4WPI3": {
+      "file": "chunk-2PA4WPI3.js"
+    },
+    "chunk-KRPS4ASL": {
+      "file": "chunk-KRPS4ASL.js"
+    },
+    "chunk-ROME4SDB": {
+      "file": "chunk-ROME4SDB.js"
+    }
+  }
+}
