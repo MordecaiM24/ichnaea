@@ -23,4 +23,8 @@ router.delete("/removeCollege/:userID/:collegeID", removeCollege);
 
 router.get("/todo/:userID", getTodo);
 
+router.patch("/completeTask", completeTask);
+
+router.patch("/completeQuestion", completeQuestion);
+
 export { router as userRouter };

@@ -106,27 +106,27 @@ export const College = (props) => {
   if (isLoading) {
     return (
       <div className="col-12 col-md-6 col-xl-4 pb-3">
-        <div class="card h-100 mb-1" aria-hidden="true">
+        <div className="card h-100 mb-1" aria-hidden="true">
           <div className="row gx-0 h-100">
             <div className="col-6 col-md-5 bg-gray placeholder-glow h-100 rounded-start"></div>
             <div className="col-6 col-md-7 h-100">
               <div className="card-body p-2 h-100 d-flex flex-column justify-content-between overflow-hidden">
-                <p class="lead mb-0 placeholder-glow">
-                  <span class="placeholder col-6"></span>
+                <p className="lead mb-0 placeholder-glow">
+                  <span className="placeholder col-6"></span>
                 </p>
-                <small class="d-none d-sm-block placeholder-glow">
+                <small className="d-none d-sm-block placeholder-glow">
                   <span className="placeholder col-7"></span>
                 </small>
-                <small class="d-none d-sm-block placeholder-glow">
+                <small className="d-none d-sm-block placeholder-glow">
                   <span className="placeholder col-12"></span>
                 </small>
-                <small class="d-none d-sm-block placeholder-glow">
+                <small className="d-none d-sm-block placeholder-glow">
                   <span className="placeholder col-8"></span>
                 </small>
-                <small class="d-none d-sm-block placeholder-glow">
+                <small className="d-none d-sm-block placeholder-glow">
                   <span className="placeholder col-9"></span>
                 </small>
-                <small class="d-none d-sm-block placeholder-glow">
+                <small className="d-none d-sm-block placeholder-glow">
                   <span className="placeholder col-5"></span>
                 </small>
               </div>

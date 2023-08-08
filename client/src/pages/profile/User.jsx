@@ -1,7 +1,6 @@
 import { useCookies } from "react-cookie";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import axios from "axios";
-
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
@@ -90,6 +89,7 @@ export const User = () => {
 const TodoList = (props) => {
   const todo = props.todo;
   const updateTodo = props.updateTodo;
+  const [_, rerender] = useState([]);
 
   const findTaskCompletion = (taskToFind) => {
     const taskIdx = todo.findIndex((obj) => {
@@ -121,8 +121,9 @@ const TodoList = (props) => {
         taskToComplete: task,
       }
     );
-
-    updateTodo(["hello"]);
+    rerender([..._]); // Force rerender via state update or else todo list will be one update behind
+    console.log("Component should rerender");
+    updateTodo([...todo]);
   };
 
   return (
@@ -214,6 +215,7 @@ const SuppEssays = (props) => {
 const CollegeQs = (props) => {
   const college = props.college;
   const updateTodo = props.updateTodo;
+  const [_, rerender] = useState(0);
 
   const questionStyle = (question) => {
     const isCompleted = question.completed;
@@ -221,7 +223,12 @@ const CollegeQs = (props) => {
     const color = isCompleted ? "grey" : "black";
     const textDecoration = isCompleted ? "line-through" : "none";
 
-    return { color, textDecoration, cursor: "pointer" };
+    return {
+      color,
+      textDecoration,
+      cursor: "pointer",
+      display: "inline-block",
+    };
   };
 
   const completeQuestion = async (question) => {
@@ -235,6 +242,7 @@ const CollegeQs = (props) => {
     );
 
     console.log(res);
+    rerender((_) => _ + 1); // Force rerender via state update or else todo list will be one update behind
     updateTodo([""]);
   };
 
@@ -243,13 +251,15 @@ const CollegeQs = (props) => {
       <h3>{college.collegeName}</h3>
       {college.questions?.map((questionObj, idx) => {
         return (
-          <p
-            style={questionStyle(questionObj)}
-            onClick={() => completeQuestion(questionObj.question)}
-            key={idx}
-          >
-            {questionObj.question}
-          </p>
+          <Fragment key={idx}>
+            <p
+              style={questionStyle(questionObj)}
+              onClick={() => completeQuestion(questionObj.question)}
+            >
+              {questionObj.question}
+            </p>
+            <br />
+          </Fragment>
         );
       })}
     </>
