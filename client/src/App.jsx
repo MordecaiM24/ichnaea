@@ -2,7 +2,6 @@ import { Navbar } from "./common/Navbar";
 import { CollegeGrid } from "./pages/colleges/CollegeGrid";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Profile } from "./pages/profile/auth/Profile";
-import { useCookies } from "react-cookie";
 import { Error } from "./pages/Error";
 
 function App() {

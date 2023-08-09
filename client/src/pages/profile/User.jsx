@@ -64,12 +64,13 @@ export const User = () => {
       >
         Logout
       </button>
+
+      <TodoList todo={todo} updateTodo={updateTodo} />
+
       <h1>Saved Colleges:</h1>
       {savedColleges.map((college, idx) => {
         return <div key={idx}>{college.fullName}</div>;
       })}
-
-      <TodoList todo={todo} updateTodo={updateTodo} />
 
       <h1>Supplemental Essays:</h1>
 
