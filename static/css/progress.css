@@ -48,3 +48,7 @@ p {
 .bg-blue {
   background-color: var(--bs-blue);
 }
+
+.w-md {
+  width: 8rem;
+}
