@@ -1,5 +1,5 @@
 div[role="progresscircle"] {
-  --fg: var(--bs-success);
+  --fg: var(--bs-warning);
   --bg: var(--bs-gray);
   --pgPercentage: var(--value);
   width: var(--size);
@@ -7,7 +7,7 @@ div[role="progresscircle"] {
   border-radius: 50%;
   background: radial-gradient(
       closest-side,
-      white 80%,
+      white 0%,
       transparent 0 99.9%,
       white 0
     ),
@@ -51,4 +51,26 @@ p {
 
 .w-md {
   width: 8rem;
+}
+
+.bg-orange {
+  background-color: #f15c00;
+  border-color: #f15c00;
+  border-radius: 1px;
+}
+
+.bg-orange:hover {
+  background-color: #f15c00;
+  border-color: #f15c00;
+  border-radius: 1px;
+}
+
+.border-round-start-0 {
+  border-start-start-radius: 0 !important;
+}
+
+.accordion-button:focus {
+  box-shadow: none;
+  border-color: rgba(0, 0, 0, 0.125);
+  background-color: white;
 }
