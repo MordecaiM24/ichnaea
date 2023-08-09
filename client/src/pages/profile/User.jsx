@@ -6,9 +6,6 @@ import { auth } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
 
 export const User = () => {
-  const [cookies, setCookies] = useCookies(["access_token"]);
-  const navigate = useNavigate();
-
   const [todo, setTodo] = useState([]);
 
   const [savedColleges, setSavedColleges] = useState([]);
