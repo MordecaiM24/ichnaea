@@ -24,3 +24,27 @@ div[role="progresscircle"] {
   height: 1px;
   background: #eee;
 }
+
+.w-max-content {
+  width: max-content;
+}
+
+p {
+  margin-bottom: 0;
+}
+
+.fs-7 {
+  font-size: 0.75rem;
+}
+
+.fs-8 {
+  font-size: 0.5rem;
+}
+
+.fs-9 {
+  font-size: 0.25rem;
+}
+
+.bg-blue {
+  background-color: var(--bs-blue);
+}
