@@ -74,3 +74,8 @@ p {
   border-color: rgba(0, 0, 0, 0.125);
   background-color: white;
 }
+
+.accordion-button:not(.collapsed) {
+  box-shadow: none;
+  background-color: white;
+}
