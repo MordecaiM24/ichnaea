@@ -53,16 +53,16 @@ p {
   width: 8rem;
 }
 
-.bg-orange {
-  background-color: #f15c00;
-  border-color: #f15c00;
-  border-radius: 1px;
-}
-
+.bg-orange,
 .bg-orange:hover {
   background-color: #f15c00;
   border-color: #f15c00;
-  border-radius: 1px;
+}
+
+.bg-purple,
+.bg-purple:hover {
+  background-color: var(--bs-purple);
+  border-color: var(--bs-purple);
 }
 
 .border-round-start-0 {
