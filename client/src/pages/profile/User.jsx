@@ -4,6 +4,13 @@ import axios from "axios";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-config";
 import { useNavigate } from "react-router-dom";
+import {
+  CalendarDate,
+  CircleFill,
+  Flag,
+  JournalBookmarkFill,
+} from "react-bootstrap-icons";
+import { ColorRing, ProgressBar } from "react-loader-spinner";
 
 export const User = () => {
   const [todo, setTodo] = useState([]);
@@ -81,6 +88,8 @@ const TodoList = (props) => {
   const updateTodo = props.updateTodo;
   const [_, rerender] = useState([]);
 
+  const [isTodoLoading, setTodoLoading] = useState(false);
+
   const findTaskStatus = (taskToFind) => {
     const taskIdx = todo.findIndex((obj) => {
       return obj.task == taskToFind;
@@ -90,36 +99,44 @@ const TodoList = (props) => {
   };
 
   const elementStyle = (elementName) => {
-    const isCompleted = findTaskStatus(elementName);
     const status = findTaskStatus(elementName);
 
-    let color;
+    console.log(status);
+    let btn;
+    let bullet;
+    let text;
+
     switch (status) {
       case 0:
-        color = "red";
+        btn = "btn-danger";
+        bullet = "text-danger";
+        text = "Not Started";
         break;
       case 1:
-        color = "yellow";
+        btn = "btn-warning";
+        bullet = "text-warning";
+        text = "In Progress";
         break;
       case 2:
-        color = "green";
+        btn = "btn-success";
+        bullet = "text-success";
+        text = "Completed";
         break;
       default:
-        color = "black";
+        btn = "btn-secondary";
+        bullet = "text-secondary";
+        text = "Error";
     }
 
-    const textDecoration = isCompleted ? "line-through" : "none";
-    //Should replade with something else b/c textdecoration isn't gonna apply to final v.
-
     return {
-      color,
-      textDecoration,
-      cursor: "pointer",
-      display: "inline-block",
+      btn,
+      bullet,
+      text,
     };
   };
 
   const completeTask = async (task) => {
+    setTodoLoading(true);
     const res = await axios.patch(
       `http://${import.meta.env.VITE_IP}:5000/api/users/completetask`,
       {
@@ -129,71 +146,254 @@ const TodoList = (props) => {
     );
     rerender([..._]); // Force rerender via state update or else todo list will be one update behind
     updateTodo([...todo]);
+    setTodoLoading(false);
   };
 
-  return (
-    <>
-      <h1>General TODO list: </h1>
-      <a
-        style={elementStyle("commonAppEssay")}
-        onClick={() => {
-          completeTask("commonAppEssay");
-        }}
-      >
-        Finish Personal Statement
-      </a>
-      <br />
+  if (isTodoLoading) {
+    return (
+      <div class="d-flex justify-content-center align-items-center">
+        <ProgressBar
+          height="20vh"
+          width="20vh"
+          ariaLabel="progress-bar-loading"
+          wrapperStyle={{}}
+          wrapperClass="progress-bar-wrapper"
+          borderColor="#910016"
+          barColor="#175e54"
+        />
+      </div>
+    );
+  } else {
+    return (
+      <>
+        <div className="container-xxl my-5 px-md-5">
+          <div className="list-group">
+            <div className="list-group-item list-group-item-action p-0 border-0">
+              <div className="row d-flex align-items-center">
+                <div className="col-5">
+                  <a className="list-group-item list-group-item-action active w-max-content px-md-5 px-3 rounded-top">
+                    Common App
+                  </a>
+                </div>
+                <div className="row col-7 pe-4 text-center">
+                  <div className="col-2">Notes</div>
+                  <div className="col-2">Target Date</div>
+                  <div className="col-6 pe-4">Status</div>
+                  <div className="col-2">Priority</div>
+                </div>
+              </div>
+            </div>
 
-      <a
-        style={elementStyle("actUpload")}
-        onClick={() => {
-          completeTask("actUpload");
-        }}
-      >
-        Upload ACT
-      </a>
-      <br />
+            <a className="list-group-item list-group-item-action rounded-end rounded-bottom border-top">
+              <div className="row d-flex align-items-center">
+                <div className="col-5 d-flex align-items-center">
+                  <CircleFill
+                    role="button"
+                    className={
+                      "fs-8 me-2 " + elementStyle("commonAppEssay").bullet
+                    }
+                    onClick={() => completeTask("commonAppEssay")}
+                  />
+                  <p>Finish Common App Essay</p>
+                </div>
+                <div className="row col-7 text-center">
+                  <div className="col-2">
+                    <JournalBookmarkFill className="fs-5" />
+                  </div>
+                  <div className="col-2">
+                    <CalendarDate className="fs-5" />
+                  </div>
+                  <div className="col-6">
+                    <button
+                      className={
+                        "btn w-md " + elementStyle("commonAppEssay").btn
+                      }
+                      onClick={() => completeTask("commonAppEssay")}
+                    >
+                      {elementStyle("commonAppEssay").text}
+                    </button>
+                  </div>
+                  <div className="col-2">
+                    <Flag className="fs-5" />
+                  </div>
+                </div>
+              </div>
+            </a>
 
-      <a
-        style={elementStyle("satUpload")}
-        onClick={() => {
-          completeTask("satUpload");
-        }}
-      >
-        Upload SAT
-      </a>
-      <br />
+            <a className="list-group-item list-group-item-action rounded">
+              <div className="row d-flex align-items-center">
+                <div className="col-5 d-flex align-items-center">
+                  <CircleFill
+                    role="button"
+                    className={"fs-8 me-2 " + elementStyle("satUpload").bullet}
+                    onClick={() => completeTask("satUpload")}
+                  />
+                  <p>Upload SAT</p>
+                </div>
+                <div className="row col-7 text-center">
+                  <div className="col-2">
+                    <JournalBookmarkFill className="fs-5" />
+                  </div>
+                  <div className="col-2">
+                    <CalendarDate className="fs-5" />
+                  </div>
+                  <div className="col-6">
+                    <button
+                      className={"btn w-md " + elementStyle("satUpload").btn}
+                      onClick={() => completeTask("satUpload")}
+                    >
+                      {elementStyle("satUpload").text}
+                    </button>
+                  </div>
+                  <div className="col-2">
+                    <Flag className="fs-5" />
+                  </div>
+                </div>
+              </div>
+            </a>
 
-      <a
-        style={elementStyle("extracurriculars")}
-        onClick={() => {
-          completeTask("extracurriculars");
-        }}
-      >
-        Upload extracurriculars
-      </a>
-      <br />
+            <a className="list-group-item list-group-item-action rounded">
+              <div className="row d-flex align-items-center">
+                <div className="col-5 d-flex align-items-center">
+                  <CircleFill
+                    role="button"
+                    className={"fs-8 me-2 " + elementStyle("actUpload").bullet}
+                    onClick={() => completeTask("actUpload")}
+                  />
+                  <p>Upload ACT</p>
+                </div>
+                <div className="row col-7 text-center">
+                  <div className="col-2">
+                    <JournalBookmarkFill className="fs-5" />
+                  </div>
+                  <div className="col-2">
+                    <CalendarDate className="fs-5" />
+                  </div>
+                  <div className="col-6">
+                    <button
+                      className={"btn w-md " + elementStyle("actUpload").btn}
+                      onClick={() => completeTask("actUpload")}
+                    >
+                      {elementStyle("actUpload").text}
+                    </button>
+                  </div>
+                  <div className="col-2">
+                    <Flag className="fs-5" />
+                  </div>
+                </div>
+              </div>
+            </a>
 
-      <a
-        style={elementStyle("teacherRecs")}
-        onClick={() => {
-          completeTask("teacherRecs");
-        }}
-      >
-        Ask for / upload teacher recommendations
-      </a>
-      <br />
+            <a className="list-group-item list-group-item-action rounded">
+              <div className="row d-flex align-items-center">
+                <div className="col-5 d-flex align-items-center">
+                  <CircleFill
+                    role="button"
+                    className={
+                      "fs-8 me-2 " + elementStyle("extracurriculars").bullet
+                    }
+                    onClick={() => completeTask("extracurriculars")}
+                  />
+                  <p>Upload extracurriculars</p>
+                </div>
+                <div className="row col-7 text-center">
+                  <div className="col-2">
+                    <JournalBookmarkFill className="fs-5" />
+                  </div>
+                  <div className="col-2">
+                    <CalendarDate className="fs-5" />
+                  </div>
+                  <div className="col-6">
+                    <button
+                      className={
+                        "btn w-md " + elementStyle("extracurriculars").btn
+                      }
+                      onClick={() => completeTask("extracurriculars")}
+                    >
+                      {elementStyle("extracurriculars").text}
+                    </button>
+                  </div>
+                  <div className="col-2">
+                    <Flag className="fs-5" />
+                  </div>
+                </div>
+              </div>
+            </a>
 
-      <a
-        style={elementStyle("writingSupplement")}
-        onClick={() => {
-          completeTask("writingSupplement");
-        }}
-      >
-        Finish / upload writing supplement
-      </a>
-    </>
-  );
+            <a className="list-group-item list-group-item-action rounded">
+              <div className="row d-flex align-items-center">
+                <div className="col-5 d-flex align-items-center">
+                  <CircleFill
+                    role="button"
+                    className={
+                      "fs-8 me-2 " + elementStyle("teacherRecs").bullet
+                    }
+                    onClick={() => completeTask("teacherRecs")}
+                  />
+                  <p>Ask for / upload teacher recommendations</p>
+                </div>
+                <div className="row col-7 text-center">
+                  <div className="col-2">
+                    <JournalBookmarkFill className="fs-5" />
+                  </div>
+                  <div className="col-2">
+                    <CalendarDate className="fs-5" />
+                  </div>
+                  <div className="col-6">
+                    <button
+                      className={"btn w-md " + elementStyle("teacherRecs").btn}
+                      onClick={() => completeTask("teacherRecs")}
+                    >
+                      {elementStyle("teacherRecs").text}
+                    </button>
+                  </div>
+                  <div className="col-2">
+                    <Flag className="fs-5" />
+                  </div>
+                </div>
+              </div>
+            </a>
+
+            <a className="list-group-item list-group-item-action rounded">
+              <div className="row d-flex align-items-center">
+                <div className="col-5 d-flex align-items-center">
+                  <CircleFill
+                    role="button"
+                    className={
+                      "fs-8 me-2 " + elementStyle("writingSupplement").bullet
+                    }
+                    onClick={() => completeTask("writingSupplement")}
+                  />
+                  <p>Finish / upload writing supplement</p>
+                </div>
+                <div className="row col-7 text-center">
+                  <div className="col-2">
+                    <JournalBookmarkFill className="fs-5" />
+                  </div>
+                  <div className="col-2">
+                    <CalendarDate className="fs-5" />
+                  </div>
+                  <div className="col-6">
+                    <button
+                      className={
+                        "btn w-md " + elementStyle("writingSupplement").btn
+                      }
+                      onClick={() => completeTask("writingSupplement")}
+                    >
+                      {elementStyle("writingSupplement").text}
+                    </button>
+                  </div>
+                  <div className="col-2">
+                    <Flag className="fs-5" />
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </>
+    );
+  }
 };
 
 const SuppEssays = (props) => {

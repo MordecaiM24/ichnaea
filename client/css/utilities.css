@@ -60,3 +60,7 @@ p {
   box-shadow: none;
   background-color: white;
 }
+
+.c-pointer {
+  cursor: pointer;
+}

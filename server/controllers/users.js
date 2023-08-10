@@ -142,11 +142,7 @@ const completeTask = async (req, res, next) => {
   });
   const taskStatus = user.todo[taskIndex].status;
 
-  if (taskStatus === 2) {
-    user.todo[taskIndex].status = 0;
-  } else {
-    user.todo[taskIndex].status = 2;
-  }
+  user.todo[taskIndex].status = (taskStatus + 1) % 3; // Increments status until > 2 where it resets
 
   user.markModified("todo");
 
