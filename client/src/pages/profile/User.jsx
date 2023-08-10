@@ -85,23 +85,29 @@ export const User = () => {
 
 const TodoList = (props) => {
   const todo = props.todo;
+
   const updateTodo = props.updateTodo;
   const [_, rerender] = useState([]);
 
   const [isTodoLoading, setTodoLoading] = useState(false);
 
-  const findTaskStatus = (taskToFind) => {
-    const taskIdx = todo.findIndex((obj) => {
-      return obj.task == taskToFind;
-    });
-
-    return todo[taskIdx]?.status;
+  const initObject = {
+    status: 0,
+    btn: "btn-danger",
+    bullet: "text-danger",
+    text: "Not Started",
   };
 
-  const elementStyle = (elementName) => {
-    const status = findTaskStatus(elementName);
+  const [elStyles, setElStyles] = useState({
+    commonAppEssay: initObject,
+    satUpload: initObject,
+    actUpload: initObject,
+    extracurriculars: initObject,
+    teacherRecs: initObject,
+    writingSupplement: initObject,
+  });
 
-    console.log(status);
+  const style = (status) => {
     let btn;
     let bullet;
     let text;
@@ -129,11 +135,35 @@ const TodoList = (props) => {
     }
 
     return {
+      status,
       btn,
       bullet,
       text,
     };
   };
+
+  useState(() => {
+    const setInitialStyles = async () => {
+      const res = await axios.get(
+        `http://${
+          import.meta.env.VITE_IP
+        }:5000/api/users/todo/${window.localStorage.getItem("userID")}`
+      );
+
+      const todoList = res.data;
+
+      let tempObj = {};
+
+      todoList.forEach((todo, idx) => {
+        const task = todo.task;
+        const status = todoList[idx].status;
+        tempObj[task] = style(status);
+        setElStyles(tempObj);
+      });
+    };
+
+    setInitialStyles();
+  }, []);
 
   const completeTask = async (task) => {
     setTodoLoading(true);
@@ -144,17 +174,26 @@ const TodoList = (props) => {
         taskToComplete: task,
       }
     );
-    rerender([..._]); // Force rerender via state update or else todo list will be one update behind
+
+    const elIndex = res.data.findIndex((obj) => {
+      return obj.task === task;
+    });
+
+    const status = res.data[elIndex].status;
+    const styles = style(status);
+
+    setElStyles({ ...elStyles, [task]: styles });
+
     updateTodo([...todo]);
     setTodoLoading(false);
   };
 
   if (isTodoLoading) {
     return (
-      <div class="d-flex justify-content-center align-items-center">
+      <div className="d-flex justify-content-center align-items-center">
         <ProgressBar
-          height="20vh"
-          width="20vh"
+          height="25vh"
+          width="25vh"
           ariaLabel="progress-bar-loading"
           wrapperStyle={{}}
           wrapperClass="progress-bar-wrapper"
@@ -189,9 +228,7 @@ const TodoList = (props) => {
                 <div className="col-5 d-flex align-items-center">
                   <CircleFill
                     role="button"
-                    className={
-                      "fs-8 me-2 " + elementStyle("commonAppEssay").bullet
-                    }
+                    className={"fs-8 me-2 " + elStyles.commonAppEssay.bullet}
                     onClick={() => completeTask("commonAppEssay")}
                   />
                   <p>Finish Common App Essay</p>
@@ -205,12 +242,10 @@ const TodoList = (props) => {
                   </div>
                   <div className="col-6">
                     <button
-                      className={
-                        "btn w-md " + elementStyle("commonAppEssay").btn
-                      }
+                      className={"btn w-md " + elStyles.commonAppEssay.btn}
                       onClick={() => completeTask("commonAppEssay")}
                     >
-                      {elementStyle("commonAppEssay").text}
+                      {elStyles.commonAppEssay.text}
                     </button>
                   </div>
                   <div className="col-2">
@@ -225,7 +260,7 @@ const TodoList = (props) => {
                 <div className="col-5 d-flex align-items-center">
                   <CircleFill
                     role="button"
-                    className={"fs-8 me-2 " + elementStyle("satUpload").bullet}
+                    className={"fs-8 me-2 " + elStyles.satUpload.bullet}
                     onClick={() => completeTask("satUpload")}
                   />
                   <p>Upload SAT</p>
@@ -239,10 +274,10 @@ const TodoList = (props) => {
                   </div>
                   <div className="col-6">
                     <button
-                      className={"btn w-md " + elementStyle("satUpload").btn}
+                      className={"btn w-md " + elStyles.satUpload.btn}
                       onClick={() => completeTask("satUpload")}
                     >
-                      {elementStyle("satUpload").text}
+                      {elStyles.satUpload.text}
                     </button>
                   </div>
                   <div className="col-2">
@@ -257,7 +292,7 @@ const TodoList = (props) => {
                 <div className="col-5 d-flex align-items-center">
                   <CircleFill
                     role="button"
-                    className={"fs-8 me-2 " + elementStyle("actUpload").bullet}
+                    className={"fs-8 me-2 " + elStyles.actUpload.bullet}
                     onClick={() => completeTask("actUpload")}
                   />
                   <p>Upload ACT</p>
@@ -271,10 +306,10 @@ const TodoList = (props) => {
                   </div>
                   <div className="col-6">
                     <button
-                      className={"btn w-md " + elementStyle("actUpload").btn}
+                      className={"btn w-md " + elStyles.actUpload.btn}
                       onClick={() => completeTask("actUpload")}
                     >
-                      {elementStyle("actUpload").text}
+                      {elStyles.actUpload.text}
                     </button>
                   </div>
                   <div className="col-2">
@@ -289,9 +324,7 @@ const TodoList = (props) => {
                 <div className="col-5 d-flex align-items-center">
                   <CircleFill
                     role="button"
-                    className={
-                      "fs-8 me-2 " + elementStyle("extracurriculars").bullet
-                    }
+                    className={"fs-8 me-2 " + elStyles.extracurriculars.bullet}
                     onClick={() => completeTask("extracurriculars")}
                   />
                   <p>Upload extracurriculars</p>
@@ -305,12 +338,10 @@ const TodoList = (props) => {
                   </div>
                   <div className="col-6">
                     <button
-                      className={
-                        "btn w-md " + elementStyle("extracurriculars").btn
-                      }
+                      className={"btn w-md " + elStyles.extracurriculars.btn}
                       onClick={() => completeTask("extracurriculars")}
                     >
-                      {elementStyle("extracurriculars").text}
+                      {elStyles.extracurriculars.text}
                     </button>
                   </div>
                   <div className="col-2">
@@ -325,9 +356,7 @@ const TodoList = (props) => {
                 <div className="col-5 d-flex align-items-center">
                   <CircleFill
                     role="button"
-                    className={
-                      "fs-8 me-2 " + elementStyle("teacherRecs").bullet
-                    }
+                    className={"fs-8 me-2 " + elStyles.teacherRecs.bullet}
                     onClick={() => completeTask("teacherRecs")}
                   />
                   <p>Ask for / upload teacher recommendations</p>
@@ -341,10 +370,10 @@ const TodoList = (props) => {
                   </div>
                   <div className="col-6">
                     <button
-                      className={"btn w-md " + elementStyle("teacherRecs").btn}
+                      className={"btn w-md " + elStyles.teacherRecs.btn}
                       onClick={() => completeTask("teacherRecs")}
                     >
-                      {elementStyle("teacherRecs").text}
+                      {elStyles.teacherRecs.text}
                     </button>
                   </div>
                   <div className="col-2">
@@ -359,9 +388,7 @@ const TodoList = (props) => {
                 <div className="col-5 d-flex align-items-center">
                   <CircleFill
                     role="button"
-                    className={
-                      "fs-8 me-2 " + elementStyle("writingSupplement").bullet
-                    }
+                    className={"fs-8 me-2 " + elStyles.writingSupplement.bullet}
                     onClick={() => completeTask("writingSupplement")}
                   />
                   <p>Finish / upload writing supplement</p>
@@ -375,12 +402,10 @@ const TodoList = (props) => {
                   </div>
                   <div className="col-6">
                     <button
-                      className={
-                        "btn w-md " + elementStyle("writingSupplement").btn
-                      }
+                      className={"btn w-md " + elStyles.writingSupplement.btn}
                       onClick={() => completeTask("writingSupplement")}
                     >
-                      {elementStyle("writingSupplement").text}
+                      {elStyles.writingSupplement.text}
                     </button>
                   </div>
                   <div className="col-2">

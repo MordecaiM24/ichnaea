@@ -130,10 +130,11 @@ const getSavedColleges = async (req, res, next) => {
     .select("savedColleges")
     .populate("savedColleges", ["suppEssays", "fullName"]);
 
-  res.json(savedColleges.savedColleges); //Original json returns full user with all fields except savedColleges omitted. Using ".savedColleges" returns only the array of colleges
+  return res.status(200).json(savedColleges.savedColleges); //Original json returns full user with all fields except savedColleges omitted. Using ".savedColleges" returns only the array of colleges
 };
 
 const completeTask = async (req, res, next) => {
+  console.log("COMPLETING TASK");
   const user = await UserModel.findOne({ _id: req.body.userID });
   const taskToComplete = req.body.taskToComplete;
 
@@ -144,11 +145,13 @@ const completeTask = async (req, res, next) => {
 
   user.todo[taskIndex].status = (taskStatus + 1) % 3; // Increments status until > 2 where it resets
 
+  console.log(user);
+
   user.markModified("todo");
 
-  user.save();
+  await user.save();
 
-  res.status(200).json({});
+  return res.status(200).json(user.todo);
 };
 
 const completeQuestion = async (req, res, next) => {
