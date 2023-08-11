@@ -67,7 +67,7 @@ export const User = () => {
         Logout
       </button>
 
-      <TodoList todo={todo} updateTodo={updateTodo} />
+      <TodoList todo={todo} updateTodo={updateTodo} setTodo={setTodo} />
 
       <h1>Saved Colleges:</h1>
       {savedColleges.map((college, idx) => {
@@ -246,7 +246,11 @@ const TodoList = (props) => {
                 <div className="row col-7 text-center">
                   <div className="col-2 position-relative">
                     {noteAreaVisibility.commonAppEssay && (
-                      <NoteArea element={"commonAppEssay"} todo={todo} />
+                      <NoteArea
+                        setTodo={props.setTodo}
+                        element={"commonAppEssay"}
+                        todo={todo}
+                      />
                     )}
                     <JournalBookmarkFill
                       className="fs-5 c-pointer"
@@ -287,8 +291,23 @@ const TodoList = (props) => {
                   <p>Upload SAT</p>
                 </div>
                 <div className="row col-7 text-center">
-                  <div className="col-2">
-                    <JournalBookmarkFill className="fs-5" />
+                  <div className="col-2 position-relative">
+                    {noteAreaVisibility.satUpload && (
+                      <NoteArea
+                        setTodo={props.setTodo}
+                        element={"satUpload"}
+                        todo={todo}
+                      />
+                    )}
+                    <JournalBookmarkFill
+                      className="fs-5 c-pointer"
+                      onClick={() => {
+                        showNoteArea({
+                          ...defaultNoteVisibilty,
+                          satUpload: !noteAreaVisibility.satUpload,
+                        });
+                      }}
+                    />
                   </div>
                   <div className="col-2">
                     <CalendarDate className="fs-5" />
@@ -319,8 +338,23 @@ const TodoList = (props) => {
                   <p>Upload ACT</p>
                 </div>
                 <div className="row col-7 text-center">
-                  <div className="col-2">
-                    <JournalBookmarkFill className="fs-5" />
+                  <div className="col-2 position-relative">
+                    {noteAreaVisibility.actUpload && (
+                      <NoteArea
+                        setTodo={props.setTodo}
+                        element={"actUpload"}
+                        todo={todo}
+                      />
+                    )}
+                    <JournalBookmarkFill
+                      className="fs-5 c-pointer"
+                      onClick={() => {
+                        showNoteArea({
+                          ...defaultNoteVisibilty,
+                          actUpload: !noteAreaVisibility.actUpload,
+                        });
+                      }}
+                    />
                   </div>
                   <div className="col-2">
                     <CalendarDate className="fs-5" />
@@ -351,8 +385,24 @@ const TodoList = (props) => {
                   <p>Upload extracurriculars</p>
                 </div>
                 <div className="row col-7 text-center">
-                  <div className="col-2">
-                    <JournalBookmarkFill className="fs-5" />
+                  <div className="col-2 position-relative">
+                    {noteAreaVisibility.extracurriculars && (
+                      <NoteArea
+                        setTodo={props.setTodo}
+                        element={"extracurriculars"}
+                        todo={todo}
+                      />
+                    )}
+                    <JournalBookmarkFill
+                      className="fs-5 c-pointer"
+                      onClick={() => {
+                        showNoteArea({
+                          ...defaultNoteVisibilty,
+                          extracurriculars:
+                            !noteAreaVisibility.extracurriculars,
+                        });
+                      }}
+                    />
                   </div>
 
                   <div className="col-2">
@@ -384,12 +434,29 @@ const TodoList = (props) => {
                   <p>Ask for / upload teacher recommendations</p>
                 </div>
                 <div className="row col-7 text-center">
-                  <div className="col-2">
-                    <JournalBookmarkFill className="fs-5" />
+                  <div className="col-2 position-relative">
+                    {noteAreaVisibility.teacherRecs && (
+                      <NoteArea
+                        setTodo={props.setTodo}
+                        element={"teacherRecs"}
+                        todo={todo}
+                      />
+                    )}
+                    <JournalBookmarkFill
+                      className="fs-5 c-pointer"
+                      onClick={() => {
+                        showNoteArea({
+                          ...defaultNoteVisibilty,
+                          teacherRecs: !noteAreaVisibility.teacherRecs,
+                        });
+                      }}
+                    />
                   </div>
+
                   <div className="col-2">
                     <CalendarDate className="fs-5" />
                   </div>
+
                   <div className="col-6">
                     <button
                       className={"btn w-md " + elStyles.teacherRecs.btn}
@@ -398,6 +465,7 @@ const TodoList = (props) => {
                       {elStyles.teacherRecs.text}
                     </button>
                   </div>
+
                   <div className="col-2">
                     <Flag className="fs-5" />
                   </div>
@@ -416,12 +484,30 @@ const TodoList = (props) => {
                   <p>Finish / upload writing supplement</p>
                 </div>
                 <div className="row col-7 text-center">
-                  <div className="col-2">
-                    <JournalBookmarkFill className="fs-5" />
+                  <div className="col-2 position-relative">
+                    {noteAreaVisibility.writingSupplement && (
+                      <NoteArea
+                        setTodo={props.setTodo}
+                        element={"writingSupplement"}
+                        todo={todo}
+                      />
+                    )}
+                    <JournalBookmarkFill
+                      className="fs-5 c-pointer"
+                      onClick={() => {
+                        showNoteArea({
+                          ...defaultNoteVisibilty,
+                          writingSupplement:
+                            !noteAreaVisibility.writingSupplement,
+                        });
+                      }}
+                    />
                   </div>
+
                   <div className="col-2">
                     <CalendarDate className="fs-5" />
                   </div>
+
                   <div className="col-6">
                     <button
                       className={"btn w-md " + elStyles.writingSupplement.btn}
@@ -430,6 +516,7 @@ const TodoList = (props) => {
                       {elStyles.writingSupplement.text}
                     </button>
                   </div>
+
                   <div className="col-2">
                     <Flag className="fs-5" />
                   </div>
@@ -445,7 +532,9 @@ const TodoList = (props) => {
 
 const NoteArea = (props) => {
   const element = props.element;
-  const task = props.todo.find((obj) => obj.task === element);
+  const taskIdx = props.todo.findIndex((obj) => obj.task === element);
+  const task = props.todo[taskIdx];
+  const setTodo = props.setTodo;
 
   const defaultVal = task.notes;
 
@@ -458,8 +547,7 @@ const NoteArea = (props) => {
   };
 
   const handleSubmit = async () => {
-    console.log(noteContent);
-    await axios.post(
+    const res = await axios.post(
       `http://${import.meta.env.VITE_IP}:5000/api/users/editNote`,
       {
         userID: localStorage.getItem("userID"),
@@ -467,6 +555,9 @@ const NoteArea = (props) => {
         note: noteContent,
       }
     );
+
+    setTodo(res.data.todo);
+    console.log(res.data.todo[taskIdx].notes);
   };
 
   return (
