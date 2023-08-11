@@ -98,6 +98,7 @@ const TodoList = (props) => {
     teacherRecs: false,
     writingSupplement: false,
   };
+
   const [noteAreaVisibility, showNoteArea] = useState({
     defaultNoteVisibilty,
   });
@@ -282,6 +283,7 @@ const TodoList = (props) => {
                   <div className="col-2 position-relative">
                     {noteAreaVisibility.commonAppEssay && (
                       <NoteArea
+                        showNoteArea={showNoteArea}
                         setTodo={props.setTodo}
                         element={"commonAppEssay"}
                         todo={todo}
@@ -352,6 +354,7 @@ const TodoList = (props) => {
                   <div className="col-2 position-relative">
                     {noteAreaVisibility.satUpload && (
                       <NoteArea
+                        showNoteArea={showNoteArea}
                         setTodo={props.setTodo}
                         element={"satUpload"}
                         todo={todo}
@@ -422,6 +425,7 @@ const TodoList = (props) => {
                   <div className="col-2 position-relative">
                     {noteAreaVisibility.actUpload && (
                       <NoteArea
+                        showNoteArea={showNoteArea}
                         setTodo={props.setTodo}
                         element={"actUpload"}
                         todo={todo}
@@ -492,6 +496,7 @@ const TodoList = (props) => {
                   <div className="col-2 position-relative">
                     {noteAreaVisibility.extracurriculars && (
                       <NoteArea
+                        showNoteArea={showNoteArea}
                         setTodo={props.setTodo}
                         element={"extracurriculars"}
                         todo={todo}
@@ -564,6 +569,7 @@ const TodoList = (props) => {
                   <div className="col-2 position-relative">
                     {noteAreaVisibility.teacherRecs && (
                       <NoteArea
+                        showNoteArea={showNoteArea}
                         setTodo={props.setTodo}
                         element={"teacherRecs"}
                         todo={todo}
@@ -637,6 +643,7 @@ const TodoList = (props) => {
                   <div className="col-2 position-relative">
                     {noteAreaVisibility.writingSupplement && (
                       <NoteArea
+                        showNoteArea={showNoteArea}
                         setTodo={props.setTodo}
                         element={"writingSupplement"}
                         todo={todo}
@@ -730,7 +737,17 @@ const NoteArea = (props) => {
     );
 
     setTodo(res.data.todo);
-    console.log(res.data.todo[taskIdx].notes);
+    const defaultNoteVisibilty = {
+      commonAppEssay: false,
+      satUpload: false,
+      actUpload: false,
+      extracurriculars: false,
+      teacherRecs: false,
+      writingSupplement: false,
+    };
+    props.showNoteArea({
+      defaultNoteVisibilty,
+    });
   };
 
   return (
