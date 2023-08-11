@@ -9,6 +9,7 @@ import {
   completeTask,
   completeQuestion,
   editNote,
+  changeFlag,
 } from "../controllers/users.js";
 const router = express.Router();
 
@@ -28,6 +29,8 @@ router.patch("/completeTask", completeTask);
 
 router.patch("/completeQuestion", completeQuestion);
 
-router.post("/editNote", editNote);
+router.patch("/editNote", editNote);
+
+router.patch("/changeFlag", changeFlag);
 
 export { router as userRouter };

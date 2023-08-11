@@ -6,6 +6,7 @@ import {
   CalendarDate,
   CircleFill,
   Flag,
+  FlagFill,
   JournalBookmarkFill,
 } from "react-bootstrap-icons";
 import { ProgressBar } from "react-loader-spinner";
@@ -83,8 +84,8 @@ export const User = () => {
 
 const TodoList = (props) => {
   const todo = props.todo;
-
   const updateTodo = props.updateTodo;
+
   const [_, rerender] = useState([]);
 
   const [isTodoLoading, setTodoLoading] = useState(false);
@@ -116,6 +117,15 @@ const TodoList = (props) => {
     teacherRecs: initObject,
     writingSupplement: initObject,
   });
+
+  const [isFlagLoading, setFlagLoading] = useState([
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+  ]);
 
   const style = (status) => {
     let btn;
@@ -198,6 +208,32 @@ const TodoList = (props) => {
     setTodoLoading(false);
   };
 
+  const changeFlag = async (task) => {
+    const temp = isFlagLoading;
+    temp[
+      todo.findIndex((obj) => {
+        return obj.task === task;
+      })
+    ] = true;
+    setFlagLoading(temp);
+    const res = await axios.patch(
+      `http://${import.meta.env.VITE_IP}:5000/api/users/changeFlag`,
+      {
+        userID: localStorage.getItem("userID"),
+        task,
+        flag:
+          todo.find((obj) => obj.task == task).flag === "blue" ? "" : "blue",
+      }
+    );
+    updateTodo([...todo]);
+
+    setTimeout(() => {
+      setFlagLoading([false, false, false, false, false, false]);
+    }, 250);
+
+    return;
+  };
+
   if (isTodoLoading) {
     return (
       <div className="d-flex justify-content-center align-items-center">
@@ -205,7 +241,6 @@ const TodoList = (props) => {
           height="25vh"
           width="25vh"
           ariaLabel="progress-bar-loading"
-          wrapperStyle={{}}
           wrapperClass="progress-bar-wrapper"
           borderColor="#910016"
           barColor="#175e54"
@@ -274,7 +309,30 @@ const TodoList = (props) => {
                     </button>
                   </div>
                   <div className="col-2">
-                    <Flag className="fs-5" />
+                    {isFlagLoading[0] ? (
+                      <ProgressBar
+                        height="2rem"
+                        width="2rem"
+                        ariaLabel="progress-bar-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="progress-bar-wrapper"
+                        borderColor="#910016"
+                        barColor="#175e54"
+                      />
+                    ) : todo[0]?.flag ? (
+                      <FlagFill
+                        className="fs-5 text-blue c-pointer"
+                        onClick={() => changeFlag("commonAppEssay")}
+                      />
+                    ) : (
+                      <Flag
+                        className="fs-5 c-pointer"
+                        onClick={() => changeFlag("commonAppEssay")}
+                      />
+                    )}
+                    {todo.find((obj) => {
+                      obj.task === "commonAppEssay";
+                    })}
                   </div>
                 </div>
               </div>
@@ -321,7 +379,30 @@ const TodoList = (props) => {
                     </button>
                   </div>
                   <div className="col-2">
-                    <Flag className="fs-5" />
+                    {isFlagLoading[1] ? (
+                      <ProgressBar
+                        height="2rem"
+                        width="2rem"
+                        ariaLabel="progress-bar-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="progress-bar-wrapper"
+                        borderColor="#910016"
+                        barColor="#175e54"
+                      />
+                    ) : todo[1]?.flag ? (
+                      <FlagFill
+                        className="fs-5 text-blue c-pointer"
+                        onClick={() => changeFlag("satUpload")}
+                      />
+                    ) : (
+                      <Flag
+                        className="fs-5 c-pointer"
+                        onClick={() => changeFlag("satUpload")}
+                      />
+                    )}
+                    {todo.find((obj) => {
+                      obj.task === "satUpload";
+                    })}
                   </div>
                 </div>
               </div>
@@ -368,7 +449,30 @@ const TodoList = (props) => {
                     </button>
                   </div>
                   <div className="col-2">
-                    <Flag className="fs-5" />
+                    {isFlagLoading[2] ? (
+                      <ProgressBar
+                        height="2rem"
+                        width="2rem"
+                        ariaLabel="progress-bar-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="progress-bar-wrapper"
+                        borderColor="#910016"
+                        barColor="#175e54"
+                      />
+                    ) : todo[2]?.flag ? (
+                      <FlagFill
+                        className="fs-5 text-blue c-pointer"
+                        onClick={() => changeFlag("actUpload")}
+                      />
+                    ) : (
+                      <Flag
+                        className="fs-5 c-pointer"
+                        onClick={() => changeFlag("actUpload")}
+                      />
+                    )}
+                    {todo.find((obj) => {
+                      obj.task === "actUpload";
+                    })}
                   </div>
                 </div>
               </div>
@@ -417,7 +521,30 @@ const TodoList = (props) => {
                     </button>
                   </div>
                   <div className="col-2">
-                    <Flag className="fs-5" />
+                    {isFlagLoading[3] ? (
+                      <ProgressBar
+                        height="2rem"
+                        width="2rem"
+                        ariaLabel="progress-bar-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="progress-bar-wrapper"
+                        borderColor="#910016"
+                        barColor="#175e54"
+                      />
+                    ) : todo[3]?.flag ? (
+                      <FlagFill
+                        className="fs-5 text-blue c-pointer"
+                        onClick={() => changeFlag("extracurriculars")}
+                      />
+                    ) : (
+                      <Flag
+                        className="fs-5 c-pointer"
+                        onClick={() => changeFlag("extracurriculars")}
+                      />
+                    )}
+                    {todo.find((obj) => {
+                      obj.task === "extracurriculars";
+                    })}
                   </div>
                 </div>
               </div>
@@ -467,7 +594,30 @@ const TodoList = (props) => {
                   </div>
 
                   <div className="col-2">
-                    <Flag className="fs-5" />
+                    {isFlagLoading[4] ? (
+                      <ProgressBar
+                        height="2rem"
+                        width="2rem"
+                        ariaLabel="progress-bar-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="progress-bar-wrapper"
+                        borderColor="#910016"
+                        barColor="#175e54"
+                      />
+                    ) : todo[4]?.flag ? (
+                      <FlagFill
+                        className="fs-5 text-blue c-pointer"
+                        onClick={() => changeFlag("teacherRecs")}
+                      />
+                    ) : (
+                      <Flag
+                        className="fs-5 c-pointer"
+                        onClick={() => changeFlag("teacherRecs")}
+                      />
+                    )}
+                    {todo.find((obj) => {
+                      obj.task === "teacherRecs";
+                    })}
                   </div>
                 </div>
               </div>
@@ -518,7 +668,30 @@ const TodoList = (props) => {
                   </div>
 
                   <div className="col-2">
-                    <Flag className="fs-5" />
+                    {isFlagLoading[5] ? (
+                      <ProgressBar
+                        height="2rem"
+                        width="2rem"
+                        ariaLabel="progress-bar-loading"
+                        wrapperStyle={{}}
+                        wrapperClass="progress-bar-wrapper"
+                        borderColor="#910016"
+                        barColor="#175e54"
+                      />
+                    ) : todo[5]?.flag ? (
+                      <FlagFill
+                        className="fs-5 text-blue c-pointer"
+                        onClick={() => changeFlag("writingSupplement")}
+                      />
+                    ) : (
+                      <Flag
+                        className="fs-5 c-pointer"
+                        onClick={() => changeFlag("writingSupplement")}
+                      />
+                    )}
+                    {todo.find((obj) => {
+                      obj.task === "writingSupplement";
+                    })}
                   </div>
                 </div>
               </div>
@@ -547,7 +720,7 @@ const NoteArea = (props) => {
   };
 
   const handleSubmit = async () => {
-    const res = await axios.post(
+    const res = await axios.patch(
       `http://${import.meta.env.VITE_IP}:5000/api/users/editNote`,
       {
         userID: localStorage.getItem("userID"),

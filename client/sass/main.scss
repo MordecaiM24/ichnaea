@@ -1,19 +1,71 @@
 // custom variables
-$white: #ffffff;
+// $white: #ffffff;
 
-$theme-colors: (
-  "light": #eaeaea,
-  "dark": #030305,
-  "primary": #910016,
-  "secondary": #175e54,
-  "info": #a6b168,
-  "success": #00ca4e,
-  "warning": #ffbd44,
-  "danger": #fb4e4b,
-);
-// import the functions & variables
+// $theme-colors: (
+//   "light": #eaeaea,
+//   "dark": #030305,
+//   "primary": #910016,
+//   "secondary": #175e54,
+//   "info": #a6b168,
+//   "success": #00ca4e,
+//   "warning": #ffbd44,
+//   "danger": #fb4e4b,
+// );
+// // import the functions & variables
+// @import "../node_modules/bootstrap/scss/_functions";
+// @import "../node_modules/bootstrap/scss/variables";
+
+// // import bootstrap
+// @import "../node_modules/bootstrap/scss/bootstrap.scss";
+
 @import "../node_modules/bootstrap/scss/_functions";
-@import "../node_modules/bootstrap/scss/variables";
+@import "../node_modules/bootstrap/scss/_variables";
+@import "../node_modules/bootstrap/scss/_variables-dark";
+@import "../node_modules/bootstrap/scss/_maps";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/utilities";
 
-// import bootstrap
-@import "../node_modules/bootstrap/scss/bootstrap.scss";
+// $white: #ffffff;
+
+// $theme-colors: (
+//   "light": #eaeaea,
+//   "dark": #030305,
+//   "primary": #910016,
+//   "secondary": #175e54,
+//   "info": #a6b168,
+//   "success": #00ca4e,
+//   "warning": #ffbd44,
+//   "danger": #fb4e4b,
+// );
+
+$all-colors: map-merge-multiple(
+  $blues,
+  $indigos,
+  $purples,
+  $pinks,
+  $reds,
+  $oranges,
+  $yellows,
+  $greens,
+  $teals,
+  $cyans
+);
+
+$utilities: map-merge(
+  $utilities,
+  (
+    "color":
+      map-merge(
+        map-get($utilities, "color"),
+        (
+          values:
+            map-merge(
+              map-get(map-get($utilities, "color"), "values"),
+              ($all-colors)
+            ),
+        )
+      ),
+  )
+);
+
+@import "../node_modules/bootstrap/scss/utilities/_api";

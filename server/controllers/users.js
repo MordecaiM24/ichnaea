@@ -205,6 +205,24 @@ const editNote = async (req, res, next) => {
   res.status(200).json(user);
 };
 
+const changeFlag = async (req, res, next) => {
+  const user = await UserModel.findOne({ _id: req.body.userID });
+  const task = req.body.task;
+  const newFlag = req.body.flag;
+
+  console.log(newFlag);
+  const taskIndex = user.todo.findIndex((obj) => {
+    return obj.task === task;
+  });
+
+  user.todo[taskIndex].flag = newFlag;
+  user.markModified("todo");
+
+  await user.save();
+
+  res.status(200).json(user);
+};
+
 export {
   createUser,
   login,
@@ -216,4 +234,5 @@ export {
   completeTask,
   completeQuestion,
   editNote,
+  changeFlag,
 };

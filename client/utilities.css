@@ -95,3 +95,7 @@ p {
   bottom: 0.75rem;
   right: 0.75em;
 }
+
+.text-blue {
+  color: var(--bs-blue);
+}
