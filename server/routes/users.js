@@ -8,6 +8,7 @@ import {
   getTodo,
   completeTask,
   completeQuestion,
+  editNote,
 } from "../controllers/users.js";
 const router = express.Router();
 
@@ -26,5 +27,7 @@ router.get("/todo/:userID", getTodo);
 router.patch("/completeTask", completeTask);
 
 router.patch("/completeQuestion", completeQuestion);
+
+router.post("/editNote", editNote);
 
 export { router as userRouter };

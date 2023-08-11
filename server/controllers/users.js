@@ -188,6 +188,23 @@ const completeQuestion = async (req, res, next) => {
   res.status(200).json({});
 };
 
+const editNote = async (req, res, next) => {
+  const user = await UserModel.findOne({ _id: req.body.userID });
+  const task = req.body.task;
+  const newNote = req.body.note;
+
+  const taskIndex = user.todo.findIndex((obj) => {
+    return obj.task === task;
+  });
+
+  user.todo[taskIndex].notes = newNote;
+  user.markModified("todo");
+
+  await user.save();
+
+  res.status(200).json(user);
+};
+
 export {
   createUser,
   login,
@@ -198,4 +215,5 @@ export {
   getTodo,
   completeTask,
   completeQuestion,
+  editNote,
 };

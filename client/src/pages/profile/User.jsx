@@ -1,16 +1,14 @@
-import { useCookies } from "react-cookie";
 import { useState, useEffect, Fragment } from "react";
 import axios from "axios";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-config";
-import { useNavigate } from "react-router-dom";
 import {
   CalendarDate,
   CircleFill,
   Flag,
   JournalBookmarkFill,
 } from "react-bootstrap-icons";
-import { ColorRing, ProgressBar } from "react-loader-spinner";
+import { ProgressBar } from "react-loader-spinner";
 
 export const User = () => {
   const [todo, setTodo] = useState([]);
@@ -90,6 +88,18 @@ const TodoList = (props) => {
   const [_, rerender] = useState([]);
 
   const [isTodoLoading, setTodoLoading] = useState(false);
+
+  const defaultNoteVisibilty = {
+    commonAppEssay: false,
+    satUpload: false,
+    actUpload: false,
+    extracurriculars: false,
+    teacherRecs: false,
+    writingSupplement: false,
+  };
+  const [noteAreaVisibility, showNoteArea] = useState({
+    defaultNoteVisibilty,
+  });
 
   const initObject = {
     status: 0,
@@ -234,8 +244,19 @@ const TodoList = (props) => {
                   <p>Finish Common App Essay</p>
                 </div>
                 <div className="row col-7 text-center">
-                  <div className="col-2">
-                    <JournalBookmarkFill className="fs-5" />
+                  <div className="col-2 position-relative">
+                    {noteAreaVisibility.commonAppEssay && (
+                      <NoteArea element={"commonAppEssay"} todo={todo} />
+                    )}
+                    <JournalBookmarkFill
+                      className="fs-5 c-pointer"
+                      onClick={() => {
+                        showNoteArea({
+                          ...defaultNoteVisibilty,
+                          commonAppEssay: !noteAreaVisibility.commonAppEssay,
+                        });
+                      }}
+                    />
                   </div>
                   <div className="col-2">
                     <CalendarDate className="fs-5" />
@@ -333,6 +354,7 @@ const TodoList = (props) => {
                   <div className="col-2">
                     <JournalBookmarkFill className="fs-5" />
                   </div>
+
                   <div className="col-2">
                     <CalendarDate className="fs-5" />
                   </div>
@@ -419,6 +441,51 @@ const TodoList = (props) => {
       </>
     );
   }
+};
+
+const NoteArea = (props) => {
+  const element = props.element;
+  const task = props.todo.find((obj) => obj.task === element);
+
+  const defaultVal = task.notes;
+
+  const [buttonVis, showButton] = useState(false);
+  const [noteContent, changeContent] = useState(defaultVal);
+
+  const handleChange = (event) => {
+    changeContent(event.target.value);
+    showButton(true);
+  };
+
+  const handleSubmit = async () => {
+    console.log(noteContent);
+    await axios.post(
+      `http://${import.meta.env.VITE_IP}:5000/api/users/editNote`,
+      {
+        userID: localStorage.getItem("userID"),
+        task: task.task,
+        note: noteContent,
+      }
+    );
+  };
+
+  return (
+    <div className="position-absolute position-relative z-3 notes ">
+      <textarea
+        className="w-100 h-100 note-text p-2"
+        defaultValue={defaultVal}
+        onChange={(e) => handleChange(e)}
+      ></textarea>
+      {buttonVis && (
+        <button
+          className="btn btn-primary position-absolute note-save rounded-1 py-1"
+          onClick={handleSubmit}
+        >
+          Save
+        </button>
+      )}
+    </div>
+  );
 };
 
 const SuppEssays = (props) => {

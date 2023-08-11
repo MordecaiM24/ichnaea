@@ -64,3 +64,34 @@ p {
 .c-pointer {
   cursor: pointer;
 }
+
+.custom-class {
+  display: none;
+}
+
+.notes {
+  bottom: 2.5rem;
+  right: 0rem;
+  left: -4rem;
+  width: 12rem;
+  height: 6rem;
+  z-index: 2000;
+}
+
+@media (min-width: 576px) {
+  .notes {
+    width: 24rem;
+    height: 6rem;
+    left: -8rem;
+  }
+}
+
+.note-text {
+  resize: none;
+  border-radius: 0.25rem;
+}
+
+.note-save {
+  bottom: 0.75rem;
+  right: 0.75em;
+}
