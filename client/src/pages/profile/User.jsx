@@ -76,8 +76,6 @@ export const User = () => {
 
       <TodoList todo={todo} updateTodo={updateTodo} setTodo={setTodo} />
 
-      <h1>Supplemental Essays:</h1>
-
       <SuppEssays todo={todo} updateTodo={updateTodo} />
     </>
   );
@@ -825,7 +823,11 @@ const SuppEssays = (props) => {
 const CollegeQs = (props) => {
   const { college, updateTodo, idx } = props;
   const [_, rerender] = useState(0);
-  // console.log(college);
+  const [percentage, setPercentage] = useState(0);
+
+  useEffect(() => {
+    setPercentage(Math.round(college.percentCompleted * 100));
+  }, []);
 
   const style = (status) => {
     let btn;
@@ -887,10 +889,9 @@ const CollegeQs = (props) => {
     );
 
     rerender((_) => _ + 1); // Force rerender via state update or else todo list will be one update behind
+    setPercentage(res.data.completion);
     updateTodo([""]);
   };
-
-  const percentage = 90;
 
   const getColor = (percentage) => {
     if (percentage < 33) {
