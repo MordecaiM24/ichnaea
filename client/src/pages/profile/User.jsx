@@ -823,10 +823,10 @@ const SuppEssays = (props) => {
 const CollegeQs = (props) => {
   const { college, updateTodo, idx } = props;
   const [_, rerender] = useState(0);
-  const [percentage, setPercentage] = useState(0);
+  const [percentCompleted, setPercentCompleted] = useState(0);
 
   useEffect(() => {
-    setPercentage(Math.round(college.percentCompleted * 100));
+    setPercentCompleted(Math.round(college.percentCompleted * 100));
   }, []);
 
   const style = (status) => {
@@ -889,7 +889,7 @@ const CollegeQs = (props) => {
     );
 
     rerender((_) => _ + 1); // Force rerender via state update or else todo list will be one update behind
-    setPercentage(res.data.completion);
+    setPercentCompleted(res.data.percentCompleted);
     updateTodo([""]);
   };
 
@@ -957,10 +957,10 @@ const CollegeQs = (props) => {
                 <div className="col-2 d-flex align-items-center justify-content-center">
                   <div className="h-50 w-50 d-flex align-items-center justify-content-center">
                     <CircularProgressbar
-                      value={percentage}
-                      text={`${percentage}%`}
+                      value={percentCompleted}
+                      text={`${percentCompleted}%`}
                       strokeWidth={10}
-                      styles={buildStyles(getColor(percentage))}
+                      styles={buildStyles(getColor(percentCompleted))}
                     />
                   </div>
                 </div>

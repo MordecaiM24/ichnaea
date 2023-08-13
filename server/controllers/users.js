@@ -182,25 +182,28 @@ const completeQuestion = async (req, res, next) => {
   user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].status =
     newQStatus;
 
-  let completion =
+  let percentCompleted =
     user.todo[taskIndex].suppEssays[collegeIndex].percentCompleted;
 
   const questionValue =
     1 / user.todo[taskIndex].suppEssays[collegeIndex].questions.length;
 
   if (newQStatus === 2 || newQStatus === 1) {
-    completion += questionValue / 2;
+    percentCompleted += questionValue / 2;
     // Only need to add half because questionstatus can only go from 0 to 1 and 1 to 2, so adding full will cause too much addition
   } else if (newQStatus === 0) {
-    completion -= questionValue;
+    percentCompleted -= questionValue;
   }
 
-  user.todo[taskIndex].suppEssays[collegeIndex].percentCompleted = completion;
+  user.todo[taskIndex].suppEssays[collegeIndex].percentCompleted =
+    percentCompleted;
 
   user.markModified("todo");
   user.save();
 
-  res.status(200).json({ completion: Math.round(completion * 100) });
+  res
+    .status(200)
+    .json({ percentCompleted: Math.round(percentCompleted * 100) });
 };
 
 const editNote = async (req, res, next) => {
