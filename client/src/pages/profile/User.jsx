@@ -804,7 +804,7 @@ const SuppEssays = (props) => {
           </div>
         </div>
         <div className="accordion">
-          <div class="accordion">
+          <div className="accordion">
             {suppEssays?.map((college, idx) => {
               return (
                 <CollegeQs
@@ -823,42 +823,57 @@ const SuppEssays = (props) => {
 };
 
 const CollegeQs = (props) => {
-  // const college = props.college;
-  // const updateTodo = props.updateTodo;
-  // const idx = props.idx;
-
   const { college, updateTodo, idx } = props;
   const [_, rerender] = useState(0);
+  // console.log(college);
 
-  console.log(college);
+  const style = (status) => {
+    let btn;
+    let bullet;
+    let text;
 
-  const questionStyle = (question) => {
-    const isCompleted = question.status === 2;
-    const qStatus = question.status;
-
-    let color;
-    switch (qStatus) {
+    switch (status) {
       case 0:
-        color = "red";
+        btn = "btn-danger";
+        bullet = "text-danger";
+        text = "Not Started";
         break;
       case 1:
-        color = "yellow";
+        btn = "btn-warning";
+        bullet = "text-warning";
+        text = "In Progress";
         break;
       case 2:
-        color = "green";
+        btn = "btn-success";
+        bullet = "text-success";
+        text = "Completed";
         break;
       default:
-        color = "black";
+        btn = "btn-secondary";
+        bullet = "text-secondary";
+        text = "Error";
     }
 
-    const textDecoration = isCompleted ? "line-through" : "none";
-
     return {
-      color,
-      textDecoration,
-      cursor: "pointer",
-      display: "inline-block",
+      status,
+      btn,
+      bullet,
+      text,
     };
+  };
+
+  const questionClasses = (idx, arr) => {
+    const length = arr.length;
+
+    if (idx === 0 && idx === length - 1) {
+      return "rounded-end rounded-bottom border-top border-start-0 border-round-start-0 border-bottom-0";
+    } else if (idx === 0) {
+      return "rounded-end rounded-bottom border-top border-start-0 border-round-start-0";
+    } else if (idx === length - 1) {
+      return "rounded border-0 border-end";
+    } else {
+      return "rounded border-start-0";
+    }
   };
 
   const completeQuestion = async (question) => {
@@ -914,32 +929,31 @@ const CollegeQs = (props) => {
           );
         })}
       </> */}
-      <div class="accordion-item border-round-start-0">
-        <h2 class="accordion-header my-0">
+      <div className="accordion-item border-round-start-0">
+        <h2 className="accordion-header my-0">
           <button
-            class="accordion-button collapsed"
+            className="accordion-button collapsed"
             type="button"
             data-bs-toggle="collapse"
             data-bs-target={"#collapse" + idx}
             aria-expanded="false"
             aria-controls={"#collapse" + idx}
           >
-            <div class="w-100 row">
-              <p class="col-5 d-flex flex-column justify-content-center">
-                {/* Princeton University */}
+            <div className="w-100 row">
+              <p className="col-5 d-flex flex-column justify-content-center">
                 {college.collegeName}
               </p>
-              <div class="col-7 row text-center">
-                <div class="col-2 d-flex flex-column justify-content-center align-items-center">
+              <div className="col-7 row text-center">
+                <div className="col-2 d-flex flex-column justify-content-center align-items-center">
                   <JournalBookmarkFill className="fs-5 c-pointer" />
                 </div>
-                <div class="col-2 d-flex flex-column justify-content-center align-items-center">
+                <div className="col-2 d-flex flex-column justify-content-center align-items-center">
                   <CalendarDate className="fs-5" />
                 </div>
-                <div class="col-6 d-flex flex-column justify-content-center">
+                <div className="col-6 d-flex flex-column justify-content-center">
                   Single Choice Early Action
                 </div>
-                <div class="col-2 d-flex align-items-center justify-content-center">
+                <div className="col-2 d-flex align-items-center justify-content-center">
                   <div className="h-50 w-50 d-flex align-items-center justify-content-center">
                     <CircularProgressbar
                       value={percentage}
@@ -956,98 +970,57 @@ const CollegeQs = (props) => {
 
         <div
           id={"collapse" + idx}
-          class="accordion-collapse collapse border-round-start-0"
+          className="accordion-collapse collapse border-round-start-0"
           data-bs-parent="#accordionExample"
         >
-          <div class="accordion-body ps-0 py-0 pe-4">
-            <div class="list-group">
-              <a class="list-group-item list-group-item-action rounded-end rounded-bottom border-top border-start-0 border-round-start-0">
-                {/* First item has rounded end and bottom with border on bottom and right sides */}
+          <div className="accordion-body ps-0 py-0 pe-4">
+            <div className="list-group">
+              {college.questions.map((question, idx, arr) => {
+                return (
+                  // <a className="list-group-item list-group-item-action rounded-end rounded-bottom border-top border-start-0 border-round-start-0">
+                  <a
+                    key={idx}
+                    className={
+                      "list-group-item list-group-item-action " +
+                      questionClasses(idx, arr)
+                    }
+                  >
+                    <div className="row d-flex align-items-center">
+                      <div className="col-5 row d-flex align-items-center p-0">
+                        {/* <div className="col-1"></div> */}
+                        <CircleFill
+                          className={
+                            "fs-7 c-pointer col-1 ms-3 " +
+                            style(question.status).bullet
+                          }
+                        />
 
-                <div class="row d-flex align-items-center">
-                  <div class="col-5 d-flex align-items-center">
-                    <i class="bi bi-circle-fill fs-8 text-danger pe-3"></i>
-                    <p>
-                      Many students want to end up ivy league universities. What
-                      makes you want to attend Princeton in particular? Why not
-                      Harvard? Why not Yale? Why not UPenn? Why not Dartmouth?
-                      Why not Brown? Why not Cornell? Why not Columbia?
-                    </p>
-                  </div>
-                  <div class="row col-7 text-center">
-                    <div class="col-2">
-                      <i class="bi bi-journal-bookmark-fill fs-5"></i>
+                        <p className="col-9">{question.question}</p>
+                      </div>
+                      <div className="row col-7 text-center">
+                        <div className="col-2"></div>
+                        <div className="col-2"></div>
+                        <div className="col-6">
+                          <button
+                            onClick={() => {
+                              completeQuestion(question.question);
+                            }}
+                            className={"btn w-md " + style(question.status).btn}
+                          >
+                            {style(question.status).text}
+                          </button>
+                        </div>
+                        <div className="col-2 d-flex align-items-center justify-content-center">
+                          <Flag
+                            className="fs-5 c-pointer"
+                            onClick={() => changeFlag("satUpload")}
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div class="col-2">
-                      <i class="bi bi-calendar-date fs-5"></i>
-                    </div>
-                    <div class="col-6">
-                      <button class="btn btn-danger w-md">Not Started</button>
-                    </div>
-                    <div class="col-2">
-                      <i class="bi bi-flag fs-5"></i>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a class="list-group-item list-group-item-action rounded border-start-0">
-                {/* All middle items have these classes */}
-
-                <div class="row d-flex align-items-center">
-                  <div class="col-5 d-flex align-items-center">
-                    <i class="bi bi-circle-fill fs-8 text-warning pe-3"></i>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                      Voluptatem repudiandae incidunt id amet assumenda autem
-                      vel qui. Pariatur saepe reiciendis quibusdam, quasi
-                      voluptatum odit? Quam est similique praesentium magni
-                      iste?
-                    </p>
-                  </div>
-                  <div class="row col-7 text-center">
-                    <div class="col-2">
-                      <i class="bi bi-journal-bookmark-fill fs-5"></i>
-                    </div>
-                    <div class="col-2">
-                      <i class="bi bi-calendar-date fs-5"></i>
-                    </div>
-                    <div class="col-6">
-                      <button class="btn btn-warning w-md">In Progress</button>
-                    </div>
-                    <div class="col-2">
-                      <i class="bi bi-flag fs-5"></i>
-                    </div>
-                  </div>
-                </div>
-              </a>
-              <a class="list-group-item list-group-item-action rounded border-0 border-end">
-                {/* Last item has these */}
-                <div class="row d-flex align-items-center">
-                  <div class="col-5 d-flex align-items-center">
-                    <i class="bi bi-circle-fill fs-8 text-success pe-3"></i>
-                    <p>
-                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
-                      Labore veniam facilis officia totam voluptas impedit
-                      excepturi maxime suscipit et natus magnam dicta, a quasi
-                      id facere, nisi repudiandae commodi tempora.
-                    </p>
-                  </div>
-                  <div class="row col-7 text-center">
-                    <div class="col-2">
-                      <i class="bi bi-journal-bookmark-fill fs-5"></i>
-                    </div>
-                    <div class="col-2">
-                      <i class="bi bi-calendar-date fs-5"></i>
-                    </div>
-                    <div class="col-6">
-                      <button class="btn btn-success w-md">Complete</button>
-                    </div>
-                    <div class="col-2">
-                      <i class="bi bi-flag fs-5"></i>
-                    </div>
-                  </div>
-                </div>
-              </a>
+                  </a>
+                );
+              })}
             </div>
           </div>
         </div>

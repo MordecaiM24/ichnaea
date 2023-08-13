@@ -173,8 +173,6 @@ const completeQuestion = async (req, res, next) => {
   const qStatus =
     user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].status;
 
-  user.todo[taskIndex].status = (taskStatus + 1) % 3; // Increments status until > 2 where it resets
-
   user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].status =
     (qStatus + 1) % 3;
 
