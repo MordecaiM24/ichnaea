@@ -134,7 +134,6 @@ const getSavedColleges = async (req, res, next) => {
 };
 
 const completeTask = async (req, res, next) => {
-  console.log("COMPLETING TASK");
   const user = await UserModel.findOne({ _id: req.body.userID });
   const taskToComplete = req.body.taskToComplete;
 
@@ -144,8 +143,6 @@ const completeTask = async (req, res, next) => {
   const taskStatus = user.todo[taskIndex].status;
 
   user.todo[taskIndex].status = (taskStatus + 1) % 3; // Increments status until > 2 where it resets
-
-  console.log(user);
 
   user.markModified("todo");
 
@@ -176,11 +173,10 @@ const completeQuestion = async (req, res, next) => {
   const qStatus =
     user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].status;
 
-  if (qStatus === 0) {
-    user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].status = 2;
-  } else {
-    user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].status = 0;
-  }
+  user.todo[taskIndex].status = (taskStatus + 1) % 3; // Increments status until > 2 where it resets
+
+  user.todo[taskIndex].suppEssays[collegeIndex].questions[qIndex].status =
+    (qStatus + 1) % 3;
 
   user.markModified("todo");
   user.save();
@@ -210,7 +206,6 @@ const changeFlag = async (req, res, next) => {
   const task = req.body.task;
   const newFlag = req.body.flag;
 
-  console.log(newFlag);
   const taskIndex = user.todo.findIndex((obj) => {
     return obj.task === task;
   });

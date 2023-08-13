@@ -10,6 +10,12 @@ import {
   JournalBookmarkFill,
 } from "react-bootstrap-icons";
 import { ProgressBar } from "react-loader-spinner";
+import {
+  CircularProgressbar,
+  CircularProgressbarWithChildren,
+  buildStyles,
+} from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
 
 export const User = () => {
   const [todo, setTodo] = useState([]);
@@ -69,11 +75,6 @@ export const User = () => {
       </button>
 
       <TodoList todo={todo} updateTodo={updateTodo} setTodo={setTodo} />
-
-      <h1>Saved Colleges:</h1>
-      {savedColleges.map((college, idx) => {
-        return <div key={idx}>{college.fullName}</div>;
-      })}
 
       <h1>Supplemental Essays:</h1>
 
@@ -781,19 +782,55 @@ const SuppEssays = (props) => {
 
   return (
     <>
-      {suppEssays?.map((college, idx) => {
-        return (
-          <CollegeQs college={college} key={idx} updateTodo={updateTodo} />
-        );
-      })}
+      <div className="container-xxl my-5 px-md-5">
+        <div className="list-group">
+          <div className="list-group-item list-group-item-action p-0 border-0">
+            <div className="row d-flex align-items-center pe-2">
+              <div className="col-5">
+                <a
+                  aria-current="true"
+                  className="list-group-item list-group-item-action w-max-content px-md-5 px-3 py-2 rounded-top bg-orange text-white"
+                >
+                  College Essays
+                </a>
+              </div>
+              <div className="col-7 row pe-5 text-center">
+                <div className="col-2">Notes</div>
+                <div className="col-2">Target Date</div>
+                <div className="col-6 pe-4">Application Type</div>
+                <div className="col-2">Completion</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="accordion">
+          <div class="accordion">
+            {suppEssays?.map((college, idx) => {
+              return (
+                <CollegeQs
+                  college={college}
+                  key={idx}
+                  updateTodo={updateTodo}
+                  idx={idx}
+                />
+              );
+            })}
+          </div>
+        </div>
+      </div>
     </>
   );
 };
 
 const CollegeQs = (props) => {
-  const college = props.college;
-  const updateTodo = props.updateTodo;
+  // const college = props.college;
+  // const updateTodo = props.updateTodo;
+  // const idx = props.idx;
+
+  const { college, updateTodo, idx } = props;
   const [_, rerender] = useState(0);
+
+  console.log(college);
 
   const questionStyle = (question) => {
     const isCompleted = question.status === 2;
@@ -838,22 +875,183 @@ const CollegeQs = (props) => {
     updateTodo([""]);
   };
 
+  const percentage = 90;
+
+  const getColor = (percentage) => {
+    if (percentage < 33) {
+      return {
+        textColor: "#fb4e4b",
+        pathColor: "#fb4e4b",
+      };
+    } else if (percentage < 67) {
+      return {
+        textColor: "#ffbd44",
+        pathColor: "#ffbd44",
+      };
+    } else {
+      return {
+        textColor: "#00ca4e",
+        pathColor: "#00ca4e",
+      };
+    }
+  };
+
   return (
     <>
-      <h3>{college.collegeName}</h3>
-      {college.questions?.map((questionObj, idx) => {
-        return (
-          <Fragment key={idx}>
-            <p
-              style={questionStyle(questionObj)}
-              onClick={() => completeQuestion(questionObj.question)}
-            >
-              {questionObj.question}
-            </p>
-            <br />
-          </Fragment>
-        );
-      })}
+      {/* <>
+        <h3>{college.collegeName}</h3>
+        {college.questions?.map((questionObj, idx) => {
+          return (
+            <Fragment key={idx}>
+              <p
+                style={questionStyle(questionObj)}
+                onClick={() => completeQuestion(questionObj.question)}
+              >
+                {questionObj.question}
+              </p>
+              <br />
+            </Fragment>
+          );
+        })}
+      </> */}
+      <div class="accordion-item border-round-start-0">
+        <h2 class="accordion-header my-0">
+          <button
+            class="accordion-button collapsed"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target={"#collapse" + idx}
+            aria-expanded="false"
+            aria-controls={"#collapse" + idx}
+          >
+            <div class="w-100 row">
+              <p class="col-5 d-flex flex-column justify-content-center">
+                {/* Princeton University */}
+                {college.collegeName}
+              </p>
+              <div class="col-7 row text-center">
+                <div class="col-2 d-flex flex-column justify-content-center align-items-center">
+                  <JournalBookmarkFill className="fs-5 c-pointer" />
+                </div>
+                <div class="col-2 d-flex flex-column justify-content-center align-items-center">
+                  <CalendarDate className="fs-5" />
+                </div>
+                <div class="col-6 d-flex flex-column justify-content-center">
+                  Single Choice Early Action
+                </div>
+                <div class="col-2 d-flex align-items-center justify-content-center">
+                  <div className="h-50 w-50 d-flex align-items-center justify-content-center">
+                    <CircularProgressbar
+                      value={percentage}
+                      text={`${percentage}%`}
+                      strokeWidth={10}
+                      styles={buildStyles(getColor(percentage))}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </button>
+        </h2>
+
+        <div
+          id={"collapse" + idx}
+          class="accordion-collapse collapse border-round-start-0"
+          data-bs-parent="#accordionExample"
+        >
+          <div class="accordion-body ps-0 py-0 pe-4">
+            <div class="list-group">
+              <a class="list-group-item list-group-item-action rounded-end rounded-bottom border-top border-start-0 border-round-start-0">
+                {/* First item has rounded end and bottom with border on bottom and right sides */}
+
+                <div class="row d-flex align-items-center">
+                  <div class="col-5 d-flex align-items-center">
+                    <i class="bi bi-circle-fill fs-8 text-danger pe-3"></i>
+                    <p>
+                      Many students want to end up ivy league universities. What
+                      makes you want to attend Princeton in particular? Why not
+                      Harvard? Why not Yale? Why not UPenn? Why not Dartmouth?
+                      Why not Brown? Why not Cornell? Why not Columbia?
+                    </p>
+                  </div>
+                  <div class="row col-7 text-center">
+                    <div class="col-2">
+                      <i class="bi bi-journal-bookmark-fill fs-5"></i>
+                    </div>
+                    <div class="col-2">
+                      <i class="bi bi-calendar-date fs-5"></i>
+                    </div>
+                    <div class="col-6">
+                      <button class="btn btn-danger w-md">Not Started</button>
+                    </div>
+                    <div class="col-2">
+                      <i class="bi bi-flag fs-5"></i>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <a class="list-group-item list-group-item-action rounded border-start-0">
+                {/* All middle items have these classes */}
+
+                <div class="row d-flex align-items-center">
+                  <div class="col-5 d-flex align-items-center">
+                    <i class="bi bi-circle-fill fs-8 text-warning pe-3"></i>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipisicing elit.
+                      Voluptatem repudiandae incidunt id amet assumenda autem
+                      vel qui. Pariatur saepe reiciendis quibusdam, quasi
+                      voluptatum odit? Quam est similique praesentium magni
+                      iste?
+                    </p>
+                  </div>
+                  <div class="row col-7 text-center">
+                    <div class="col-2">
+                      <i class="bi bi-journal-bookmark-fill fs-5"></i>
+                    </div>
+                    <div class="col-2">
+                      <i class="bi bi-calendar-date fs-5"></i>
+                    </div>
+                    <div class="col-6">
+                      <button class="btn btn-warning w-md">In Progress</button>
+                    </div>
+                    <div class="col-2">
+                      <i class="bi bi-flag fs-5"></i>
+                    </div>
+                  </div>
+                </div>
+              </a>
+              <a class="list-group-item list-group-item-action rounded border-0 border-end">
+                {/* Last item has these */}
+                <div class="row d-flex align-items-center">
+                  <div class="col-5 d-flex align-items-center">
+                    <i class="bi bi-circle-fill fs-8 text-success pe-3"></i>
+                    <p>
+                      Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                      Labore veniam facilis officia totam voluptas impedit
+                      excepturi maxime suscipit et natus magnam dicta, a quasi
+                      id facere, nisi repudiandae commodi tempora.
+                    </p>
+                  </div>
+                  <div class="row col-7 text-center">
+                    <div class="col-2">
+                      <i class="bi bi-journal-bookmark-fill fs-5"></i>
+                    </div>
+                    <div class="col-2">
+                      <i class="bi bi-calendar-date fs-5"></i>
+                    </div>
+                    <div class="col-6">
+                      <button class="btn btn-success w-md">Complete</button>
+                    </div>
+                    <div class="col-2">
+                      <i class="bi bi-flag fs-5"></i>
+                    </div>
+                  </div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };
