@@ -36,25 +36,14 @@ const CollegeSchema = new mongoose.Schema({
     "50thSAT": Number,
     "75thSAT": Number,
   },
-  gpaRange: {
-    "25thWeighted": Number,
-    "50thWeighted": Number,
-    "75thWeighted": Number,
-    "25thUnweighted": Number,
-    "50thUnweighted": Number,
-    "75thUnweighted": Number,
-  },
+  submissionDeadlines: [
+    {
+      deadlineType: String,
+      deadlineDate: Date || false,
+      specialName: String,
+    },
+  ],
   imgLinks: [String],
-  deadlines: {
-    earlyAction: Date,
-    earlyDecision: Date,
-    earlyDecision2: Date,
-    earlyAid: Date,
-    ed2Aid: Date,
-    financialAid: Date,
-    regularDecision: Date,
-    rolling: Boolean,
-  },
 });
 
 export const CollegeModel = mongoose.model("colleges", CollegeSchema);

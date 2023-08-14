@@ -6,8 +6,6 @@ import { auth, signInWithGoogle } from "src/firebase-config";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  onAuthStateChanged,
-  signOut,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -43,7 +41,9 @@ const Login = (props) => {
         `http://${import.meta.env.VITE_IP}:5000/api/users/login`
       );
       window.location.reload();
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const handleChange = (event) => {

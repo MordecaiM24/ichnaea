@@ -81,8 +81,6 @@ const TodoList = (props) => {
   const todo = props.todo;
   const updateTodo = props.updateTodo;
 
-  const [_, rerender] = useState([]);
-
   const [isTodoLoading, setTodoLoading] = useState(false);
 
   const defaultNoteVisibilty = {
@@ -808,8 +806,8 @@ const SuppEssays = (props) => {
 };
 
 const CollegeQs = (props) => {
-  const { college, updateTodo, idx } = props;
-  const [_, rerender] = useState(0);
+  const { college, updateTodo, idx, setTodo } = props;
+
   const [percentCompleted, setPercentCompleted] = useState(0);
 
   useEffect(() => {
@@ -878,11 +876,11 @@ const CollegeQs = (props) => {
       }
     );
 
-    e.disabled = false;
-
-    rerender((_) => _ + 1); // Force rerender via state update or else todo list will be one update behind
     setPercentCompleted(res.data.percentCompleted);
-    updateTodo([""]);
+
+    setTodo(res.data.user.todo);
+
+    e.disabled = false;
   };
 
   const getColor = (percentage) => {

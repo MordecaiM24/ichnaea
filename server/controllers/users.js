@@ -32,6 +32,8 @@ const createUser = async (req, res) => {
     ],
   });
 
+  console.log("USER CREATED");
+  console.log(newUser);
   res.status(200).json(newUser);
 };
 
@@ -211,7 +213,7 @@ const completeQuestion = async (req, res, next) => {
 
   res
     .status(200)
-    .json({ percentCompleted: Math.round(percentCompleted * 100) });
+    .json({ user: user, percentCompleted: Math.round(percentCompleted * 100) });
 };
 
 const editNote = async (req, res, next) => {
