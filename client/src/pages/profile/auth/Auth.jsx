@@ -122,15 +122,14 @@ const Login = (props) => {
                 <p className="text-center fw-bold mx-3 mb-0 text-muted">OR</p>
               </div>
 
-              <a
-                className="btn btn-outline-secondary btn-lg w-100"
-                href="#!"
-                role="button"
+              <button
+                className="btn btn-outline-secondary btn-lg w-100 d-flex align-items-center justify-content-center column-gap-1"
                 onClick={signInWithGoogle}
+                type="button"
               >
-                <i className="bi bi-google"></i>
+                <Google />
                 Continue with Google
-              </a>
+              </button>
             </form>
 
             {/* Switch view */}
@@ -303,15 +302,14 @@ const Register = (props) => {
               </div>
 
               {/* Google log in */}
-              <a
-                className="btn btn-outline-secondary btn-lg w-100 d-flex align-items-center "
-                href="#!"
-                role="button"
+              <button
+                className="btn btn-outline-secondary btn-lg w-100 d-flex align-items-center justify-content-center column-gap-1"
                 onClick={signInWithGoogle}
+                type="button"
               >
                 <Google />
                 Continue with Google
-              </a>
+              </button>
             </form>
 
             {/* Switch view */}
