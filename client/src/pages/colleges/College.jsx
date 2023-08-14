@@ -82,6 +82,7 @@ export const College = (props) => {
       updateSaved(shouldUpdate + 1);
     }
     setCollegeSaved(!isCollegeSaved);
+    setVisibility(false);
     setLoading(false);
   };
 
