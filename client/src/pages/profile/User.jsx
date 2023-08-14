@@ -773,7 +773,7 @@ const SuppEssays = (props) => {
               <div className="col-5">
                 <a
                   aria-current="true"
-                  className="list-group-item list-group-item-action w-max-content px-md-5 px-3 py-2 rounded-top bg-orange text-white"
+                  className="list-group-item list-group-item-action w-max-content px-md-5 px-3 py-2 rounded-top bg-orange text-white "
                 >
                   College Essays
                 </a>
@@ -910,7 +910,7 @@ const CollegeQs = (props) => {
     <div className="accordion-item border-round-start-0">
       <h2 className="accordion-header my-0">
         <a
-          className="accordion-button collapsed"
+          className="accordion-button collapsed text-reset text-decoration-none fw-normal"
           type="button"
           data-bs-toggle="collapse"
           data-bs-target={"#collapse" + idx}

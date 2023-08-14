@@ -165,7 +165,15 @@ const Register = (props) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
     try {
+      if (newUser.password !== newUser.confirmPassword) {
+        const error = new Error();
+        error.code = "auth/password-mismatch";
+        throw error;
+      }
+
+      console.log("Continuing");
       const signUp = await createUserWithEmailAndPassword(
         auth,
         newUser.email,
@@ -174,12 +182,31 @@ const Register = (props) => {
 
       localStorage.setItem("userID", signUp.user.uid);
       await axios.post(
-        `http:/${import.meta.env.VITE_IP}:5000/api/users/register`,
-        signUp
+        `http://${import.meta.env.VITE_IP}:5000/api/users/register`,
+        { ...signUp, firstName: newUser.firstName, lastName: newUser.lastName }
       );
       // Add "remember me state" to use sessionstorage instead of local storage if remember me not checked
       window.location.reload();
-    } catch (error) {}
+    } catch (error) {
+      console.warn("Error has occured");
+      console.log(error);
+
+      if (error.code === "auth/email-already-in-use") {
+        alert("Email already in use. Try logging in!");
+        setHasAccount(true);
+      }
+      if (error.code === "auth/invalid-email") {
+        alert("Email is invalid. Try entering a valid email!");
+      }
+      if (error.code === "auth/weak-password") {
+        alert("Password is too weak. Password should be at least 6 characters");
+      }
+
+      if (error.code === "auth/password-mismatch") {
+        setNewUser({ ...newUser, password: "", confirmPassword: "" });
+        alert("Passwords do not match");
+      }
+    }
   };
 
   const handleChange = (event) => {
@@ -261,6 +288,7 @@ const Register = (props) => {
                     name="password"
                     id="password"
                     className="form-control form-control-md"
+                    value={newUser.password}
                     onChange={(e) => {
                       handleChange(e);
                     }}
@@ -277,6 +305,7 @@ const Register = (props) => {
                     name="confirmPassword"
                     id="confirmPassword"
                     className="form-control form-control-md"
+                    value={newUser.confirmPassword}
                     onChange={(e) => {
                       handleChange(e);
                     }}

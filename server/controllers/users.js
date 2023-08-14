@@ -5,14 +5,20 @@ import "dotenv/config";
 import { CollegeModel } from "../models/College.js";
 
 const createUser = async (req, res) => {
+  console.log("CREATING USER");
+  const firstName = req.body._tokenResponse.firstName
+    ? req.body._tokenResponse.firstName
+    : req.body.firstName;
+
+  const lastName = req.body._tokenResponse.lastName
+    ? req.body._tokenResponse.lastName
+    : req.body.lastName;
+
   const newUser = await UserModel.create({
     _id: req.body.user.uid,
-    firstName: req.body._tokenResponse.firstName,
-    lastName: req.body._tokenResponse.lastName,
-    userName:
-      req.body._tokenResponse.firstName +
-      " " +
-      req.body._tokenResponse.lastName,
+    firstName,
+    lastName,
+    userName: firstName + " " + lastName,
     email: req.body.user.email,
     savedColleges: [],
     todo: [
