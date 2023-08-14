@@ -104,3 +104,7 @@ p {
 .pe-6 {
   padding-right: 4rem;
 }
+
+.outline-primary {
+  outline-color: var(--bs-primary);
+}

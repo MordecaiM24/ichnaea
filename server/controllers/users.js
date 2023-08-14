@@ -63,6 +63,7 @@ const saveCollege = async (req, res, next) => {
       _id: collegeToSave,
     });
     const collegeName = college.fullName;
+
     const collegeQs = college.suppEssays;
 
     const user = await UserModel.findOne({ _id: userID });
@@ -79,6 +80,7 @@ const saveCollege = async (req, res, next) => {
       collegeName,
       questions,
       percentCompleted: 0,
+      notes: `These are your notes for ${college.shortName}. Write about ${college.shortName}, ${college.shortName}'s supplemental questions, or whatever else comes to mind!`,
     });
 
     user.markModified("todo");
@@ -240,6 +242,30 @@ const changeFlag = async (req, res, next) => {
   res.status(200).json(user);
 };
 
+const editCollegeNote = async (req, res, next) => {
+  const user = await UserModel.findOne({ _id: req.body.userID });
+  const college = req.body.college;
+  const newNote = req.body.note;
+
+  const suppEssayIdx = user.todo.findIndex((obj) => obj.task === "suppEssays");
+
+  // const taskIndex = user.todo.findIndex((obj) => {
+  //   return obj.task === task;
+  // });
+
+  const collegeIndex = user.todo[suppEssayIdx].suppEssays.findIndex(
+    (obj) => obj.collegeName === college
+  );
+
+  user.todo[suppEssayIdx].suppEssays[collegeIndex].notes = newNote;
+
+  user.markModified("todo");
+
+  await user.save();
+
+  res.status(200).json(user);
+};
+
 export {
   createUser,
   login,
@@ -252,4 +278,5 @@ export {
   completeQuestion,
   editNote,
   changeFlag,
+  editCollegeNote,
 };

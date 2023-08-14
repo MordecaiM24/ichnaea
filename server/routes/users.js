@@ -10,6 +10,7 @@ import {
   completeQuestion,
   editNote,
   changeFlag,
+  editCollegeNote,
 } from "../controllers/users.js";
 const router = express.Router();
 
@@ -32,5 +33,7 @@ router.patch("/completeQuestion", completeQuestion);
 router.patch("/editNote", editNote);
 
 router.patch("/changeFlag", changeFlag);
+
+router.patch("/editCollegeNote", editCollegeNote);
 
 export { router as userRouter };
