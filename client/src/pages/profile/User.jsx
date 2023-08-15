@@ -12,6 +12,8 @@ import {
 import { ProgressBar } from "react-loader-spinner";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { Calendar } from "react-calendar";
+import "./calendar.css";
 
 export const User = () => {
   const [todo, setTodo] = useState([]);
@@ -61,6 +63,8 @@ export const User = () => {
     window.location.reload();
   };
 
+  const [date, setDate] = useState(new Date());
+
   return (
     <>
       <button
@@ -73,6 +77,11 @@ export const User = () => {
       <TodoList todo={todo} updateTodo={updateTodo} setTodo={setTodo} />
 
       <SuppEssays todo={todo} updateTodo={updateTodo} setTodo={setTodo} />
+
+      <h1 className="header">React Calendar</h1>
+      <div className="calendar-container">
+        <Calendar onChange={setDate} value={date} />
+      </div>
     </>
   );
 };
