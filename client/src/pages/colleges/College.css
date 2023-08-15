@@ -38,3 +38,7 @@ a {
 .bg-gray {
   background-color: gray;
 }
+
+.college-modal {
+  z-index: 3000;
+}

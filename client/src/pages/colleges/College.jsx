@@ -35,7 +35,8 @@ export const College = (props) => {
   const length = "4 Year";
 
   const [addBtnVisibility, setVisibility] = useState(false);
-  const [isLoading, setLoading] = useState(false);
+  // const [isLoading, setLoading] = useState(false);
+  const [modalVis, showModal] = useState(false);
 
   const navigate = useNavigate();
   // TODO: Make loading animation for user feedback when adding college. Grey out card, possibly put spinner in the middle.
@@ -64,8 +65,8 @@ export const College = (props) => {
     }
   };
 
-  const handleSaveUpdate = async () => {
-    setLoading(true);
+  const handleSaveUpdate = async (college) => {
+    // setLoading(true);
     if (isCollegeSaved) {
       const res = await axios.delete(
         `http://${
@@ -83,7 +84,7 @@ export const College = (props) => {
     }
     setCollegeSaved(!isCollegeSaved);
     setVisibility(false);
-    setLoading(false);
+    // setLoading(false);
   };
 
   const imgLinks = {
@@ -104,97 +105,115 @@ export const College = (props) => {
       "https://ucarecdn.com/fe36e611-5930-4fa2-b815-12d7c1a550e2/harvard1.jpg",
   };
 
-  if (isLoading) {
-    return (
-      <div className="col-12 col-md-6 col-xl-4 pb-3">
-        <div className="card h-100 mb-1" aria-hidden="true">
-          <div className="row gx-0 h-100">
-            <div className="col-6 col-md-5 bg-gray placeholder-glow h-100 rounded-start"></div>
-            <div className="col-6 col-md-7 h-100">
-              <div className="card-body p-2 h-100 d-flex flex-column justify-content-between overflow-hidden">
-                <p className="lead mb-0 placeholder-glow">
-                  <span className="placeholder col-6"></span>
+  // if (isLoading) {
+  //   return (
+  //     <div className="col-12 col-md-6 col-xl-4 pb-3">
+  //       <div className="card h-100 mb-1" aria-hidden="true">
+  //         <div className="row gx-0 h-100">
+  //           <div className="col-6 col-md-5 bg-gray placeholder-glow h-100 rounded-start"></div>
+  //           <div className="col-6 col-md-7 h-100">
+  //             <div className="card-body p-2 h-100 d-flex flex-column justify-content-between overflow-hidden">
+  //               <p className="lead mb-0 placeholder-glow">
+  //                 <span className="placeholder col-6"></span>
+  //               </p>
+  //               <small className="d-none d-sm-block placeholder-glow">
+  //                 <span className="placeholder col-7"></span>
+  //               </small>
+  //               <small className="d-none d-sm-block placeholder-glow">
+  //                 <span className="placeholder col-12"></span>
+  //               </small>
+  //               <small className="d-none d-sm-block placeholder-glow">
+  //                 <span className="placeholder col-8"></span>
+  //               </small>
+  //               <small className="d-none d-sm-block placeholder-glow">
+  //                 <span className="placeholder col-9"></span>
+  //               </small>
+  //               <small className="d-none d-sm-block placeholder-glow">
+  //                 <span className="placeholder col-5"></span>
+  //               </small>
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // } else {
+  return (
+    <div className="col-12 col-md-6 col-xl-4">
+      <div
+        className="card mb-3 border-primary border-2 p-0 btn btn-outline-primary text-start college-card"
+        onMouseOver={handleMouseOver}
+        onMouseOut={handleMouseOut}
+      >
+        {/* Row gx-0 makes a horizontal card with no space */}
+        <div className="row gx-0">
+          <div className="col-6 col-md-5 bg-primary">
+            <img
+              src={imgLinks[kebabName]}
+              className="img-fluid rounded-start"
+            />
+          </div>
+          <div className="col-6 col-md-7">
+            <div className="card-body p-2" style={{ height: "100%" }}>
+              <div
+                className="card-text d-flex flex-column justify-content-between overflow-hidden"
+                style={{ height: "100%" }}
+              >
+                {/* TODO: change info depending on screen size */}
+                <p className="lead mb-0">
+                  {fullName.length < 30 ? fullName : shortName}
                 </p>
-                <small className="d-none d-sm-block placeholder-glow">
-                  <span className="placeholder col-7"></span>
+                <small className="d-none d-sm-block">
+                  <strong>{location}</strong>
                 </small>
-                <small className="d-none d-sm-block placeholder-glow">
-                  <span className="placeholder col-12"></span>
+                <small className="d-none d-sm-block">
+                  {length} &#183; {privacy ? "Public" : "Private"} &#183;{" "}
+                  {setting}
                 </small>
-                <small className="d-none d-sm-block placeholder-glow">
-                  <span className="placeholder col-8"></span>
+                <small className="d-none d-sm-block">
+                  General Ranking: #{genRanking}
+                  {/* TODO: add (tie) if genRanking matches other colleges genRanking */}
                 </small>
-                <small className="d-none d-sm-block placeholder-glow">
-                  <span className="placeholder col-9"></span>
+                <small className="d-none d-sm-block">
+                  {numStudents.toLocaleString("en-US")} Undergraduate Students
+                  {/* {numStudents} */}
                 </small>
-                <small className="d-none d-sm-block placeholder-glow">
-                  <span className="placeholder col-5"></span>
-                </small>
+                <small className="d-none d-sm-block">{characteristic}</small>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    );
-  } else {
-    return (
-      <div className="col-12 col-md-6 col-xl-4">
-        <div
-          className="card mb-3 border-primary border-2 p-0 btn btn-outline-primary text-start college-card"
-          onMouseOver={handleMouseOver}
-          onMouseOut={handleMouseOut}
-        >
-          {/* Row gx-0 makes a horizontal card with no space */}
-          <div className="row gx-0">
-            <div className="col-6 col-md-5 bg-primary">
-              <img
-                src={imgLinks[kebabName]}
-                className="img-fluid rounded-start"
-              />
-            </div>
-            <div className="col-6 col-md-7">
-              <div className="card-body p-2" style={{ height: "100%" }}>
-                <div
-                  className="card-text d-flex flex-column justify-content-between overflow-hidden"
-                  style={{ height: "100%" }}
-                >
-                  {/* TODO: change info depending on screen size */}
-                  <p className="lead mb-0">
-                    {fullName.length < 30 ? fullName : shortName}
-                  </p>
-                  <small className="d-none d-sm-block">
-                    <strong>{location}</strong>
-                  </small>
-                  <small className="d-none d-sm-block">
-                    {length} &#183; {privacy ? "Public" : "Private"} &#183;{" "}
-                    {setting}
-                  </small>
-                  <small className="d-none d-sm-block">
-                    General Ranking: #{genRanking}
-                    {/* TODO: add (tie) if genRanking matches other colleges genRanking */}
-                  </small>
-                  <small className="d-none d-sm-block">
-                    {numStudents.toLocaleString("en-US")} Undergraduate Students
-                    {/* {numStudents} */}
-                  </small>
-                  <small className="d-none d-sm-block">{characteristic}</small>
-                </div>
-              </div>
-            </div>
-          </div>
-          {addBtnVisibility && (
-            //TODO: Use isCollegeSaved to see if college is saved, and if so, replace plus button with trash button
+        {addBtnVisibility && (
+          //TODO: Use isCollegeSaved to see if college is saved, and if so, replace plus button with trash button
 
-            <button
-              className="btn btn-outline-secondary rounded-circle add-college-btn btn-lg border-2"
-              onClick={handleClick}
-            >
-              {isCollegeSaved ? <Trash3Fill /> : <PlusLg />}
-              {/* <PlusLg /> */}
-            </button>
-          )}
-        </div>
+          <button
+            className="btn btn-outline-secondary rounded-circle add-college-btn btn-lg border-2"
+            // onClick={renderModal}
+            onClick={() => showModal(true)}
+          >
+            {isCollegeSaved ? <Trash3Fill /> : <PlusLg />}
+          </button>
+        )}
       </div>
-    );
-  }
+      {modalVis && <Modal college={college} showModal={showModal} />}
+    </div>
+  );
+};
+
+const Modal = (props) => {
+  return (
+    <div className="vh-100 vw-100 d-flex align-items-center justify-content-center position-fixed top-0 start-0 college-modal">
+      <div className="h-50 w-25 border border-primary border-3 rounded bg-white">
+        {JSON.stringify(props.college.fullName)}
+      </div>
+      <button
+        className="btn btn-outline-secondary"
+        onClick={() => {
+          props.showModal(false);
+        }}
+      >
+        Close
+      </button>
+    </div>
+  );
 };
