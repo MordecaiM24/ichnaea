@@ -56,35 +56,22 @@ export const College = (props) => {
     setVisibility(false);
   };
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (!userID) {
       alert("You must be logged in to save colleges and scholarships");
       navigate("/profile");
-    } else {
-      handleSaveUpdate();
-    }
-  };
-
-  const handleSaveUpdate = async (college) => {
-    // setLoading(true);
-    if (isCollegeSaved) {
+    } else if (isCollegeSaved) {
       const res = await axios.delete(
         `http://${
           import.meta.env.VITE_IP
         }:5000/api/users/removeCollege/${userID}/${_id}`
       );
       updateSaved(shouldUpdate + 1);
-      setTimeout(() => {}, 500);
+      setCollegeSaved(!isCollegeSaved);
+      setVisibility(false);
     } else {
-      const res = await axios.patch(
-        `http://${import.meta.env.VITE_IP}:5000/api/users/saveCollege`,
-        { userID, collegeToSave: _id }
-      );
-      updateSaved(shouldUpdate + 1);
+      showModal(true);
     }
-    setCollegeSaved(!isCollegeSaved);
-    setVisibility(false);
-    // setLoading(false);
   };
 
   const imgLinks = {
@@ -189,31 +176,132 @@ export const College = (props) => {
           <button
             className="btn btn-outline-secondary rounded-circle add-college-btn btn-lg border-2"
             // onClick={renderModal}
-            onClick={() => showModal(true)}
+            onClick={handleClick}
           >
             {isCollegeSaved ? <Trash3Fill /> : <PlusLg />}
           </button>
         )}
       </div>
-      {modalVis && <Modal college={college} showModal={showModal} />}
+      {modalVis && (
+        <Modal
+          isCollegeSaved={isCollegeSaved}
+          updateSaved={updateSaved}
+          shouldUpdate={shouldUpdate}
+          setCollegeSaved={setCollegeSaved}
+          setVisibility={setVisibility}
+          college={college}
+          showModal={showModal}
+        />
+      )}
     </div>
   );
 };
 
 const Modal = (props) => {
+  const {
+    isCollegeSaved,
+    updateSaved,
+    shouldUpdate,
+    setCollegeSaved,
+    setVisibility,
+    college,
+    showModal,
+  } = props;
+
+  const _id = college._id;
+
+  const [selected, setSelected] = useState("regularDecision");
+
+  const handleSaveUpdate = async (college) => {
+    await axios.patch(
+      `http://${import.meta.env.VITE_IP}:5000/api/users/saveCollege`,
+      {
+        userID: localStorage.getItem("userID"),
+        collegeToSave: _id,
+        decisionType: selected,
+      }
+    );
+    updateSaved(shouldUpdate + 1);
+
+    setCollegeSaved(!isCollegeSaved);
+    setVisibility(false);
+    showModal(false);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    handleSaveUpdate(props.college);
+  };
+
+  const handleChange = (event) => {
+    setSelected(event.target.value);
+  };
+
   return (
-    <div className="vh-100 vw-100 d-flex align-items-center justify-content-center position-fixed top-0 start-0 college-modal">
-      <div className="h-50 w-25 border border-primary border-3 rounded bg-white">
-        {JSON.stringify(props.college.fullName)}
+    <div className="vh-100 vw-100 d-flex flex-column align-items-center justify-content-around position-fixed top-0 start-0 college-modal">
+      <div className="h-25 w-25 border border-primary border-3 rounded bg-white position-relative p-3">
+        <p className="ps-1 pb-2">
+          Which plan would you like for {college.shortName}?
+        </p>
+
+        <form
+          onChange={(e) => {
+            handleChange(e);
+          }}
+          onSubmit={(e) => {
+            handleSubmit(e);
+          }}
+        >
+          <div className="form-group d-flex align-items-center column-gap-2">
+            <input
+              type="radio"
+              id="regularDecision"
+              value="regularDecision"
+              name="decision"
+              defaultChecked
+            />
+            <label htmlFor="regularDecision">Regular Decision</label>
+          </div>
+
+          <div className="form-group d-flex align-items-center column-gap-2">
+            <input
+              type="radio"
+              id="earlyAction"
+              value="earlyAction"
+              name="decision"
+            />
+            <label htmlFor="earlyAction">Early Action</label>
+          </div>
+
+          <div className="form-group d-flex align-items-center column-gap-2">
+            <input
+              type="radio"
+              id="earlyDecision"
+              value="earlyDecision"
+              name="decision"
+            />
+            <label htmlFor="earlyDecision">Early Decision</label>
+          </div>
+
+          <button
+            className="btn btn-outline-secondary position-absolute college-close"
+            onClick={() => {
+              showModal(false);
+            }}
+            type="button"
+          >
+            Cancel
+          </button>
+          <button
+            className="btn btn-outline-primary position-absolute college-submit"
+            type="submit"
+          >
+            Submit
+          </button>
+        </form>
       </div>
-      <button
-        className="btn btn-outline-secondary"
-        onClick={() => {
-          props.showModal(false);
-        }}
-      >
-        Close
-      </button>
+
+      <div></div>
     </div>
   );
 };

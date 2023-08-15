@@ -42,3 +42,13 @@ a {
 .college-modal {
   z-index: 3000;
 }
+
+.college-submit {
+  bottom: 0.75rem;
+  right: 0.75em;
+}
+
+.college-close {
+  bottom: 0.75rem;
+  right: 6rem;
+}
