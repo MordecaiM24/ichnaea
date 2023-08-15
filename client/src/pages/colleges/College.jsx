@@ -265,36 +265,6 @@ const Modal = (props) => {
               </div>
             );
           })}
-          {/* <div>
-            <input
-              type="radio"
-              id="regularDecision"
-              value="regularDecision"
-              name="decision"
-              defaultChecked
-            />
-            <label htmlFor="regularDecision">Regular Decision</label>
-          </div>
-
-          <div className="form-group d-flex align-items-center column-gap-2">
-            <input
-              type="radio"
-              id="earlyAction"
-              value="earlyAction"
-              name="decision"
-            />
-            <label htmlFor="earlyAction">Early Action</label>
-          </div>
-
-          <div className="form-group d-flex align-items-center column-gap-2">
-            <input
-              type="radio"
-              id="earlyDecision"
-              value="earlyDecision"
-              name="decision"
-            />
-            <label htmlFor="earlyDecision">Early Decision</label>
-          </div> */}
 
           <button
             className="btn btn-outline-secondary position-absolute college-close"

@@ -63,8 +63,6 @@ export const User = () => {
     window.location.reload();
   };
 
-  const [date, setDate] = useState(new Date());
-
   return (
     <>
       <button
@@ -77,11 +75,6 @@ export const User = () => {
       <TodoList todo={todo} updateTodo={updateTodo} setTodo={setTodo} />
 
       <SuppEssays todo={todo} updateTodo={updateTodo} setTodo={setTodo} />
-
-      <h1 className="header">React Calendar</h1>
-      <div className="calendar-container">
-        <Calendar onChange={setDate} value={date} />
-      </div>
     </>
   );
 };
@@ -129,6 +122,8 @@ const TodoList = (props) => {
     false,
     false,
   ]);
+
+  const [calendarVis, setCalendarVis] = useState(false);
 
   const style = (status) => {
     let btn;
@@ -293,7 +288,18 @@ const TodoList = (props) => {
                   />
                 </div>
                 <div className="col-2">
-                  <CalendarDate className="fs-5" />
+                  {calendarVis && (
+                    <TaskCalendar
+                      calendarVis={calendarVis}
+                      setCalendarVis={setCalendarVis}
+                    />
+                  )}
+                  <CalendarDate
+                    className="fs-5 c-pointer"
+                    onClick={() => {
+                      setCalendarVis(true);
+                    }}
+                  />
                 </div>
                 <div className="col-6">
                   <button
@@ -698,6 +704,44 @@ const TodoList = (props) => {
         </div>
       </div>
     </>
+  );
+};
+
+const TaskCalendar = (props) => {
+  const task = props.task;
+  const { setCalendarVis, calendarVis } = props;
+
+  const [date, setDate] = useState(new Date("2023-10-25"));
+
+  const stopProg = (e) => {
+    e.stopPropagation();
+  };
+
+  return (
+    <div
+      className="container-fluid vh-100 vw-100 position-fixed d-flex justify-content-center align-items-center top-0 start-0"
+      onClick={(e) => {
+        stopProg(e);
+        setCalendarVis(false);
+      }}
+    >
+      <div
+        className="calendar-container container-fluid d-flex align-items-center justify-content-center mb-5"
+        onClick={(e) => {
+          stopProg(e);
+        }}
+      >
+        <Calendar
+          onClick={(e) => {
+            stopProg(e);
+          }}
+          onChange={setDate}
+          value={date}
+          maxDate={new Date("2024-02-01")}
+          minDate={new Date()}
+        />
+      </div>
+    </div>
   );
 };
 
