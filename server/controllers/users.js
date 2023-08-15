@@ -84,11 +84,18 @@ const saveCollege = async (req, res, next) => {
       return { question: question, status: 0 };
     });
 
+    const decision = college.deadlines.find((deadline) => {
+      return deadline.decisionType === req.body.decisionType;
+    });
+
+    console.log(decision);
+
     user.todo[essayIdx].suppEssays.push({
       collegeName,
       questions,
       percentCompleted: 0,
       notes: `These are your notes for ${college.shortName}. Write about ${college.shortName}, ${college.shortName}'s supplemental questions, or whatever else comes to mind!`,
+      decision,
     });
 
     user.markModified("todo");

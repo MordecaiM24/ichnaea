@@ -36,10 +36,11 @@ const CollegeSchema = new mongoose.Schema({
     "50thSAT": Number,
     "75thSAT": Number,
   },
-  submissionDeadlines: [
+  deadlines: [
     {
-      deadlineType: String,
-      deadlineDate: Date || false,
+      _id: false,
+      decisionType: String,
+      date: Date || false,
       specialName: String,
     },
   ],

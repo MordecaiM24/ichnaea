@@ -208,16 +208,14 @@ const Modal = (props) => {
     showModal,
   } = props;
 
-  const _id = college._id;
-
   const [selected, setSelected] = useState("regularDecision");
 
-  const handleSaveUpdate = async (college) => {
+  const handleSaveUpdate = async () => {
     await axios.patch(
       `http://${import.meta.env.VITE_IP}:5000/api/users/saveCollege`,
       {
         userID: localStorage.getItem("userID"),
-        collegeToSave: _id,
+        collegeToSave: college._id,
         decisionType: selected,
       }
     );
@@ -252,7 +250,22 @@ const Modal = (props) => {
             handleSubmit(e);
           }}
         >
-          <div className="form-group d-flex align-items-center column-gap-2">
+          {college.deadlines.map((deadline) => {
+            return (
+              <div className="form-group d-flex align-items-center column-gap-2">
+                <input
+                  type="radio"
+                  id={deadline.decisionType}
+                  value={deadline.decisionType}
+                  name="decision"
+                />
+                <label htmlFor={deadline.decisionType}>
+                  {deadline.specialName}
+                </label>
+              </div>
+            );
+          })}
+          {/* <div>
             <input
               type="radio"
               id="regularDecision"
@@ -281,7 +294,7 @@ const Modal = (props) => {
               name="decision"
             />
             <label htmlFor="earlyDecision">Early Decision</label>
-          </div>
+          </div> */}
 
           <button
             className="btn btn-outline-secondary position-absolute college-close"
