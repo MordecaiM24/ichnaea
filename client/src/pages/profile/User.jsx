@@ -941,7 +941,7 @@ const CollegeQs = (props) => {
                 <CalendarDate className="fs-5" />
               </div>
               <div className="col-6 d-flex flex-column justify-content-center">
-                Single Choice Early Action
+                {college.decision.specialName}
               </div>
               <div className="col-2 d-flex align-items-center justify-content-center">
                 <div className="h-50 w-50 d-flex align-items-center justify-content-center">
