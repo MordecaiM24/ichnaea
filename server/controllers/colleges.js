@@ -20,6 +20,24 @@ const getColleges = async (req, res) => {
   res.status(200).json(colleges);
 };
 
+const getCollegeSearch = async (req, res) => {
+  console.log(req.query.search);
+  const search = req.query.search;
+
+  const regex = `.*${search}.*`;
+
+  // Add index in mongodb for case insensitivty to speed up search
+
+  const colleges = await CollegeModel.find({
+    $or: [
+      { fullName: { $regex: new RegExp(regex, "i") } },
+      { shortName: { $regex: new RegExp(regex, "i") } },
+    ],
+  });
+
+  res.status(200).json(colleges[0]);
+};
+
 //TODO Get college, possibly separate file with support for queries
 // Possible queries: Sort and filter by ranking, program ranking, SAT/ACT/GPA
-export { createCollege, getColleges };
+export { createCollege, getColleges, getCollegeSearch };
