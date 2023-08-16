@@ -1,4 +1,4 @@
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, Fragment, useRef } from "react";
 import axios from "axios";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase-config";
@@ -65,6 +65,18 @@ export const User = () => {
 
   return (
     <>
+      {/* <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          console.log(e.target[0].value);
+          console.log(e.target[1].value);
+        }}
+      >
+        <input type="text" name="name" />
+        <input type="text" name="value" />
+        <button>Submit</button>
+      </form> */}
+
       <button
         onClick={logout}
         style={{ position: "fixed", top: "10px", right: "10px" }}
@@ -123,7 +135,14 @@ const TodoList = (props) => {
     false,
   ]);
 
-  const [calendarVis, setCalendarVis] = useState(false);
+  const [calendar, setCalendar] = useState({
+    isVisible: false,
+    task: {},
+  });
+
+  const calendarVal = (idx) => {
+    return { isVisible: true, task: todo[idx] };
+  };
 
   const style = (status) => {
     let btn;
@@ -240,6 +259,13 @@ const TodoList = (props) => {
   return (
     <>
       <div className="container-xxl my-5 px-md-5">
+        {calendar.isVisible && (
+          <TaskCalendar
+            task={calendar.task}
+            calendar={calendar}
+            setCalendar={setCalendar}
+          />
+        )}
         <div className="list-group">
           <div className="list-group-item list-group-item-action p-0 border-0">
             <div className="row d-flex align-items-center">
@@ -288,16 +314,10 @@ const TodoList = (props) => {
                   />
                 </div>
                 <div className="col-2">
-                  {calendarVis && (
-                    <TaskCalendar
-                      calendarVis={calendarVis}
-                      setCalendarVis={setCalendarVis}
-                    />
-                  )}
                   <CalendarDate
                     className="fs-5 c-pointer"
                     onClick={() => {
-                      setCalendarVis(true);
+                      setCalendar(calendarVal(0));
                     }}
                   />
                 </div>
@@ -370,7 +390,12 @@ const TodoList = (props) => {
                   />
                 </div>
                 <div className="col-2">
-                  <CalendarDate className="fs-5" />
+                  <CalendarDate
+                    className="fs-5 c-pointer"
+                    onClick={() => {
+                      setCalendar(calendarVal(1));
+                    }}
+                  />
                 </div>
                 <div className="col-6">
                   <button
@@ -441,7 +466,12 @@ const TodoList = (props) => {
                   />
                 </div>
                 <div className="col-2">
-                  <CalendarDate className="fs-5" />
+                  <CalendarDate
+                    className="fs-5 c-pointer"
+                    onClick={() => {
+                      setCalendar(calendarVal(2));
+                    }}
+                  />
                 </div>
                 <div className="col-6">
                   <button
@@ -513,7 +543,12 @@ const TodoList = (props) => {
                 </div>
 
                 <div className="col-2">
-                  <CalendarDate className="fs-5" />
+                  <CalendarDate
+                    className="fs-5 c-pointer"
+                    onClick={() => {
+                      setCalendar(calendarVal(3));
+                    }}
+                  />
                 </div>
                 <div className="col-6">
                   <button
@@ -585,7 +620,12 @@ const TodoList = (props) => {
                 </div>
 
                 <div className="col-2">
-                  <CalendarDate className="fs-5" />
+                  <CalendarDate
+                    className="fs-5 c-pointer"
+                    onClick={() => {
+                      setCalendar(calendarVal(4));
+                    }}
+                  />
                 </div>
 
                 <div className="col-6">
@@ -660,7 +700,12 @@ const TodoList = (props) => {
                 </div>
 
                 <div className="col-2">
-                  <CalendarDate className="fs-5" />
+                  <CalendarDate
+                    className="fs-5 c-pointer"
+                    onClick={() => {
+                      setCalendar(calendarVal(5));
+                    }}
+                  />
                 </div>
 
                 <div className="col-6">
@@ -708,39 +753,49 @@ const TodoList = (props) => {
 };
 
 const TaskCalendar = (props) => {
-  const task = props.task;
-  const { setCalendarVis, calendarVis } = props;
+  const { setCalendar, task } = props;
 
-  const [date, setDate] = useState(new Date("2023-10-25"));
+  const [date, setDate] = useState(new Date(task.targetDate));
+  const [isBlocked, setBlockage] = useState(false);
 
-  const stopProg = (e) => {
-    e.stopPropagation();
+  const changeDate = (date) => {
+    setBlockage(true);
+    console.log(date);
+    setDate(date);
+    setTimeout(() => {
+      setBlockage(false);
+    }, 500);
   };
 
   return (
     <div
-      className="container-fluid vh-100 vw-100 position-fixed d-flex justify-content-center align-items-center top-0 start-0"
+      className="calendar-container container-fluid vh-100 vw-100 position-fixed d-flex justify-content-center align-items-center top-0 start-0 position-relative"
       onClick={(e) => {
-        stopProg(e);
-        setCalendarVis(false);
+        e.stopPropagation();
+        setCalendar(false);
       }}
     >
       <div
-        className="calendar-container container-fluid d-flex align-items-center justify-content-center mb-5"
+        className=" d-flex align-items-center justify-content-center mb-5"
         onClick={(e) => {
-          stopProg(e);
+          e.stopPropagation();
         }}
       >
         <Calendar
-          onClick={(e) => {
-            stopProg(e);
-          }}
-          onChange={setDate}
+          onChange={changeDate}
           value={date}
           maxDate={new Date("2024-02-01")}
           minDate={new Date()}
         />
       </div>
+      {isBlocked && (
+        <div
+          className="blocker vh-100 vw-100 position-absolute"
+          onClick={(e) => {
+            e.stopPropagation();
+          }}
+        ></div>
+      )}
     </div>
   );
 };

@@ -155,3 +155,7 @@
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e6e6e6;
 }
+
+.calendar-container {
+  z-index: 30002;
+}
