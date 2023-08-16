@@ -1,6 +1,7 @@
 import { College } from "./College";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Search } from "react-bootstrap-icons";
 
 export const CollegeGrid = () => {
   const [colleges, setColleges] = useState([]);
@@ -41,6 +42,21 @@ export const CollegeGrid = () => {
 
   return (
     <div className="container-fluid px-5">
+      <div className=" d-flex justify-content-start align-items-center mb-3">
+        <div className="c-pointer form border h-100 hover-expand d-flex justify-content-center align-items-center">
+          <input
+            type="text"
+            className="form-control form-input form-hover shadow-none"
+            placeholder="Search anything..."
+            name="search"
+            id="search"
+          />
+          <label htmlFor="search">
+            <Search className="fs-4 c-pointer" />
+          </label>
+        </div>
+      </div>
+
       <div className="row gx-5 gy-5">
         {colleges.map((college) => {
           return (

@@ -137,7 +137,7 @@ export const College = (props) => {
           <div className="col-6 col-md-5 bg-primary">
             <img
               src={imgLinks[kebabName]}
-              className="img-fluid rounded-start"
+              className="img-fluid rounded-start w-100 h-100 object-fit-cover"
             />
           </div>
           <div className="col-6 col-md-7">
