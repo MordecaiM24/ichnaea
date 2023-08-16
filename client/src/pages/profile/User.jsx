@@ -92,8 +92,7 @@ export const User = () => {
 };
 
 const TodoList = (props) => {
-  const todo = props.todo;
-  const updateTodo = props.updateTodo;
+  const { todo, updateTodo, setTodo } = props;
 
   const [isTodoLoading, setTodoLoading] = useState(false);
 
@@ -137,11 +136,10 @@ const TodoList = (props) => {
 
   const [calendar, setCalendar] = useState({
     isVisible: false,
-    task: {},
   });
 
   const calendarVal = (idx) => {
-    return { isVisible: true, task: todo[idx] };
+    return { isVisible: true, taskIdx: idx };
   };
 
   const style = (status) => {
@@ -261,9 +259,10 @@ const TodoList = (props) => {
       <div className="container-xxl my-5 px-md-5">
         {calendar.isVisible && (
           <TaskCalendar
-            task={calendar.task}
-            calendar={calendar}
+            taskIdx={calendar.taskIdx}
             setCalendar={setCalendar}
+            todo={todo}
+            setTodo={setTodo}
           />
         )}
         <div className="list-group">
@@ -753,18 +752,33 @@ const TodoList = (props) => {
 };
 
 const TaskCalendar = (props) => {
-  const { setCalendar, task } = props;
+  const { setCalendar, todo, setTodo, taskIdx } = props;
+
+  const [task, setTask] = useState(todo[taskIdx]);
 
   const [date, setDate] = useState(new Date(task.targetDate));
   const [isBlocked, setBlockage] = useState(false);
 
-  const changeDate = (date) => {
+  const changeDate = async (date) => {
     setBlockage(true);
-    console.log(date);
     setDate(date);
-    setTimeout(() => {
-      setBlockage(false);
-    }, 500);
+    const tempTask = { ...task };
+    tempTask.targetDate = date;
+
+    const res = await axios.patch(
+      `http://${import.meta.env.VITE_IP}:5000/api/users/editTaskDate`,
+      {
+        taskIdx,
+        newTask: tempTask,
+        userID: window.localStorage.getItem("userID"),
+      }
+    );
+
+    console.log(res.data);
+
+    setTodo(res.data.todo);
+
+    setBlockage(false);
   };
 
   return (
@@ -787,15 +801,15 @@ const TaskCalendar = (props) => {
           maxDate={new Date("2024-02-01")}
           minDate={new Date()}
         />
+        {isBlocked && (
+          <div
+            className="blocker h-100 w-100 position-absolute"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          ></div>
+        )}
       </div>
-      {isBlocked && (
-        <div
-          className="blocker vh-100 vw-100 position-absolute"
-          onClick={(e) => {
-            e.stopPropagation();
-          }}
-        ></div>
-      )}
     </div>
   );
 };

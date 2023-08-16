@@ -317,6 +317,18 @@ const editCollegeNote = async (req, res, next) => {
   res.status(200).json(user);
 };
 
+const editTaskDate = async (req, res, next) => {
+  const { taskIdx, newTask, userID } = req.body;
+
+  const user = await UserModel.findOne({ _id: userID });
+  user.todo[taskIdx] = newTask;
+
+  user.markModified("todo");
+  await user.save();
+
+  res.json(user);
+};
+
 export {
   createUser,
   login,
@@ -330,4 +342,5 @@ export {
   editNote,
   changeFlag,
   editCollegeNote,
+  editTaskDate,
 };

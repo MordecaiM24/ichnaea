@@ -6,9 +6,7 @@ export const Error = () => {
       <div className="display-1 text-primary">
         <Mortarboard />
       </div>
-      <div className="display-5 text-primary">
-        Sorry! This page currently does not exist or is in progress
-      </div>
+      <div className="display-5 text-primary">Coming Soon!</div>
     </div>
   );
 };
