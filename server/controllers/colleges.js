@@ -21,10 +21,11 @@ const getColleges = async (req, res) => {
 };
 
 const getCollegeSearch = async (req, res) => {
+  console.log("SEARCHING");
   console.log(req.query.search);
   const search = req.query.search;
 
-  const regex = `.*${search}.*`;
+  const regex = `.*${search}.*`; // .* means contains the search parameter
 
   // Add index in mongodb for case insensitivty to speed up search
 
@@ -35,7 +36,7 @@ const getCollegeSearch = async (req, res) => {
     ],
   });
 
-  res.status(200).json(colleges[0]);
+  res.status(200).json(colleges);
 };
 
 //TODO Get college, possibly separate file with support for queries

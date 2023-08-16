@@ -19,15 +19,20 @@ export const CollegeGrid = () => {
   const searchQuery = params.get("search");
 
   useEffect(() => {
+    const url = searchQuery
+      ? `http://${
+          import.meta.env.VITE_IP
+        }:5000/api/colleges/search?search=${searchQuery}`
+      : `http://${import.meta.env.VITE_IP}:5000/api/colleges`;
+
     const getColleges = async () => {
-      const res = await axios.get(
-        `http://${import.meta.env.VITE_IP}:5000/api/colleges`
-      );
+      const res = await axios.get(url);
       const newColleges = res.data;
       setColleges(newColleges);
     };
 
     getColleges();
+    console.log(colleges);
   }, []);
 
   useEffect(() => {
@@ -61,6 +66,15 @@ export const CollegeGrid = () => {
           </a>
         </form>
       </div>
+
+      {colleges.length === 0 && (
+        <div className="vh-100 vw-100 text-center">
+          <p className="display-5"> No Results Found</p>
+          <p className="lead">
+            New colleges are being added every day. Check back soon!
+          </p>
+        </div>
+      )}
 
       <div className="row gx-5 gy-5">
         {colleges.map((college) => {
