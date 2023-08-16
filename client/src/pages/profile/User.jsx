@@ -177,7 +177,7 @@ const TodoList = (props) => {
     };
   };
 
-  useState(() => {
+  useEffect(() => {
     const setInitialStyles = async () => {
       const res = await axios.get(
         `http://${
@@ -917,6 +917,7 @@ const SuppEssays = (props) => {
                   updateTodo={updateTodo}
                   idx={idx}
                   setTodo={props.setTodo}
+                  todo={todo}
                 />
               );
             })}
@@ -928,7 +929,7 @@ const SuppEssays = (props) => {
 };
 
 const CollegeQs = (props) => {
-  const { college, updateTodo, idx, setTodo } = props;
+  const { college, updateTodo, idx, setTodo, todo } = props;
 
   const [percentCompleted, setPercentCompleted] = useState(0);
 
@@ -1024,10 +1025,22 @@ const CollegeQs = (props) => {
     }
   };
 
+  const [calendar, setCalendar] = useState({
+    isVisible: false,
+  });
+
   const [noteAreaVisibility, setNoteAreaVisiblity] = useState(false);
 
   return (
     <div className="accordion-item border-round-start-0">
+      {calendar.isVisible && (
+        <CollegeCalendar
+          collegeIdx={calendar.collegeIdx}
+          setCalendar={setCalendar}
+          todo={todo}
+          setTodo={setTodo}
+        />
+      )}
       <h2 className="accordion-header my-0">
         <a
           className="accordion-button collapsed text-reset text-decoration-none fw-normal"
@@ -1060,7 +1073,14 @@ const CollegeQs = (props) => {
                 )}
               </div>
               <div className="col-2 d-flex flex-column justify-content-center align-items-center">
-                <CalendarDate className="fs-5" />
+                <CalendarDate
+                  className="fs-5"
+                  data-bs-toggle="collapse"
+                  data-bs-target
+                  onClick={() => {
+                    setCalendar({ isVisible: true, collegeIdx: idx });
+                  }}
+                />
               </div>
               <div className="col-6 d-flex flex-column justify-content-center">
                 {college.decision.specialName}
@@ -1135,6 +1155,70 @@ const CollegeQs = (props) => {
             })}
           </div>
         </div>
+      </div>
+    </div>
+  );
+};
+
+const CollegeCalendar = (props) => {
+  const { setCalendar, todo, setTodo, collegeIdx } = props;
+
+  const [college, setCollege] = useState(todo[6].suppEssays[collegeIdx]);
+
+  const [date, setDate] = useState(new Date(college.decision.date));
+  const [isBlocked, setBlockage] = useState(false);
+
+  const changeDate = async (date) => {
+    setBlockage(true);
+    setDate(date);
+    const tempCollege = { ...college };
+    tempCollege.decision.date = date;
+    console.log(tempCollege);
+
+    const res = await axios.patch(
+      `http://${import.meta.env.VITE_IP}:5000/api/users/editCollegeDate`,
+      {
+        collegeIdx,
+        newCollege: tempCollege,
+        userID: window.localStorage.getItem("userID"),
+      }
+    );
+
+    console.log(res.data);
+
+    setTodo(res.data.todo);
+
+    setBlockage(false);
+  };
+
+  return (
+    <div
+      className="calendar-container container-fluid vh-100 vw-100 position-fixed d-flex justify-content-center align-items-center top-0 start-0 position-relative"
+      onClick={(e) => {
+        e.stopPropagation();
+        setCalendar(false);
+      }}
+    >
+      <div
+        className=" d-flex align-items-center justify-content-center mb-5"
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+      >
+        <Calendar
+          onChange={changeDate}
+          value={date}
+          maxDate={new Date("2024-02-01")}
+          minDate={new Date()}
+        />
+        {isBlocked && (
+          <div
+            className="blocker h-100 w-100 position-absolute"
+            onClick={(e) => {
+              e.stopPropagation();
+            }}
+          ></div>
+        )}
       </div>
     </div>
   );

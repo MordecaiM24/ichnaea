@@ -12,6 +12,7 @@ import {
   changeFlag,
   editCollegeNote,
   editTaskDate,
+  editCollegeDate,
 } from "../controllers/users.js";
 const router = express.Router();
 
@@ -38,5 +39,7 @@ router.patch("/changeFlag", changeFlag);
 router.patch("/editCollegeNote", editCollegeNote);
 
 router.patch("/editTaskDate", editTaskDate);
+
+router.patch("/editCollegeDate", editCollegeDate);
 
 export { router as userRouter };
