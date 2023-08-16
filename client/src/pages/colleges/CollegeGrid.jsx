@@ -13,7 +13,7 @@ export const CollegeGrid = () => {
 
   const userID = window.localStorage.getItem("userID");
 
-  const [params] = useSearchParams();
+  const [params, setParams] = useSearchParams();
 
   // Get a specific query parameter
   const searchQuery = params.get("search");
@@ -51,6 +51,8 @@ export const CollegeGrid = () => {
     }
   }, [shouldUpdate]);
 
+  const [newParams, setNewParams] = useState("");
+
   return (
     <div className="container-fluid px-5">
       <div className="search-bar-container position-relative">
@@ -60,8 +62,18 @@ export const CollegeGrid = () => {
             className="search-input"
             placeholder="Start Looking For Something!"
             name="search"
+            onChange={(e) => {
+              setNewParams(e.target.value);
+            }}
           />
-          <a className="search-btn" type="submit">
+          <a
+            className="search-btn"
+            type="submit"
+            onClick={() => {
+              setParams({ search: newParams });
+              window.location.reload();
+            }}
+          >
             <Search />
           </a>
         </form>

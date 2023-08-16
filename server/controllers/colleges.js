@@ -33,6 +33,7 @@ const getCollegeSearch = async (req, res) => {
     $or: [
       { fullName: { $regex: new RegExp(regex, "i") } },
       { shortName: { $regex: new RegExp(regex, "i") } },
+      { location: { $regex: new RegExp(regex, "i") } },
     ],
   });
 
