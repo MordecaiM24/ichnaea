@@ -7,7 +7,7 @@ export const Navbar = () => {
   return (
     <>
       {/* navbar */}
-      <nav className="navbar navbar-expand-md bg-primary mb-5 navbar-dark">
+      <nav className="navbar navbar-expand-md bg-primary mb-3 navbar-dark">
         <div className="container-fluid px-5">
           <Link to="/" className="navbar-brand me-5">
             {/* TODO: change logo to text/svg. SVG not working (?) atm */}

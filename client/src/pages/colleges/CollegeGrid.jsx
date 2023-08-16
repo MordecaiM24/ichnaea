@@ -42,18 +42,16 @@ export const CollegeGrid = () => {
 
   return (
     <div className="container-fluid px-5">
-      <div className=" d-flex justify-content-start align-items-center mb-3">
-        <div className="c-pointer form border h-100 hover-expand d-flex justify-content-center align-items-center">
+      <div className="search-bar-container  position-relative">
+        <div className="search-box d-flex align-items-center py-4">
           <input
             type="text"
-            className="form-control form-input form-hover shadow-none"
-            placeholder="Search anything..."
-            name="search"
-            id="search"
+            className="search-input"
+            placeholder="Start Looking For Something!"
           />
-          <label htmlFor="search">
-            <Search className="fs-4 c-pointer" />
-          </label>
+          <a className="search-btn" href="#">
+            <Search />
+          </a>
         </div>
       </div>
 
