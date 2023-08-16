@@ -1,9 +1,23 @@
 import { ichnaeaLogo } from "src/assets/assets";
 import { Bank, Coin, MortarboardFill } from "react-bootstrap-icons";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import "bootstrap/dist/js/bootstrap.js";
 
 export const Navbar = () => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const removeQueryParams = () => {
+    const param = searchParams.get("search");
+
+    if (param) {
+      // 👇️ delete each query param
+      searchParams.delete("search");
+
+      // 👇️ update state after
+      setSearchParams(searchParams);
+    }
+  };
+
   return (
     <>
       {/* navbar */}
@@ -33,7 +47,14 @@ export const Navbar = () => {
               {/* TODO: change justify-around to make profile sit at end */}
               {/* TODO: Maybe make navbar smaller overall (?) */}
               <li className="nav-item">
-                <Link to="/colleges" className="nav-link">
+                <Link
+                  to="/colleges"
+                  className="nav-link"
+                  onClick={() => {
+                    removeQueryParams();
+                    window.location.reload();
+                  }}
+                >
                   <p className="lead d-flex align-items-center gap-2">
                     <Bank />
                     Colleges

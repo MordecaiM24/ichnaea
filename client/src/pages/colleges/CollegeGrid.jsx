@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Search } from "react-bootstrap-icons";
 import { useSearchParams } from "react-router-dom";
+import { InfinitySpin } from "react-loader-spinner";
 
 export const CollegeGrid = () => {
   const [colleges, setColleges] = useState([]);
@@ -18,7 +19,10 @@ export const CollegeGrid = () => {
   // Get a specific query parameter
   const searchQuery = params.get("search");
 
+  const [isLoading, setLoading] = useState(false);
+
   useEffect(() => {
+    setLoading(true);
     const url = searchQuery
       ? `http://${
           import.meta.env.VITE_IP
@@ -32,7 +36,9 @@ export const CollegeGrid = () => {
     };
 
     getColleges();
-    console.log(colleges);
+    setTimeout(() => {
+      setLoading(false);
+    }, 250);
   }, []);
 
   useEffect(() => {
@@ -53,55 +59,63 @@ export const CollegeGrid = () => {
 
   const [newParams, setNewParams] = useState("");
 
-  return (
-    <div className="container-fluid px-5">
-      <div className="search-bar-container position-relative">
-        <form className="search-box d-flex align-items-center py-4">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Start Looking For Something!"
-            name="search"
-            onChange={(e) => {
-              setNewParams(e.target.value);
-            }}
-          />
-          <a
-            className="search-btn"
-            type="submit"
-            onClick={() => {
-              setParams({ search: newParams });
-              window.location.reload();
-            }}
-          >
-            <Search />
-          </a>
-        </form>
+  if (isLoading) {
+    return (
+      <div className="vh-50 vw-100 d-flex align-items-center justify-content-center">
+        <InfinitySpin width="200" color="#910016" />
       </div>
-
-      {colleges.length === 0 && (
-        <div className="vh-100 vw-100 text-center">
-          <p className="display-5"> No Results Found</p>
-          <p className="lead">
-            New colleges are being added every day. Check back soon!
-          </p>
-        </div>
-      )}
-
-      <div className="row gx-5 gy-5">
-        {colleges.map((college) => {
-          return (
-            <College
-              college={college}
-              savedColleges={savedColleges}
-              setSavedColleges={setSavedColleges}
-              shouldUpdate={shouldUpdate}
-              updateSaved={updateSaved}
-              key={college._id}
+    );
+  } else {
+    return (
+      <div className="container-fluid px-5">
+        <div className="search-bar-container position-relative">
+          <form className="search-box d-flex align-items-center py-4">
+            <input
+              type="text"
+              className="search-input"
+              placeholder="Start Looking For Something!"
+              name="search"
+              onChange={(e) => {
+                setNewParams(e.target.value);
+              }}
             />
-          );
-        })}
+            <a
+              className="search-btn"
+              type="submit"
+              onClick={() => {
+                setParams({ search: newParams });
+                window.location.reload();
+              }}
+            >
+              <Search />
+            </a>
+          </form>
+        </div>
+
+        {colleges.length === 0 && (
+          <div className="vh-100 vw-100 text-center">
+            <p className="display-5"> No Results Found</p>
+            <p className="lead">
+              New colleges are being added every day. Check back soon!
+            </p>
+          </div>
+        )}
+
+        <div className="row gx-5 gy-5">
+          {colleges.map((college) => {
+            return (
+              <College
+                college={college}
+                savedColleges={savedColleges}
+                setSavedColleges={setSavedColleges}
+                shouldUpdate={shouldUpdate}
+                updateSaved={updateSaved}
+                key={college._id}
+              />
+            );
+          })}
+        </div>
       </div>
-    </div>
-  );
+    );
+  }
 };
