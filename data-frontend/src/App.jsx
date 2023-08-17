@@ -1,5 +1,9 @@
-import { CreateCollege } from "./createCollege";
+import { CreateCollege } from "./CreateCollege.jsx";
 
 export const App = () => {
-  return <CreateCollege />;
+  return (
+    <>
+      <CreateCollege />
+    </>
+  );
 };

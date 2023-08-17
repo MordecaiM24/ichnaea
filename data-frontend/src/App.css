@@ -1,0 +1,11 @@
+.justify {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+p {
+  margin: 0;
+  padding: 0;
+}

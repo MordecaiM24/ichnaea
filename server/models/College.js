@@ -40,8 +40,9 @@ const CollegeSchema = new mongoose.Schema({
     {
       _id: false,
       decisionType: String,
-      date: Date || false,
+      date: Date,
       specialName: String,
+      financialAid: Date,
     },
   ],
   imgLinks: [String],

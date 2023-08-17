@@ -1,479 +1,138 @@
 import { useState } from "react";
+import "./App.css";
 import axios from "axios";
 
 export const CreateCollege = () => {
-  const [college, setCollege] = useState({
-    fullName: "",
-    shortName: "",
-    kebabName: "",
-    location: "",
-    setting: "",
-    campusSize: 0,
-    genRanking: 0,
-    programRankings: {
-      bestValue: 0,
-      engineering: 0,
-      biomedEng: 0,
-      eeEng: 0,
-      mechEng: 0,
-      compSci: 0,
-      ai: 0,
-      cyberSec: 0,
-      dataScience: 0,
-      writing: 0,
-      studyAbroad: 0,
-    },
-    acceptanceRate: 0,
-    numStudents: 0,
-    public: false,
-    baseCost: 0,
-    costAfterAid: 0,
-    decisionMetrics: [""],
-    suppEssays: [""],
-    testRange: {
-      "25thACT": 0,
-      "50thACT": 0,
-      "75thACT": 0,
-      "25thSAT": 0,
-      "50thSAT": 0,
-      "75thSAT": 0,
-    },
-    gpaRange: {
-      "25thWeighted": 0,
-      "50thWeighted": 0,
-      "75thWeighted": 0,
-      "25thUnweighted": 0,
-      "50thUnweighted": 0,
-      "75thUnweighted": 0,
-    },
-    imgLinks: [""],
-    deadlines: {
-      earlyAction: Date,
-      earlyDecision: Date,
-      earlyDecision2: Date,
-      earlyAid: Date,
-      ed2Aid: Date,
-      financialAid: Date,
-      regularDecision: Date,
-      rolling: false,
-    },
-  });
+  const [suppEssayNum, setSupEssayNum] = useState([1]);
 
-  const handleDateChange = (event) => {
-    const { name, value } = event.target;
-    if (name !== "rolling") {
-      setCollege({
-        ...college,
-        deadlines: { ...college.deadlines, [name]: value },
-      });
-    } else {
-      setCollege({
-        ...college,
-        deadlines: {
-          ...college.deadlines,
-          rolling: !college.deadlines.rolling,
-        },
-      });
-    }
-  };
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setCollege({ ...college, [name]: value });
-  };
-
-  const handleRankChange = (event) => {
-    const { name, value } = event.target;
-    setCollege({
-      ...college,
-      programRankings: { ...college.programRankings, [name]: value },
-    });
-  };
-
-  const handleTestChange = (event) => {
-    const { name, value } = event.target;
-    setCollege({
-      ...college,
-      testRange: { ...college.testRange, [name]: value },
-    });
-  };
-
-  const handleGPAChange = (event) => {
-    const { name, value } = event.target;
-    setCollege({
-      ...college,
-      gpaRange: { ...college.gpaRange, [name]: value },
-    });
-  };
-
-  const publicChange = (event) => {
-    const { value } = event.target;
-    if (value === "public") {
-      setCollege({ ...college, public: true });
-    }
-  };
-
-  const onSubmit = async (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    try {
-      const res = await axios.post(
-        `http://${import.meta.env.VITE_IP}:5000/api/colleges/create`,
-        college
-      );
-      console.log(res);
-      alert(res);
-      alert("College created");
-    } catch (err) {
-      console.error(err);
-      alert(err);
+    const form = event.target;
+    const obj = {};
+
+    for (let i = 0; i < form.length; i++) {
+      obj[form[i].name] = form[i].value;
     }
+
+    console.log(obj);
+
+    const res = await axios.post("http://localhost:5000/api/colleges/create", {
+      ...obj,
+      suppEssayLength: suppEssayNum.length,
+    });
+
+    console.log(res);
+  };
+
+  const deleteEssay = () => {
+    const tempEssay = [...suppEssayNum];
+    tempEssay.pop();
+    setSupEssayNum(tempEssay);
   };
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center ",
+    <form
+      autoComplete="off"
+      className="justify"
+      onSubmit={(e) => {
+        handleSubmit(e);
       }}
     >
-      <h2> Create College </h2>
+      <input type="text" name="fullName" placeholder="fullName" />
+      <input type="text" name="shortName" placeholder="shortName" />
+      <input type="text" name="kebabName" placeholder="kebabName" />
+      <input type="text" name="location" placeholder="location" />
+      <input type="text" name="setting" placeholder="setting" />
+      <input type="number" name="campusSize" placeholder="campusSize" />
+      <input type="number" name="genRanking" placeholder="genRanking" />
+      <input
+        type="number"
+        name="acceptanceRate"
+        placeholder="acceptanceRate"
+        step={0.1}
+      />
+      <input type="number" name="numStudents" placeholder="numStudents" />
+      <input type="text" name="privacy" placeholder="privacy" />
+      <input type="number" name="baseCost" placeholder="baseCost" />
+      <input type="number" name="costAfterAid" placeholder="costAfterAid" />
+      <input type="text" name="decisionMetrics" placeholder="decisionMetrics" />
 
-      <form
-        onSubmit={onSubmit}
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center ",
+      {suppEssayNum.map((num) => {
+        return (
+          <input
+            type="text"
+            name={`suppEssay${num}`}
+            placeholder={`suppEssay${num}`}
+          />
+        );
+      })}
+
+      <button
+        type="button"
+        onClick={() => {
+          setSupEssayNum([
+            ...suppEssayNum,
+            suppEssayNum[suppEssayNum.length - 1] + 1,
+          ]);
         }}
       >
-        <label htmlFor="fullName">Full Name</label>
-        <input
-          type="text"
-          id="fullName"
-          name="fullName"
-          onChange={handleChange}
-        />
+        Add supp essay
+      </button>
 
-        <label htmlFor="shortName">Short Name</label>
-        <input
-          type="text"
-          id="shortName"
-          name="shortName"
-          onChange={handleChange}
-        />
+      <button type="button" onClick={deleteEssay}>
+        Delete supp essay
+      </button>
 
-        <label htmlFor="kebabName">Kebab Name</label>
-        <input
-          type="text"
-          id="kebabName"
-          name="kebabName"
-          onChange={handleChange}
-        />
+      <input type="number" name="25thACT" placeholder="25thACT" />
+      <input type="number" name="50thACT" placeholder="50thACT" />
+      <input type="number" name="75thACT" placeholder="75thACT" />
+      <input type="number" name="25thSAT" placeholder="25thSAT" />
+      <input type="number" name="50thSAT" placeholder="50thSAT" />
+      <input type="number" name="75thSAT" placeholder="75thSAT" />
 
-        <label htmlFor="location">Location</label>
-        <input
-          type="text"
-          id="location"
-          name="location"
-          onChange={handleChange}
-        />
+      <input type="text" name="imgLink" placeholder="imgLink" />
 
-        <label htmlFor="setting">Setting</label>
-        <input
-          type="text"
-          id="setting"
-          name="setting"
-          onChange={handleChange}
-        />
+      <input
+        type="text"
+        name="regularDecisionSpecialName"
+        placeholder="regDecisionDeadlineSpecName"
+      />
+      <input type="date" name="regularDecisionDate" />
+      <p>Regular Decision Financial Aid Deadline</p>
+      <input type="date" name="regularDecisionFinancialAidDeadline" />
+      <br />
 
-        <label htmlFor="campusSize">Campus Size</label>
-        <input
-          type="number"
-          id="campusSize"
-          name="campusSize"
-          onChange={handleChange}
-        />
+      <input
+        type="text"
+        name="earlyActionSpecialName"
+        placeholder="earlyActionSpecName"
+      />
+      <input type="date" name="earlyActionDate" />
+      <p>Early Action Financial Aid Deadline</p>
+      <input type="date" name="earlyActionFinancialAidDeadline" />
+      <br />
 
-        <label htmlFor="genRanking">General Ranking</label>
-        <input
-          type="number"
-          id="genRanking"
-          name="genRanking"
-          onChange={handleChange}
-        />
+      <input
+        type="text"
+        name="earlyDecisionSpecialName"
+        placeholder="earlyDecisionSpecName"
+      />
+      <input type="date" name="earlyDecisionDate" />
+      <p>Early Decision Financial Aid Deadline</p>
+      <input type="date" name="earlyDecisionFinancialAidDeadline" />
+      <br />
 
-        <label htmlFor="bestValue">Best Value Ranking</label>
-        <input
-          type="number"
-          id="bestValue"
-          name="bestValue"
-          onChange={handleRankChange}
-        />
+      <input
+        type="text"
+        name="earlyDecision2SpecialName"
+        placeholder="earlyDecision2SpecName"
+      />
+      <input type="date" name="earlyDecision2Date" />
+      <p>Early Decision 2 Financial Aid Deadline</p>
+      <input type="date" name="earlyDecision2FinancialAidDeadline" />
+      <br />
 
-        {/* <label htmlFor="engineering">Engineering Ranking</label>
-        <input
-          type="number"
-          id="engineering"
-          name="engineering"
-          onChange={handleRankChange}
-        />
-
-        <label htmlFor="biomedEng">Biomed Eng Ranking</label>
-        <input
-          type="number"
-          id="biomedEng"
-          name="biomedEng"
-          onChange={handleRankChange}
-        />
-
-        <label htmlFor="eeEng">Electric Eng Ranking</label>
-        <input
-          type="number"
-          id="eeEng"
-          name="eeEng"
-          onChange={handleRankChange}
-        />
-
-        <label htmlFor="mechEng">Mechanical Eng Ranking</label>
-        <input
-          type="number"
-          id="mechEng"
-          name="mechEng"
-          onChange={handleRankChange}
-        />
-
-        <label htmlFor="compSci">Comp Sci Ranking</label>
-        <input
-          type="number"
-          id="compSci"
-          name="compSci"
-          onChange={handleRankChange}
-        />
-
-        <label htmlFor="ai">Artifical Int Ranking</label>
-        <input type="number" id="ai" name="ai" onChange={handleRankChange} />
-
-        <label htmlFor="cyberSec">Cyber Sec Ranking</label>
-        <input
-          type="number"
-          id="cyberSec"
-          name="cyberSec"
-          onChange={handleRankChange}
-        />
-
-        <label htmlFor="dataScience">Data Science Ranking</label>
-        <input
-          type="number"
-          id="dataScience"
-          name="dataScience"
-          onChange={handleRankChange}
-        />
-
-        <label htmlFor="writing">Writing Ranking</label>
-        <input
-          type="number"
-          id="writing"
-          name="writing"
-          onChange={handleRankChange}
-        />
-
-        <label htmlFor="studyAbroad">Study Abroad Ranking</label>
-        <input
-          type="number"
-          id="studyAbroad"
-          name="studyAbroad"
-          onChange={handleRankChange}
-        /> */}
-
-        <label htmlFor="acceptanceRate">Acceptance Rate</label>
-        <input
-          type="number"
-          id="acceptanceRate"
-          name="acceptanceRate"
-          onChange={handleChange}
-          step="0.01"
-        />
-
-        <label htmlFor="numStudents">Num Students</label>
-        <input
-          type="number"
-          id="numStudents"
-          name="numStudents"
-          onChange={handleChange}
-        />
-
-        <label htmlFor="public">Public</label>
-        <input type="text" id="public" name="public" onChange={publicChange} />
-
-        <label htmlFor="baseCost">Base Cost</label>
-        <input
-          type="number"
-          id="baseCost"
-          name="baseCost"
-          onChange={handleChange}
-        />
-
-        <label htmlFor="costAfterAid">Cost After Aid</label>
-        <input
-          type="number"
-          id="costAfterAid"
-          name="costAfterAid"
-          onChange={handleChange}
-        />
-
-        <label htmlFor="25thACT">25th ACT</label>
-        <input
-          type="number"
-          id="25thACT"
-          name="25thACT"
-          onChange={handleTestChange}
-        />
-        <label htmlFor="50thACT">50th ACT</label>
-        <input
-          type="number"
-          id="50thACT"
-          name="50thACT"
-          onChange={handleTestChange}
-        />
-        <label htmlFor="75thACT">75th ACT</label>
-        <input
-          type="number"
-          id="75thACT"
-          name="75thACT"
-          onChange={handleTestChange}
-        />
-        <label htmlFor="25thSAT">25th SAT</label>
-        <input
-          type="number"
-          id="25thSAT"
-          name="25thSAT"
-          onChange={handleTestChange}
-        />
-        <label htmlFor="50thSAT">50th SAT</label>
-        <input
-          type="number"
-          id="50thSAT"
-          name="50thSAT"
-          onChange={handleTestChange}
-        />
-        <label htmlFor="75thSAT">75th SAT</label>
-        <input
-          type="number"
-          id="75thSAT"
-          name="75thSAT"
-          onChange={handleTestChange}
-        />
-
-        {/* <label htmlFor="25thWeighted">25th Weighted</label>
-        <input
-          type="number"
-          id="25thWeighted"
-          name="25thWeighted"
-          onChange={handleGPAChange}
-        />
-        <label htmlFor="50thWeighted">50th Weighted</label>
-        <input
-          type="number"
-          id="50thWeighted"
-          name="50thWeighted"
-          onChange={handleGPAChange}
-        />
-        <label htmlFor="75thWeighted">75th Weighted</label>
-        <input
-          type="number"
-          id="75thWeighted"
-          name="75thWeighted"
-          onChange={handleGPAChange}
-        />
-        <label htmlFor="25thUnweighted">25th Unweighted</label>
-        <input
-          type="number"
-          id="25thUnweighted"
-          name="25thUnweighted"
-          onChange={handleGPAChange}
-        />
-        <label htmlFor="50thUnweighted">50th Unweighted</label>
-        <input
-          type="number"
-          id="50thUnweighted"
-          name="50thUnweighted"
-          onChange={handleGPAChange}
-        />
-        <label htmlFor="75thUnweighted">75th Unweighted</label>
-        <input
-          type="number"
-          id="75thUnweighted"
-          name="75thUnweighted"
-          onChange={handleGPAChange}
-        /> */}
-
-        <label htmlFor="earlyAction">Early Action Date</label>
-        <input
-          type="date"
-          id="earlyAction"
-          name="earlyAction"
-          onChange={handleDateChange}
-        />
-
-        <label htmlFor="earlyDecision">Early Decision Date</label>
-        <input
-          type="date"
-          id="earlyDecision"
-          name="earlyDecision"
-          onChange={handleDateChange}
-        />
-
-        <label htmlFor="earlyDecision2">Early Decision 2 Date</label>
-        <input
-          type="date"
-          id="earlyDecision2"
-          name="earlyDecision2"
-          onChange={handleDateChange}
-        />
-
-        <label htmlFor="regularDecision">Regular Decision Date</label>
-        <input
-          type="date"
-          id="regularDecision"
-          name="regularDecision"
-          onChange={handleDateChange}
-        />
-
-        <label htmlFor="earlyAid">Early Aid Date</label>
-        <input
-          type="date"
-          id="earlyAid"
-          name="earlyAid"
-          onChange={handleDateChange}
-        />
-
-        <label htmlFor="ed2Aid">Early Decision 2 Aid Date</label>
-        <input
-          type="date"
-          id="ed2Aid"
-          name="ed2Aid"
-          onChange={handleDateChange}
-        />
-
-        <label htmlFor="financialAid">Financial Aid Date</label>
-        <input
-          type="date"
-          id="financialAid"
-          name="financialAid"
-          onChange={handleDateChange}
-        />
-
-        <label htmlFor="rolling">Rolling Decision</label>
-        <input
-          type="checkbox"
-          id="rolling"
-          name="rolling"
-          onChange={handleDateChange}
-        />
-
-        <button type="submit">Create College</button>
-      </form>
-    </div>
+      <button type="submit">Submit</button>
+    </form>
   );
 };

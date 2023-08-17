@@ -2,11 +2,72 @@ import { CollegeModel } from "../models/College.js";
 import "dotenv/config";
 
 const createCollege = async (req, res) => {
-  console.log("In create college");
-  const college = req.body;
+  console.log("Creating college");
+  const collegeFrame = req.body;
 
-  console.log("COLLEGE REQUEST BODY");
-  console.log(college);
+  const suppEssays = [];
+  for (let i = 0; i < req.body.suppEssayLength; i++) {
+    suppEssays.push(collegeFrame[`suppEssay${i + 1}`]);
+  }
+
+  const deadlines = [
+    collegeFrame.regularDecisionSpecialName && {
+      decisionType: "regularDecision",
+      date: collegeFrame.regularDecisionDate,
+      specialName: collegeFrame.regularDecisionSpecialName,
+      financialAid: collegeFrame.regularDecisionFinancialAidDeadline,
+    },
+    collegeFrame.earlyActionSpecialName && {
+      decisionType: "earlyAction",
+      date: collegeFrame.earlyActionDate,
+      specialName: collegeFrame.earlyActionSpecialName,
+      financialAid: collegeFrame.earlyActionFinancialAidDeadline,
+    },
+    collegeFrame.earlyDecisionSpecialName && {
+      decisionType: "earlyDecision",
+      date: collegeFrame.earlyDecisionDate,
+      specialName: collegeFrame.earlyDecisionSpecialName,
+      financialAid: collegeFrame.earlyDecisionFinancialAidDeadline,
+    },
+    collegeFrame.earlyDecision2SpecialName && {
+      decisionType: "earlyDecision2",
+      date: collegeFrame.earlyDecision2Date,
+      specialName: collegeFrame.earlyDecision2SpecialName,
+      financialAid: collegeFrame.earlyDecision2FinancialAidDeadline,
+    },
+  ];
+
+  const newDeadlines = deadlines.filter((obj) => {
+    return obj !== "";
+  });
+
+  console.log(newDeadlines);
+
+  const college = {
+    fullName: collegeFrame.fullName,
+    shortName: collegeFrame.shortName,
+    kebabName: collegeFrame.kebabName,
+    location: collegeFrame.location,
+    setting: collegeFrame.setting,
+    campusSize: collegeFrame.campusSize,
+    genRanking: collegeFrame.genRanking,
+    acceptanceRate: collegeFrame.acceptanceRate,
+    numStudents: collegeFrame.numStudents,
+    privacy: collegeFrame.privacy,
+    baseCost: collegeFrame.baseCost,
+    costAfterAid: collegeFrame.costAfterAid,
+    decisionMetrics: [collegeFrame.decisionMetrics],
+    suppEssays,
+    testRange: {
+      "25thACT": collegeFrame["25thACT"],
+      "50thACT": collegeFrame["50thACT"],
+      "75thACT": collegeFrame["75thACT"],
+      "25thSAT": collegeFrame["25thSAT"],
+      "50thSAT": collegeFrame["50thSAT"],
+      "75thSAT": collegeFrame["75thSAT"],
+    },
+    deadlines: newDeadlines,
+  };
 
   const newCollege = new CollegeModel(college);
 

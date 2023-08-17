@@ -154,8 +154,7 @@ export const College = (props) => {
                   <strong>{location}</strong>
                 </small>
                 <small className="d-none d-sm-block">
-                  {length} &#183; {privacy ? "Public" : "Private"} &#183;{" "}
-                  {setting}
+                  {length} &#183; {privacy} &#183; {setting}
                 </small>
                 <small className="d-none d-sm-block">
                   General Ranking: #{genRanking}
