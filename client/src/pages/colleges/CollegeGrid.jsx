@@ -19,10 +19,9 @@ export const CollegeGrid = () => {
   // Get a specific query parameter
   const searchQuery = params.get("search");
 
-  const [isLoading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(true);
     const url = searchQuery
       ? `http://${
           import.meta.env.VITE_IP

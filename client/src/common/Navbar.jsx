@@ -47,19 +47,12 @@ export const Navbar = () => {
               {/* TODO: change justify-around to make profile sit at end */}
               {/* TODO: Maybe make navbar smaller overall (?) */}
               <li className="nav-item">
-                <Link
-                  to="/colleges"
-                  className="nav-link"
-                  onClick={() => {
-                    removeQueryParams();
-                    window.location.reload();
-                  }}
-                >
+                <a href="/colleges" className="nav-link">
                   <p className="lead d-flex align-items-center gap-2">
                     <Bank />
                     Colleges
                   </p>
-                </Link>
+                </a>
               </li>
 
               <li className="nav-item">

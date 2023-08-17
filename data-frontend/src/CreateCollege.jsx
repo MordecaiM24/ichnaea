@@ -22,6 +22,10 @@ export const CreateCollege = () => {
     });
 
     console.log(res);
+    alert(res.data.msg);
+    if (res.status === 200) {
+      window.location.reload();
+    }
   };
 
   const deleteEssay = () => {
@@ -57,9 +61,10 @@ export const CreateCollege = () => {
       <input type="number" name="costAfterAid" placeholder="costAfterAid" />
       <input type="text" name="decisionMetrics" placeholder="decisionMetrics" />
 
-      {suppEssayNum.map((num) => {
+      {suppEssayNum.map((num, idx) => {
         return (
           <input
+            key={idx}
             type="text"
             name={`suppEssay${num}`}
             placeholder={`suppEssay${num}`}
