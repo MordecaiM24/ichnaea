@@ -23,7 +23,7 @@ const CollegeSchema = new mongoose.Schema({
   },
   acceptanceRate: Number,
   numStudents: Number,
-  public: Boolean,
+  privacy: String,
   baseCost: Number,
   costAfterAid: Number,
   decisionMetrics: [String],
