@@ -14,14 +14,11 @@ export const CreateCollege = () => {
       obj[form[i].name] = form[i].value;
     }
 
-    console.log(obj);
-
     const res = await axios.post("http://localhost:5000/api/colleges/create", {
       ...obj,
       suppEssayLength: suppEssayNum.length,
     });
 
-    console.log(res);
     alert(res.data.msg);
     if (res.status === 200) {
       window.location.reload();

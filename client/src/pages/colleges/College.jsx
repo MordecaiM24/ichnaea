@@ -151,6 +151,7 @@ export const College = (props) => {
             <img
               src={imgLinks[kebabName]}
               className="img-fluid rounded-start w-100 h-100 object-fit-cover"
+              style={{ aspectRatio: 1 }}
             />
           </div>
           <div className="col-6 col-md-7">
