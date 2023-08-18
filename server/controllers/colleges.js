@@ -89,9 +89,9 @@ const getColleges = async (req, res) => {
 };
 
 const getCollegeSearch = async (req, res) => {
-  console.log("SEARCHING");
-  console.log(req.query.search);
   const search = req.query.search;
+  const page = req.query.page || 0; // current page, default 0
+  const collegesPerPage = 6;
 
   const regex = `.*${search}.*`; // .* means contains the search parameter
 
@@ -103,7 +103,9 @@ const getCollegeSearch = async (req, res) => {
       { shortName: { $regex: new RegExp(regex, "i") } },
       { location: { $regex: new RegExp(regex, "i") } },
     ],
-  });
+  })
+    .skip(page * collegesPerPage)
+    .limit(collegesPerPage);
 
   res.status(200).json(colleges);
 };

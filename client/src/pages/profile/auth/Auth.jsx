@@ -15,7 +15,7 @@ import "./auth.css";
 export const Auth = () => {
   const [hasAccount, setHasAccount] = useState(false);
   return (
-    <div className="auth-background vh-100 vw-100 m-0 pt-5">
+    <div className="auth-background vh-100 vw-100 m-0 pt-4">
       {hasAccount ? (
         <Login setHasAccount={setHasAccount} />
       ) : (
@@ -59,9 +59,10 @@ const Login = (props) => {
 
   return (
     <section>
-      <div className="container py-5 h-100">
+      <div className="container p-3 h-100">
         <div className="row d-flex align-items-center justify-content-center h-100">
-          <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1 my-5">
+          <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1 mb-5">
+            <h1 className="display-5 text-center mb-4">Welcome Back</h1>
             <form>
               {/* Email input */}
               <div className="form-outline mb-4">
@@ -105,7 +106,9 @@ const Login = (props) => {
                     Remember me
                   </label>
                 </div>
-                <a href="#!">Forgot password?</a>
+                <p className="c-pointer">
+                  <u>Forgot Password?</u>
+                </p>
               </div>
 
               {/* Submit button */}
@@ -114,7 +117,7 @@ const Login = (props) => {
                 className="btn btn-outline-dark btn-lg w-100"
                 onClick={handleSubmit}
               >
-                Sign in
+                Log In
               </button>
 
               <div className="divider d-flex align-items-center my-4">
@@ -134,15 +137,14 @@ const Login = (props) => {
             {/* Switch view */}
             <div className="d-flex justify-content-around align-items-center mt-4">
               <p className="mb-0">Don't have an account?</p>
-              <a
+              <p
                 onClick={() => {
                   setHasAccount(false);
                 }}
-                className="link-opacity-100"
-                style={{ cursor: "pointer" }}
+                className="c-pointer"
               >
-                Sign up
-              </a>
+                <u>Sign Up</u>
+              </p>
             </div>
           </div>
         </div>
@@ -229,9 +231,10 @@ const Register = (props) => {
         theme="dark"
       />
 
-      <div className="container py-5 h-100">
+      <div className="container p-3 h-100">
         <div className="row d-flex align-items-center justify-content-center h-100">
-          <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1 my-5">
+          <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1 mb-5">
+            <h1 className="display-5 text-center mb-4">Sign Up</h1>
             <form>
               {/* Full name */}
               <div className="d-flex justify-content-between mb-4">
@@ -338,13 +341,14 @@ const Register = (props) => {
 
               {/* Google log in */}
               <button
-                className="btn btn-outline-light btn-lg w-100 d-flex align-items-center justify-content-center column-gap-1"
+                className="btn btn-secondary btn-lg w-100 d-flex align-items-center justify-content-center column-gap-1"
                 onClick={signInWithGoogle}
                 type="button"
               >
                 <Google />
                 Continue with Google
               </button>
+              <p className="text-center m-2">(Recommended)</p>
             </form>
 
             {/* Switch view */}

@@ -69,7 +69,7 @@ export const CollegeGrid = () => {
     const url = searchQuery
       ? `http://${
           import.meta.env.VITE_IP
-        }:5000/api/colleges/search?search=${searchQuery}`
+        }:5000/api/colleges/search?search=${searchQuery}&page=${pageNum + 1}`
       : `http://${import.meta.env.VITE_IP}:5000/api/colleges?page=${
           pageNum + 1
         }`;
