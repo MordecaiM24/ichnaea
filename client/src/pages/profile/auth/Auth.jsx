@@ -8,6 +8,8 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const Auth = () => {
   const [hasAccount, setHasAccount] = useState(false);
@@ -41,8 +43,8 @@ const Login = (props) => {
         `http://${import.meta.env.VITE_IP}:5000/api/users/login`
       );
       window.location.reload();
-    } catch (error) {
-      console.log(error);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -168,9 +170,9 @@ const Register = (props) => {
 
     try {
       if (newUser.password !== newUser.confirmPassword) {
-        const error = new Error();
-        error.code = "auth/password-mismatch";
-        throw error;
+        const err = new Error();
+        err.code = "auth/password-mismatch";
+        throw err;
       }
 
       console.log("Continuing");
@@ -187,24 +189,25 @@ const Register = (props) => {
       );
       // Add "remember me state" to use sessionstorage instead of local storage if remember me not checked
       window.location.reload();
-    } catch (error) {
-      console.warn("Error has occured");
-      console.log(error);
-
-      if (error.code === "auth/email-already-in-use") {
-        alert("Email already in use. Try logging in!");
-        setHasAccount(true);
-      }
-      if (error.code === "auth/invalid-email") {
-        alert("Email is invalid. Try entering a valid email!");
-      }
-      if (error.code === "auth/weak-password") {
-        alert("Password is too weak. Password should be at least 6 characters");
+    } catch (err) {
+      if (err.code === "auth/email-already-in-use") {
+        toast.err("Email already in use. Try logging in!");
+        setTimeout(() => {
+          setHasAccount(true);
+        }, 3000);
       }
 
-      if (error.code === "auth/password-mismatch") {
+      if (err.code === "auth/invalid-email") {
+        toast.err("Invalid Email");
+      }
+
+      if (err.code === "auth/weak-password") {
+        toast.err("Password should be at least 6 characters.");
+      }
+
+      if (err.code === "auth/password-mismatch") {
+        toast.err("Passwords do not match.");
         setNewUser({ ...newUser, password: "", confirmPassword: "" });
-        alert("Passwords do not match");
       }
     }
   };
@@ -216,6 +219,19 @@ const Register = (props) => {
 
   return (
     <section>
+      <ToastContainer
+        position="top-center"
+        autoClose={2500}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+
       <div className="container py-5 h-100">
         <div className="row d-flex align-items-center justify-content-center h-100">
           <div className="col-md-8 col-lg-7 col-xl-6 my-5">

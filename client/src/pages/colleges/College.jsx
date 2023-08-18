@@ -3,6 +3,8 @@ import "./College.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const College = (props) => {
   // Is college saved will look at _id and check if it has a match in savedColleges. Each button should be rendered as isSaved ? trash : plus
@@ -58,8 +60,19 @@ export const College = (props) => {
 
   const handleClick = async () => {
     if (!userID) {
-      alert("You must be logged in to save colleges and scholarships");
-      navigate("/profile");
+      toast.info("You must be logged in to save colleges and scholarships.", {
+        position: "top-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+      setTimeout(() => {
+        navigate("/profile");
+      }, 3000);
     } else if (isCollegeSaved) {
       const res = await axios.delete(
         `http://${
@@ -192,6 +205,8 @@ export const College = (props) => {
           showModal={showModal}
         />
       )}
+
+      <ToastContainer />
     </div>
   );
 };
@@ -282,8 +297,6 @@ const Modal = (props) => {
           </button>
         </form>
       </div>
-
-      <div></div>
     </div>
   );
 };

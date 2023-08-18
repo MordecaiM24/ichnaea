@@ -4,6 +4,8 @@ import axios from "axios";
 import { Search } from "react-bootstrap-icons";
 import { useSearchParams } from "react-router-dom";
 import { InfinitySpin } from "react-loader-spinner";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const CollegeGrid = () => {
   const [colleges, setColleges] = useState([]);
@@ -74,7 +76,19 @@ export const CollegeGrid = () => {
 
     const res = await axios.get(url);
     const newColleges = res.data;
-    console.log(newColleges);
+
+    if (newColleges.length === 0) {
+      toast.info("All out!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
 
     setColleges([...colleges, ...newColleges]);
   };
@@ -141,6 +155,8 @@ export const CollegeGrid = () => {
             Show More
           </button>
         </div>
+
+        <ToastContainer />
       </div>
     );
   }
