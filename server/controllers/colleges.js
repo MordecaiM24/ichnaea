@@ -77,7 +77,14 @@ const createCollege = async (req, res) => {
 };
 
 const getColleges = async (req, res) => {
-  const colleges = await CollegeModel.find({});
+  console.log("Getting colleges");
+  console.log(req.query.page || 0);
+  const page = req.query.page || 0; // current page, default 0
+  const collegesPerPage = 6;
+
+  const colleges = await CollegeModel.find({})
+    .skip(page * collegesPerPage)
+    .limit(collegesPerPage);
   res.status(200).json(colleges);
 };
 

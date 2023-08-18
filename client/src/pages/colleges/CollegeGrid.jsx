@@ -21,6 +21,8 @@ export const CollegeGrid = () => {
 
   const [isLoading, setLoading] = useState(true);
 
+  const [pageNum, setPageNum] = useState(0);
+
   useEffect(() => {
     const url = searchQuery
       ? `http://${
@@ -57,6 +59,25 @@ export const CollegeGrid = () => {
   }, [shouldUpdate]);
 
   const [newParams, setNewParams] = useState("");
+
+  const getMoreColleges = async () => {
+    console.log(colleges);
+    setPageNum(pageNum + 1);
+
+    const url = searchQuery
+      ? `http://${
+          import.meta.env.VITE_IP
+        }:5000/api/colleges/search?search=${searchQuery}`
+      : `http://${import.meta.env.VITE_IP}:5000/api/colleges?page=${
+          pageNum + 1
+        }`;
+
+    const res = await axios.get(url);
+    const newColleges = res.data;
+    console.log(newColleges);
+
+    setColleges([...colleges, ...newColleges]);
+  };
 
   if (isLoading) {
     return (
@@ -100,7 +121,7 @@ export const CollegeGrid = () => {
           </div>
         )}
 
-        <div className="row gx-5 gy-5">
+        <div className="row gx-5 gy-5 mb-5">
           {colleges.map((college) => {
             return (
               <College
@@ -113,6 +134,12 @@ export const CollegeGrid = () => {
               />
             );
           })}
+        </div>
+
+        <div className="text-center me-5">
+          <button className="btn btn-outline-primary" onClick={getMoreColleges}>
+            Show More
+          </button>
         </div>
       </div>
     );
