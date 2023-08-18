@@ -2,9 +2,13 @@ import { ichnaeaLogo } from "src/assets/assets";
 import { Bank, Coin, MortarboardFill } from "react-bootstrap-icons";
 import { Link, useSearchParams } from "react-router-dom";
 import "bootstrap/dist/js/bootstrap.js";
+import { useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 export const Navbar = () => {
+  const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
+  const [navbarClasses, setNavbarClasses] = useState("");
 
   const removeQueryParams = () => {
     const param = searchParams.get("search");
@@ -18,10 +22,20 @@ export const Navbar = () => {
     }
   };
 
+  useEffect(() => {
+    if (location.pathname === "/profile" && !window.localStorage.userID) {
+      setNavbarClasses(
+        "navbar navbar-expand-md bg-primary-gradient navbar-dark"
+      );
+    } else {
+      setNavbarClasses("navbar navbar-expand-md bg-primary mb-3 navbar-dark");
+    }
+  }, [location]);
+
   return (
     <>
       {/* navbar */}
-      <nav className="navbar navbar-expand-md bg-primary mb-3 navbar-dark">
+      <nav className={navbarClasses}>
         <div className="container-fluid px-5">
           <Link to="/" className="navbar-brand me-5">
             {/* TODO: change logo to text/svg. SVG not working (?) atm */}

@@ -10,14 +10,18 @@ import {
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import "./auth.css";
 
 export const Auth = () => {
   const [hasAccount, setHasAccount] = useState(false);
-
-  return hasAccount ? (
-    <Login setHasAccount={setHasAccount} />
-  ) : (
-    <Register setHasAccount={setHasAccount} />
+  return (
+    <div className="auth-background vh-100 vw-100 m-0 pt-5">
+      {hasAccount ? (
+        <Login setHasAccount={setHasAccount} />
+      ) : (
+        <Register setHasAccount={setHasAccount} />
+      )}
+    </div>
   );
 };
 
@@ -57,13 +61,6 @@ const Login = (props) => {
     <section>
       <div className="container py-5 h-100">
         <div className="row d-flex align-items-center justify-content-center h-100">
-          <div className="col-md-8 col-lg-7 col-xl-6 my-5">
-            <img
-              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-              className="img-fluid"
-              alt="Phone image"
-            />
-          </div>
           <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1 my-5">
             <form>
               {/* Email input */}
@@ -72,7 +69,7 @@ const Login = (props) => {
                   type="email"
                   id="email"
                   name="email"
-                  className="form-control form-control-md"
+                  className="form-control form-control-md transparent"
                   onChange={(e) => handleChange(e)}
                 />
                 <label className="form-label" htmlFor="email">
@@ -86,7 +83,7 @@ const Login = (props) => {
                   type="password"
                   id="password"
                   name="password"
-                  className="form-control form-control-md"
+                  className="form-control form-control-md transparent"
                   onChange={(e) => handleChange(e)}
                 />
                 <label className="form-label" htmlFor="password">
@@ -114,7 +111,7 @@ const Login = (props) => {
               {/* Submit button */}
               <button
                 type="submit"
-                className="btn btn-primary btn-lg w-100"
+                className="btn btn-outline-dark btn-lg w-100"
                 onClick={handleSubmit}
               >
                 Sign in
@@ -125,7 +122,7 @@ const Login = (props) => {
               </div>
 
               <button
-                className="btn btn-outline-secondary btn-lg w-100 d-flex align-items-center justify-content-center column-gap-1"
+                className="btn btn-secondary btn-lg w-100 d-flex align-items-center justify-content-center column-gap-1"
                 onClick={signInWithGoogle}
                 type="button"
               >
@@ -234,13 +231,6 @@ const Register = (props) => {
 
       <div className="container py-5 h-100">
         <div className="row d-flex align-items-center justify-content-center h-100">
-          <div className="col-md-8 col-lg-7 col-xl-6 my-5">
-            <img
-              src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.svg"
-              className="img-fluid"
-              alt="Phone image"
-            />
-          </div>
           <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1 my-5">
             <form>
               {/* Full name */}
@@ -251,7 +241,7 @@ const Register = (props) => {
                     type="text"
                     name="firstName"
                     id="firstName"
-                    className="form-control form-control-md"
+                    className="form-control form-control-md transparent"
                     onChange={(e) => {
                       handleChange(e);
                     }}
@@ -268,7 +258,7 @@ const Register = (props) => {
                     type="text"
                     name="lastName"
                     id="lastName"
-                    className="form-control form-control-md"
+                    className="form-control form-control-md transparent"
                     onChange={(e) => {
                       handleChange(e);
                     }}
@@ -286,7 +276,7 @@ const Register = (props) => {
                   type="email"
                   id="email"
                   name="email"
-                  className="form-control form-control-md"
+                  className="form-control form-control-md transparent"
                   onChange={(e) => {
                     handleChange(e);
                   }}
@@ -303,7 +293,7 @@ const Register = (props) => {
                     type="password"
                     name="password"
                     id="password"
-                    className="form-control form-control-md"
+                    className="form-control form-control-md transparent"
                     value={newUser.password}
                     onChange={(e) => {
                       handleChange(e);
@@ -320,7 +310,7 @@ const Register = (props) => {
                     type="password"
                     name="confirmPassword"
                     id="confirmPassword"
-                    className="form-control form-control-md"
+                    className="form-control form-control-md transparent"
                     value={newUser.confirmPassword}
                     onChange={(e) => {
                       handleChange(e);
@@ -335,7 +325,7 @@ const Register = (props) => {
               {/* Submit button */}
               <button
                 type="submit"
-                className="btn btn-primary btn-lg w-100"
+                className="btn btn-outline-dark btn-lg w-100"
                 onClick={handleSubmit}
               >
                 Sign up
@@ -348,7 +338,7 @@ const Register = (props) => {
 
               {/* Google log in */}
               <button
-                className="btn btn-outline-secondary btn-lg w-100 d-flex align-items-center justify-content-center column-gap-1"
+                className="btn btn-outline-light btn-lg w-100 d-flex align-items-center justify-content-center column-gap-1"
                 onClick={signInWithGoogle}
                 type="button"
               >
@@ -360,15 +350,14 @@ const Register = (props) => {
             {/* Switch view */}
             <div className="d-flex justify-content-around align-items-center mt-4">
               <p className="mb-0">Already have an account?</p>
-              <a
+              <p
                 onClick={() => {
                   setHasAccount(true);
                 }}
-                className="link-opacity-100"
-                style={{ cursor: "pointer" }}
+                className="c-pointer"
               >
-                Log In
-              </a>
+                <u>Log In</u>
+              </p>
             </div>
           </div>
         </div>
