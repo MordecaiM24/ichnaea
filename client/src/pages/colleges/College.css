@@ -160,3 +160,11 @@ input:-webkit-autofill:active {
   flex-direction: column;
   justify-content: space-between;
 }
+
+.w-fit {
+  width: fit-content;
+}
+
+.h-fit {
+  height: fit-content;
+}

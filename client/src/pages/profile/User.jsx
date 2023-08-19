@@ -14,6 +14,8 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import { Calendar } from "react-calendar";
 import "./calendar.css";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const User = () => {
   const [todo, setTodo] = useState([]);
@@ -884,19 +886,55 @@ const SuppEssays = (props) => {
 
   const suppEssays = essayObj?.suppEssays;
 
+  const [showClear, setShowClear] = useState(false);
+
+  const clearColleges = async () => {
+    const res = await axios.patch(
+      `http://${import.meta.env.VITE_IP}:5000/api/users/clearColleges`,
+      { userID: window.localStorage.getItem("userID") }
+    );
+    toast.info("Colleges cleared!", {
+      position: "top-center",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "dark",
+    });
+    setTodo(res.data.todo);
+    return;
+  };
+
   return (
     <>
       <div className="container-xxl my-5 px-md-5">
+        <ToastContainer />
         <div className="list-group">
           <div className="list-group-item list-group-item-action p-0 border-0">
-            <div className="row d-flex align-items-center pe-2">
-              <div className="col-5">
+            <div
+              className="row d-flex align-items-center pe-2"
+              onMouseOver={() => setShowClear(true)}
+              onMouseOut={() => {
+                setShowClear(false);
+              }}
+            >
+              <div className="col-5 d-flex align-items-center">
                 <a
                   aria-current="true"
                   className="list-group-item list-group-item-action w-max-content px-md-5 px-3 py-2 rounded-top bg-orange text-white "
                 >
                   College Essays
                 </a>
+                {showClear && (
+                  <button
+                    className="ms-5 btn btn-outline-danger"
+                    onClick={clearColleges}
+                  >
+                    Clear
+                  </button>
+                )}
               </div>
               <div className="col-7 row pe-5 text-center">
                 <div className="col-2">Notes</div>
@@ -1166,6 +1204,7 @@ const CollegeCalendar = (props) => {
   const [college, setCollege] = useState(todo[6].suppEssays[collegeIdx]);
 
   const [date, setDate] = useState(new Date(college.decision.date));
+
   const [isBlocked, setBlockage] = useState(false);
 
   const changeDate = async (date) => {

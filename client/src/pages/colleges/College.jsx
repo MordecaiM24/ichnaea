@@ -258,7 +258,7 @@ const Modal = (props) => {
 
   return (
     <div className="vh-100 vw-100 d-flex flex-column align-items-center justify-content-around position-fixed top-0 start-0 college-modal">
-      <div className="h-25 w-25 border border-primary border-3 rounded bg-white position-relative p-3">
+      <div className="h-fit w-fit border border-primary border-3 rounded bg-white position-relative p-3">
         <p className="ps-1 pb-2">
           Which plan would you like for {college.shortName}?
         </p>
@@ -281,27 +281,34 @@ const Modal = (props) => {
                   name="decision"
                 />
                 <label htmlFor={deadline.decisionType}>
-                  {deadline.specialName}
+                  {deadline.specialName} (
+                  {new Date(deadline.date).toLocaleString("default", {
+                    month: "long",
+                    day: "numeric",
+                  })}
+                  )
                 </label>
               </div>
             );
           })}
 
-          <button
-            className="btn btn-outline-secondary position-absolute college-close"
-            onClick={() => {
-              showModal(false);
-            }}
-            type="button"
-          >
-            Cancel
-          </button>
-          <button
-            className="btn btn-outline-primary position-absolute college-submit"
-            type="submit"
-          >
-            Submit
-          </button>
+          <div className="mt-5">
+            <button
+              className="btn btn-outline-secondary position-absolute college-close"
+              onClick={() => {
+                showModal(false);
+              }}
+              type="button"
+            >
+              Cancel
+            </button>
+            <button
+              className="btn btn-outline-primary position-absolute college-submit"
+              type="submit"
+            >
+              Submit
+            </button>
+          </div>
         </form>
       </div>
     </div>

@@ -45,6 +45,7 @@ export const CollegeGrid = () => {
   }, []);
 
   useEffect(() => {
+    console.log("Getting colleges");
     if (userID) {
       const getSavedColleges = async () => {
         const res = await axios.get(
@@ -58,6 +59,7 @@ export const CollegeGrid = () => {
 
       getSavedColleges();
     }
+    console.log(savedColleges);
   }, [shouldUpdate]);
 
   const [newParams, setNewParams] = useState("");

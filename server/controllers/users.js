@@ -92,6 +92,7 @@ const verifyToken = (req, res, next) => {
 };
 
 const saveCollege = async (req, res, next) => {
+  console.log("Saving");
   const collegeToSave = req.body.collegeToSave;
   const userID = req.body.userID;
 
@@ -341,6 +342,24 @@ const editCollegeDate = async (req, res, next) => {
   res.json(user);
 };
 
+const clearColleges = async (req, res, next) => {
+  const user = await UserModel.findOne({ _id: req.body.userID });
+
+  const suppEssayIdx = user.todo.findIndex((obj) => {
+    return obj.task === "suppEssays";
+  });
+
+  console.log(suppEssayIdx);
+
+  user.todo[suppEssayIdx].suppEssays = [];
+  user.savedColleges = [];
+
+  user.markModified("todo");
+
+  await user.save();
+  res.json(user);
+};
+
 export {
   createUser,
   login,
@@ -356,4 +375,5 @@ export {
   editCollegeNote,
   editTaskDate,
   editCollegeDate,
+  clearColleges,
 };
