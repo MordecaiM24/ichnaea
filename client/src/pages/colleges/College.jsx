@@ -160,31 +160,41 @@ export const College = (props) => {
           </div>
           <div className="col-6 col-md-7">
             <div className="card-body p-2 position-relative h-100">
-              <div className="card-text flex-column-between h-100">
+              <div
+                className={
+                  "card-text h-100" + (width > 330 && " flex-column-between")
+                }
+              >
                 {/* TODO: change info depending on screen size */}
 
                 <p className="lead mb-0">
                   {fullName.length < 30 ? fullName : shortName}
                 </p>
 
-                <small className=" d-sm-block ">
+                <small className="d-sm-block">
                   <strong>{location}</strong>
                 </small>
 
-                <small className=" d-sm-block">
-                  {length} &#183; {privacy} &#183; {setting}
-                </small>
-
-                <small className=" d-sm-block">
-                  General Ranking: #{genRanking}
-                  {/* TODO: add (tie) if genRanking matches other colleges genRanking */}
-                </small>
-
-                <small className=" d-sm-block">
-                  {numStudents.toLocaleString("en-US")} Undergraduate Students
-                  {/* {numStudents} */}
-                </small>
-                <small className=" d-sm-block">{characteristic}</small>
+                {width > 330 && (
+                  <small className=" d-sm-block">
+                    {length} &#183; {privacy} &#183; {setting}
+                  </small>
+                )}
+                {width > 330 && (
+                  <small className=" d-sm-block">
+                    General Ranking: #{genRanking}
+                    {/* TODO: add (tie) if genRanking matches other colleges genRanking */}
+                  </small>
+                )}
+                {width > 330 && (
+                  <small className=" d-sm-block">
+                    {numStudents.toLocaleString("en-US")} Undergraduate Students
+                    {/* {numStudents} */}
+                  </small>
+                )}
+                {width > 330 && (
+                  <small className=" d-sm-block">{characteristic}</small>
+                )}
               </div>
             </div>
           </div>

@@ -81,7 +81,8 @@ export const User = () => {
 
       <button
         onClick={logout}
-        style={{ position: "fixed", top: "10px", right: "10px" }}
+        style={{ position: "fixed", top: "6rem", right: "1rem" }}
+        className="btn btn-outline-primary"
       >
         Logout
       </button>
@@ -888,7 +889,10 @@ const SuppEssays = (props) => {
 
   const [showClear, setShowClear] = useState(false);
 
-  const clearColleges = async () => {
+  const clearColleges = async (event) => {
+    const e = event.currentTarget;
+
+    e.disabled = true;
     const res = await axios.patch(
       `http://${import.meta.env.VITE_IP}:5000/api/users/clearColleges`,
       { userID: window.localStorage.getItem("userID") }
@@ -904,6 +908,7 @@ const SuppEssays = (props) => {
       theme: "dark",
     });
     setTodo(res.data.todo);
+    e.disabled = false;
     return;
   };
 
@@ -929,8 +934,8 @@ const SuppEssays = (props) => {
                 </a>
                 {showClear && (
                   <button
-                    className="ms-5 btn btn-outline-danger"
-                    onClick={clearColleges}
+                    className="ms-5 btn btn-outline-primary"
+                    onClick={(e) => clearColleges(e)}
                   >
                     Clear
                   </button>
@@ -947,6 +952,12 @@ const SuppEssays = (props) => {
         </div>
         <div className="accordion">
           <div className="accordion">
+            {suppEssays?.length === 0 && (
+              <p className="lead border rounded rounded-top-0 py-5 px-3">
+                {" "}
+                Start Adding Colleges!{" "}
+              </p>
+            )}
             {suppEssays?.map((college, idx) => {
               return (
                 <CollegeQs
@@ -1147,7 +1158,6 @@ const CollegeQs = (props) => {
           <div className="list-group">
             {college.questions.map((question, idx, arr) => {
               return (
-                // <a className="list-group-item list-group-item-action rounded-end rounded-bottom border-top border-start-0 border-round-start-0">
                 <a
                   key={idx}
                   className={
@@ -1157,7 +1167,6 @@ const CollegeQs = (props) => {
                 >
                   <div className="row d-flex align-items-center">
                     <div className="col-5 row d-flex align-items-center p-0">
-                      {/* <div className="col-1"></div> */}
                       <CircleFill
                         className={
                           "fs-7 c-pointer col-1 ms-3 " +
