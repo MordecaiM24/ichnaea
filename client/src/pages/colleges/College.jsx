@@ -5,8 +5,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useMeasure } from "react-use";
 
 export const College = (props) => {
+  const [ref, { width, height }] = useMeasure();
+
   // Is college saved will look at _id and check if it has a match in savedColleges. Each button should be rendered as isSaved ? trash : plus
   // Whenever the button is clicked, if the college is saved it will delete it and reload savedColleges.
 
@@ -116,19 +119,19 @@ export const College = (props) => {
   //               <p className="lead mb-0 placeholder-glow">
   //                 <span className="placeholder col-6"></span>
   //               </p>
-  //               <small className="d-none d-sm-block placeholder-glow">
+  //               <small className=" d-sm-block placeholder-glow">
   //                 <span className="placeholder col-7"></span>
   //               </small>
-  //               <small className="d-none d-sm-block placeholder-glow">
+  //               <small className=" d-sm-block placeholder-glow">
   //                 <span className="placeholder col-12"></span>
   //               </small>
-  //               <small className="d-none d-sm-block placeholder-glow">
+  //               <small className=" d-sm-block placeholder-glow">
   //                 <span className="placeholder col-8"></span>
   //               </small>
-  //               <small className="d-none d-sm-block placeholder-glow">
+  //               <small className=" d-sm-block placeholder-glow">
   //                 <span className="placeholder col-9"></span>
   //               </small>
-  //               <small className="d-none d-sm-block placeholder-glow">
+  //               <small className=" d-sm-block placeholder-glow">
   //                 <span className="placeholder col-5"></span>
   //               </small>
   //             </div>
@@ -144,6 +147,7 @@ export const College = (props) => {
         className="card mb-3 border-primary border-2 p-0 btn btn-outline-primary text-start college-card"
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
+        ref={ref}
       >
         {/* Row gx-0 makes a horizontal card with no space */}
         <div className="row gx-0">
@@ -155,30 +159,32 @@ export const College = (props) => {
             />
           </div>
           <div className="col-6 col-md-7">
-            <div className="card-body p-2" style={{ height: "100%" }}>
-              <div
-                className="card-text d-flex flex-column justify-content-between overflow-hidden"
-                style={{ height: "100%" }}
-              >
+            <div className="card-body p-2 position-relative h-100">
+              <div className="card-text flex-column-between h-100">
                 {/* TODO: change info depending on screen size */}
+
                 <p className="lead mb-0">
                   {fullName.length < 30 ? fullName : shortName}
                 </p>
-                <small className="d-none d-sm-block">
+
+                <small className=" d-sm-block ">
                   <strong>{location}</strong>
                 </small>
-                <small className="d-none d-sm-block">
+
+                <small className=" d-sm-block">
                   {length} &#183; {privacy} &#183; {setting}
                 </small>
-                <small className="d-none d-sm-block">
+
+                <small className=" d-sm-block">
                   General Ranking: #{genRanking}
                   {/* TODO: add (tie) if genRanking matches other colleges genRanking */}
                 </small>
-                <small className="d-none d-sm-block">
+
+                <small className=" d-sm-block">
                   {numStudents.toLocaleString("en-US")} Undergraduate Students
                   {/* {numStudents} */}
                 </small>
-                <small className="d-none d-sm-block">{characteristic}</small>
+                <small className=" d-sm-block">{characteristic}</small>
               </div>
             </div>
           </div>
