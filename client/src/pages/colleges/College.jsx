@@ -39,7 +39,9 @@ export const College = (props) => {
   const characteristic = "Test Optional";
   const length = "4 Year";
 
-  const [addBtnVisibility, setVisibility] = useState(false);
+  const [addBtnVisibility, setVisibility] = useState(
+    window.matchMedia("(max-width: 576px)").matches ? true : false
+  );
   // const [isLoading, setLoading] = useState(false);
   const [modalVis, showModal] = useState(false);
 
@@ -54,11 +56,15 @@ export const College = (props) => {
   }, [savedColleges]);
 
   const handleMouseOver = () => {
-    setVisibility(true);
+    window.matchMedia("(max-width: 576px)").matches && setVisibility(true);
   };
 
   const handleMouseOut = () => {
-    setVisibility(false);
+    if (window.matchMedia("(max-width: 576px)").matches) {
+      setVisibility(true);
+    } else {
+      setVisibility(false);
+    }
   };
 
   const handleClick = async () => {
@@ -186,7 +192,6 @@ export const College = (props) => {
 
           <button
             className="btn btn-outline-secondary rounded-circle add-college-btn btn-lg border-2"
-            // onClick={renderModal}
             onClick={handleClick}
           >
             {isCollegeSaved ? <Trash3Fill /> : <PlusLg />}

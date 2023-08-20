@@ -152,7 +152,7 @@ export const CollegeGrid = () => {
           })}
         </div>
 
-        <div className="text-center me-5">
+        <div className="text-center me-0 me-md-5 mb-5">
           <button className="btn btn-outline-primary" onClick={getMoreColleges}>
             Show More
           </button>

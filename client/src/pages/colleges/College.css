@@ -26,6 +26,13 @@
   background-color: white;
 }
 
+@media (max-width: 768px) {
+  .add-college-btn {
+    bottom: -0.75rem;
+    left: 50%;
+  }
+}
+
 .college-card {
   position: relative;
   z-index: 11;
