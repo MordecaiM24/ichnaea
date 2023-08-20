@@ -1,4 +1,3 @@
-import { ichnaeaLogo } from "src/assets/assets";
 import { Bank, Coin, MortarboardFill } from "react-bootstrap-icons";
 import { Link, useSearchParams } from "react-router-dom";
 import "bootstrap/dist/js/bootstrap.js";
@@ -40,7 +39,11 @@ export const Navbar = () => {
           <Link to="/" className="navbar-brand me-5">
             {/* TODO: change logo to text/svg. SVG not working (?) atm */}
             {/* BIGGER TODO: Change logo. Think of new name lol */}
-            <img src={ichnaeaLogo} alt="bootstrap" width="128" />
+            <img
+              src="src/assets/ichnaea-logo-zip-file/png/logo-no-background.png"
+              alt="bootstrap"
+              width="128"
+            />
           </Link>
           {/* toggle button for mobile nav */}
           <button
