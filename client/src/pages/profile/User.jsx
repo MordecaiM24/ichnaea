@@ -66,23 +66,11 @@ export const User = () => {
   };
 
   return (
-    <>
-      {/* <form
-        onSubmit={(e) => {
-          e.preventDefault();
-          console.log(e.target[0].value);
-          console.log(e.target[1].value);
-        }}
-      >
-        <input type="text" name="name" />
-        <input type="text" name="value" />
-        <button>Submit</button>
-      </form> */}
-
+    <div className="position-relative">
       <button
         onClick={logout}
-        style={{ position: "fixed", top: "6rem", right: "1rem" }}
-        className="btn btn-outline-primary"
+        style={{ position: "absolute", top: "0rem", right: "1rem" }}
+        className="btn btn-primary z-high"
       >
         Logout
       </button>
@@ -90,7 +78,7 @@ export const User = () => {
       <TodoList todo={todo} updateTodo={updateTodo} setTodo={setTodo} />
 
       <SuppEssays todo={todo} updateTodo={updateTodo} setTodo={setTodo} />
-    </>
+    </div>
   );
 };
 
@@ -272,15 +260,17 @@ const TodoList = (props) => {
           <div className="list-group-item list-group-item-action p-0 border-0">
             <div className="row d-flex align-items-center">
               <div className="col-5">
-                <a className="list-group-item list-group-item-action active w-max-content px-md-5 px-3 rounded-top">
+                <a className="list-group-item list-group-item-action active w-max-content px-md-5 px-3 rounded-top z-0">
                   Common App
                 </a>
               </div>
               <div className="row col-7 pe-4 text-center">
-                <div className="col-2">Notes</div>
-                <div className="col-2">Target Date</div>
-                <div className="col-6 pe-4">Status</div>
-                <div className="col-2">Priority</div>
+                <div className="col-2 d-none d-md-block">Notes</div>
+                <div className="col-2 d-none d-md-block overflow-24">
+                  Target Date
+                </div>
+                <div className="col-6 pe-4 d-none d-md-block">Status</div>
+                <div className="col-2 d-none d-md-block">Priority</div>
               </div>
             </div>
           </div>
@@ -288,11 +278,13 @@ const TodoList = (props) => {
           <a className="list-group-item list-group-item-action rounded-end rounded-bottom border-top">
             <div className="row d-flex align-items-center">
               <div className="col-5 d-flex align-items-center">
-                <CircleFill
-                  role="button"
-                  className={"fs-8 me-2 " + elStyles.commonAppEssay.bullet}
-                  onClick={(e) => completeTask(e, "commonAppEssay")}
-                />
+                <div>
+                  <CircleFill
+                    role="button"
+                    className={"fs-8 me-2 " + elStyles.commonAppEssay.bullet}
+                    onClick={(e) => completeTask(e, "commonAppEssay")}
+                  />
+                </div>
                 <p>Finish Common App Essay</p>
               </div>
               <div className="row col-7 text-center">
@@ -331,7 +323,7 @@ const TodoList = (props) => {
                     {elStyles.commonAppEssay.text}
                   </button>
                 </div>
-                <div className="col-2">
+                <div className="col-2 d-none d-sm-block">
                   {isFlagLoading[0] ? (
                     <ProgressBar
                       height="2rem"
@@ -407,7 +399,7 @@ const TodoList = (props) => {
                     {elStyles.satUpload.text}
                   </button>
                 </div>
-                <div className="col-2">
+                <div className="col-2 d-none d-sm-block">
                   {isFlagLoading[1] ? (
                     <ProgressBar
                       height="2rem"
@@ -483,7 +475,7 @@ const TodoList = (props) => {
                     {elStyles.actUpload.text}
                   </button>
                 </div>
-                <div className="col-2">
+                <div className="col-2 d-none d-sm-block">
                   {isFlagLoading[2] ? (
                     <ProgressBar
                       height="2rem"
@@ -516,11 +508,13 @@ const TodoList = (props) => {
           <a className="list-group-item list-group-item-action rounded">
             <div className="row d-flex align-items-center">
               <div className="col-5 d-flex align-items-center">
-                <CircleFill
-                  role="button"
-                  className={"fs-8 me-2 " + elStyles.extracurriculars.bullet}
-                  onClick={(e) => completeTask(e, "extracurriculars")}
-                />
+                <div>
+                  <CircleFill
+                    role="button"
+                    className={"fs-8 me-2 " + elStyles.extracurriculars.bullet}
+                    onClick={(e) => completeTask(e, "extracurriculars")}
+                  />
+                </div>
                 <p>Upload extracurriculars</p>
               </div>
               <div className="row col-7 text-center">
@@ -560,7 +554,7 @@ const TodoList = (props) => {
                     {elStyles.extracurriculars.text}
                   </button>
                 </div>
-                <div className="col-2">
+                <div className="col-2 d-none d-sm-block">
                   {isFlagLoading[3] ? (
                     <ProgressBar
                       height="2rem"
@@ -593,11 +587,13 @@ const TodoList = (props) => {
           <a className="list-group-item list-group-item-action rounded">
             <div className="row d-flex align-items-center">
               <div className="col-5 d-flex align-items-center">
-                <CircleFill
-                  role="button"
-                  className={"fs-8 me-2 " + elStyles.teacherRecs.bullet}
-                  onClick={(e) => completeTask(e, "teacherRecs")}
-                />
+                <div>
+                  <CircleFill
+                    role="button"
+                    className={"fs-8 me-2 " + elStyles.teacherRecs.bullet}
+                    onClick={(e) => completeTask(e, "teacherRecs")}
+                  />
+                </div>
                 <p>Ask for / upload teacher recommendations</p>
               </div>
               <div className="row col-7 text-center">
@@ -639,7 +635,7 @@ const TodoList = (props) => {
                   </button>
                 </div>
 
-                <div className="col-2">
+                <div className="col-2 d-none d-sm-block">
                   {isFlagLoading[4] ? (
                     <ProgressBar
                       height="2rem"
@@ -672,11 +668,13 @@ const TodoList = (props) => {
           <a className="list-group-item list-group-item-action rounded">
             <div className="row d-flex align-items-center">
               <div className="col-5 d-flex align-items-center">
-                <CircleFill
-                  role="button"
-                  className={"fs-8 me-2 " + elStyles.writingSupplement.bullet}
-                  onClick={(e) => completeTask(e, "writingSupplement")}
-                />
+                <div>
+                  <CircleFill
+                    role="button"
+                    className={"fs-8 me-2 " + elStyles.writingSupplement.bullet}
+                    onClick={(e) => completeTask(e, "writingSupplement")}
+                  />
+                </div>
                 <p>Finish / upload writing supplement</p>
               </div>
               <div className="row col-7 text-center">
@@ -719,7 +717,7 @@ const TodoList = (props) => {
                   </button>
                 </div>
 
-                <div className="col-2">
+                <div className="col-2 d-none d-sm-block">
                   {isFlagLoading[5] ? (
                     <ProgressBar
                       height="2rem"
@@ -858,7 +856,7 @@ const NoteArea = (props) => {
   };
 
   return (
-    <div className="position-absolute position-relative z-3 notes ">
+    <div className="position-absolute position-relative z=high notes">
       <textarea
         className="w-100 h-100 note-text p-2 border-primary outline-primary"
         defaultValue={defaultVal}
@@ -887,8 +885,6 @@ const SuppEssays = (props) => {
 
   const suppEssays = essayObj?.suppEssays;
 
-  const [showClear, setShowClear] = useState(false);
-
   const clearColleges = async (event) => {
     const e = event.currentTarget;
 
@@ -913,67 +909,62 @@ const SuppEssays = (props) => {
   };
 
   return (
-    <>
-      <div className="container-xxl my-5 px-md-5">
-        <ToastContainer />
-        <div className="list-group">
-          <div className="list-group-item list-group-item-action p-0 border-0">
-            <div
-              className="row d-flex align-items-center pe-2"
-              onMouseOver={() => setShowClear(true)}
-              onMouseOut={() => {
-                setShowClear(false);
-              }}
-            >
-              <div className="col-5 d-flex align-items-center">
-                <a
-                  aria-current="true"
-                  className="list-group-item list-group-item-action w-max-content px-md-5 px-3 py-2 rounded-top bg-orange text-white "
-                >
-                  College Essays
-                </a>
-                {showClear && (
-                  <button
-                    className="ms-5 btn btn-outline-primary"
-                    onClick={(e) => clearColleges(e)}
-                  >
-                    Clear
-                  </button>
-                )}
+    <div className="container-xxl my-5 px-md-5 text-center">
+      <ToastContainer />
+      <div className="list-group">
+        <div className="list-group-item list-group-item-action p-0 border-0">
+          <div className="row d-flex align-items-center pe-2">
+            <div className="col-5 d-flex align-items-center">
+              <a
+                aria-current="true"
+                className="list-group-item list-group-item-action w-max-content px-md-5 px-3 py-2 rounded-top bg-orange text-white "
+              >
+                College Essays
+              </a>
+            </div>
+            <div className="col-7 row pe-5 text-center">
+              <div className="col-2 d-none d-md-block">Notes</div>
+              <div className="col-2 d-none d-md-block overflow-24">
+                {" "}
+                Target Date{" "}
               </div>
-              <div className="col-7 row pe-5 text-center">
-                <div className="col-2">Notes</div>
-                <div className="col-2">Target Date</div>
-                <div className="col-6 pe-4">Application Type</div>
-                <div className="col-2">Completion</div>
+              <div className="col-6 pe-4 d-none d-md-block">
+                Application Type
               </div>
+              <div className="col-2 d-none d-md-block">Completion</div>
             </div>
           </div>
         </div>
+      </div>
+      <div className="accordion">
         <div className="accordion">
-          <div className="accordion">
-            {suppEssays?.length === 0 && (
-              <p className="lead border rounded rounded-top-0 py-5 px-3">
-                {" "}
-                Start Adding Colleges!{" "}
-              </p>
-            )}
-            {suppEssays?.map((college, idx) => {
-              return (
-                <CollegeQs
-                  college={college}
-                  key={idx}
-                  updateTodo={updateTodo}
-                  idx={idx}
-                  setTodo={props.setTodo}
-                  todo={todo}
-                />
-              );
-            })}
-          </div>
+          {suppEssays?.length === 0 && (
+            <p className="lead border rounded rounded-top-0 py-5 px-3">
+              {" "}
+              Start Adding Colleges!{" "}
+            </p>
+          )}
+          {suppEssays?.map((college, idx) => {
+            return (
+              <CollegeQs
+                college={college}
+                key={idx}
+                updateTodo={updateTodo}
+                idx={idx}
+                setTodo={props.setTodo}
+                todo={todo}
+              />
+            );
+          })}
         </div>
       </div>
-    </>
+      <button
+        className="btn btn-outline-primary w-100"
+        onClick={(e) => clearColleges(e)}
+      >
+        Clear
+      </button>
+    </div>
   );
 };
 
@@ -1104,7 +1095,7 @@ const CollegeQs = (props) => {
               {college.collegeName}
             </p>
             <div className="col-7 row text-center">
-              <div className="col-2 d-flex flex-column justify-content-center align-items-center position-relative">
+              <div className="col-2 d-none d-md-flex flex-column justify-content-center align-items-center position-relative ">
                 <JournalBookmarkFill
                   className="fs-5 c-pointer"
                   data-bs-toggle="collapse"
@@ -1121,7 +1112,7 @@ const CollegeQs = (props) => {
                   />
                 )}
               </div>
-              <div className="col-2 d-flex flex-column justify-content-center align-items-center">
+              <div className="col-2 d-none d-md-flex flex-column justify-content-center align-items-center">
                 <CalendarDate
                   className="fs-5"
                   data-bs-toggle="collapse"
@@ -1134,7 +1125,7 @@ const CollegeQs = (props) => {
               <div className="col-6 d-flex flex-column justify-content-center">
                 {college.decision.specialName}
               </div>
-              <div className="col-2 d-flex align-items-center justify-content-center">
+              <div className="col-6 col-md-2 d-flex align-items-center justify-content-center">
                 <div className="h-50 w-50 d-flex align-items-center justify-content-center">
                   <CircularProgressbar
                     value={percentCompleted}
@@ -1154,7 +1145,7 @@ const CollegeQs = (props) => {
         className="accordion-collapse collapse border-round-start-0"
         data-bs-parent="#accordionExample"
       >
-        <div className="accordion-body ps-0 py-0 pe-4">
+        <div className="accordion-body ps-0 py-0 pe-0 pe-md-4">
           <div className="list-group">
             {college.questions.map((question, idx, arr) => {
               return (
@@ -1165,21 +1156,16 @@ const CollegeQs = (props) => {
                     questionClasses(idx, arr)
                   }
                 >
-                  <div className="row d-flex align-items-center">
-                    <div className="col-5 row d-flex align-items-center p-0">
-                      <CircleFill
-                        className={
-                          "fs-7 c-pointer col-1 ms-3 " +
-                          style(question.status).bullet
-                        }
-                      />
-
-                      <p className="col-9">{question.question}</p>
+                  <div className="row align-items-center">
+                    <div className="col-7 row d-flex align-items-center p-0">
+                      <p className="overflow-64 text-start ms-3">
+                        {question.question}
+                      </p>
                     </div>
-                    <div className="row col-7 text-center">
-                      <div className="col-2"></div>
-                      <div className="col-2"></div>
-                      <div className="col-6">
+                    <div className="col-1"></div>
+                    <div className="col-4 text-center pe-5">
+                      {/* <div className="col-12"> */}
+                      <div>
                         <button
                           onClick={(e) => {
                             completeQuestion(e, question.question);
@@ -1189,12 +1175,12 @@ const CollegeQs = (props) => {
                           {style(question.status).text}
                         </button>
                       </div>
-                      <div className="col-2 d-flex align-items-center justify-content-center">
+                      {/* <div className="col-md-6 col-0 d-none d-md-flex align-items-center justify-content-center">
                         <Flag
                           className="fs-5 c-pointer"
                           onClick={() => changeFlag("satUpload")}
                         />
-                      </div>
+                      </div> */}
                     </div>
                   </div>
                 </a>

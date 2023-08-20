@@ -25,42 +25,48 @@ const createUser = async (req, res) => {
       {
         task: "commonAppEssay",
         status: 0,
-        notes: "These are your notes for your common app essay!",
+        notes:
+          "These are your notes for your common app essay! Click the journal again to exit.",
         targetDate: new Date("2023-10-25"),
         flag: "",
       },
       {
         task: "satUpload",
         status: 0,
-        notes: "These are your notes for your SAT.",
+        notes:
+          "These are your notes for your SAT. Click the journal again to exit.",
         targetDate: new Date("2023-10-25"),
         flag: "",
       },
       {
         task: "actUpload",
         status: 0,
-        notes: "These are your notes for your ACT.",
+        notes:
+          "These are your notes for your ACT. Click the journal again to exit.",
         targetDate: new Date("2023-10-25"),
         flag: "",
       },
       {
         task: "extracurriculars",
         status: 0,
-        notes: "These are your notes for your extracurriculars.",
+        notes:
+          "These are your notes for your extracurriculars. Click the journal again to exit.",
         targetDate: new Date("2023-10-25"),
         flag: "",
       },
       {
         task: "teacherRecs",
         status: 0,
-        notes: "These are your notes for your teacher recs.",
+        notes:
+          "These are your notes for your teacher recs. Click the journal again to exit.",
         targetDate: new Date("2023-10-25"),
         flag: "",
       },
       {
         task: "writingSupplement",
         status: 0,
-        notes: "These are your notes for your writing supplement!",
+        notes:
+          "These are your notes for your writing supplement! Click the journal again to exit.",
         targetDate: new Date("2023-10-25"),
         flag: "",
       },
@@ -131,7 +137,7 @@ const saveCollege = async (req, res, next) => {
       collegeName,
       questions,
       percentCompleted: 0,
-      notes: `These are your notes for ${college.shortName}. Write about ${college.shortName}, ${college.shortName}'s supplemental questions, or whatever else comes to mind!`,
+      notes: `These are your notes for ${college.shortName}. Write about ${college.shortName}, ${college.shortName}'s supplemental questions, or whatever else comes to mind!  Click the journal again to exit.`,
       decision,
     });
 

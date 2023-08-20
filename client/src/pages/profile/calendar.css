@@ -159,3 +159,21 @@
 .calendar-container {
   z-index: 30002;
 }
+
+.z-high {
+  z-index: 90000;
+}
+
+.overflow-24 {
+  height: 24px;
+  overflow: hidden;
+}
+
+/* @media (max-width: 768px) {
+  .overflow-64 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-height: 72px;
+  }
+} */

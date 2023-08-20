@@ -76,7 +76,7 @@ p {
   left: -4rem;
   width: 12rem;
   height: 6rem;
-  z-index: 2000;
+  z-index: 9000;
 }
 
 @media (min-width: 576px) {

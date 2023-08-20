@@ -135,7 +135,7 @@ export const College = (props) => {
         <div className="row gx-0">
           <div className="col-6 col-md-5 bg-primary">
             <img
-              src={`src/assets/colleges-new/${college.kebabName}-1.webp`}
+              src={`src/assets/colleges/${college.kebabName}-1.webp`}
               className="img-fluid rounded-start w-100 h-100 object-fit-cover"
               style={{ aspectRatio: 1 }}
             />
