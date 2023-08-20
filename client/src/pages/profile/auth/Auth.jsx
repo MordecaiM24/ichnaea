@@ -70,7 +70,7 @@ const Login = (props) => {
                   type="email"
                   id="email"
                   name="email"
-                  className="form-control form-control-md transparent"
+                  className="form-control form-control-md auth-input transparent"
                   onChange={(e) => handleChange(e)}
                 />
                 <label className="form-label" htmlFor="email">
@@ -84,7 +84,7 @@ const Login = (props) => {
                   type="password"
                   id="password"
                   name="password"
-                  className="form-control form-control-md transparent"
+                  className="form-control form-control-md auth-input transparent"
                   onChange={(e) => handleChange(e)}
                 />
                 <label className="form-label" htmlFor="password">
@@ -244,7 +244,7 @@ const Register = (props) => {
                     type="text"
                     name="firstName"
                     id="firstName"
-                    className="form-control form-control-md transparent"
+                    className="form-control form-control-md auth-input transparent"
                     onChange={(e) => {
                       handleChange(e);
                     }}
@@ -261,7 +261,7 @@ const Register = (props) => {
                     type="text"
                     name="lastName"
                     id="lastName"
-                    className="form-control form-control-md transparent"
+                    className="form-control form-control-md auth-input transparent"
                     onChange={(e) => {
                       handleChange(e);
                     }}
@@ -279,7 +279,7 @@ const Register = (props) => {
                   type="email"
                   id="email"
                   name="email"
-                  className="form-control form-control-md transparent"
+                  className="form-control form-control-md auth-input transparent"
                   onChange={(e) => {
                     handleChange(e);
                   }}
@@ -296,7 +296,7 @@ const Register = (props) => {
                     type="password"
                     name="password"
                     id="password"
-                    className="form-control form-control-md transparent"
+                    className="form-control form-control-md auth-input transparent"
                     value={newUser.password}
                     onChange={(e) => {
                       handleChange(e);
@@ -313,7 +313,7 @@ const Register = (props) => {
                     type="password"
                     name="confirmPassword"
                     id="confirmPassword"
-                    className="form-control form-control-md transparent"
+                    className="form-control form-control-md auth-input transparent"
                     value={newUser.confirmPassword}
                     onChange={(e) => {
                       handleChange(e);

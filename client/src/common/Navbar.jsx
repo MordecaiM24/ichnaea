@@ -22,7 +22,11 @@ export const Navbar = () => {
   };
 
   useEffect(() => {
-    if (location.pathname === "/profile" && !window.localStorage.userID) {
+    if (
+      location.pathname === "/profile" &&
+      !window.localStorage.userID &&
+      false
+    ) {
       setNavbarClasses(
         "navbar navbar-expand-md bg-primary-gradient navbar-dark"
       );
@@ -34,7 +38,7 @@ export const Navbar = () => {
   return (
     <>
       {/* navbar */}
-      <nav className={navbarClasses}>
+      <nav className="navbar navbar-expand-md bg-primary mb-0 navbar-dark">
         <div className="container-fluid px-5">
           <Link to="/" className="navbar-brand me-5">
             {/* TODO: change logo to text/svg. SVG not working (?) atm */}
