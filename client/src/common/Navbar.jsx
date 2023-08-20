@@ -40,13 +40,14 @@ export const Navbar = () => {
       {/* navbar */}
       <nav className="navbar navbar-expand-md bg-primary mb-0 navbar-dark">
         <div className="container-fluid px-5">
-          <Link to="/" className="navbar-brand me-5">
+          <Link to="/" className="navbar-brand me-5 d-flex align-items-center">
             {/* TODO: change logo to text/svg. SVG not working (?) atm */}
             {/* BIGGER TODO: Change logo. Think of new name lol */}
             <img
-              src="src/assets/ichnaea-logo-zip-file/png/logo-no-background.png"
+              // src="src/assets/universitrack-logo-zip-file/png/logo-no-background.png"
+              src="src/assets/universitrack-logo-zip-file/universitrack-website-favicon.png"
               alt="bootstrap"
-              width="128"
+              width="64"
             />
           </Link>
           {/* toggle button for mobile nav */}
@@ -64,7 +65,7 @@ export const Navbar = () => {
 
           {/* navbar links */}
           <div className="collapse navbar-collapse" id="main-nav">
-            <ul className="navbar-nav w-100 justify-content-around ms-md-5 pt-3 align-items-start">
+            <ul className="navbar-nav w-100 justify-content-around ms-md-5 pt-3 pb-2 align-items-start">
               {/* TODO: change justify-around to make profile sit at end */}
               {/* TODO: Maybe make navbar smaller overall (?) */}
               <li className="nav-item">

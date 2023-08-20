@@ -959,7 +959,7 @@ const SuppEssays = (props) => {
         </div>
       </div>
       <button
-        className="btn btn-outline-primary w-100"
+        className="btn btn-outline-primary w-100 mt-3"
         onClick={(e) => clearColleges(e)}
       >
         Clear
