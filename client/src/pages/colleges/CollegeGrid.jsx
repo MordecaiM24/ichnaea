@@ -103,7 +103,7 @@ export const CollegeGrid = () => {
     );
   } else {
     return (
-      <div className="container-fluid px-5">
+      <div className="container-fluid px-5 mt-3">
         <div className="search-bar-container position-relative">
           <form className="search-box d-flex align-items-center py-4">
             <input

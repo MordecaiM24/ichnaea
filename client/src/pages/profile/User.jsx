@@ -69,7 +69,7 @@ export const User = () => {
     <div className="position-relative">
       <button
         onClick={logout}
-        style={{ position: "absolute", top: "0rem", right: "1rem" }}
+        style={{ position: "absolute", top: "-2rem", right: "1rem" }}
         className="btn btn-primary z-high"
       >
         Logout

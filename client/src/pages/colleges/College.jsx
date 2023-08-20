@@ -56,7 +56,7 @@ export const College = (props) => {
   }, [savedColleges]);
 
   const handleMouseOver = () => {
-    window.matchMedia("(max-width: 576px)").matches && setVisibility(true);
+    setVisibility(true);
   };
 
   const handleMouseOut = () => {
