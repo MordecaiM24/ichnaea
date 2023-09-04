@@ -16,6 +16,7 @@ import { Calendar } from "react-calendar";
 import "./calendar.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 export const User = () => {
   const [todo, setTodo] = useState([]);
@@ -27,6 +28,8 @@ export const User = () => {
   const [todoReq, updateTodo] = useState([]);
 
   const userID = window.localStorage.getItem("userID");
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (userID) {
@@ -63,6 +66,8 @@ export const User = () => {
     window.location.reload();
   };
 
+  const documentID = "7cffab03-d55b-4d1d-a942-80716f2bfdbf";
+
   return (
     <div className="position-relative">
       <button
@@ -71,6 +76,18 @@ export const User = () => {
         className="btn btn-primary z-high"
       >
         Logout
+      </button>
+
+      <button
+        className="btn btn-primary"
+        onClick={() => {
+          navigate(`/profile/${documentID}`);
+          // window.open(
+          //   `http://localhost:3000/documents/e080ee1b-c23d-4d42-a775-8bf96e04c324`
+          // );
+        }}
+      >
+        Open new
       </button>
 
       <TodoList todo={todo} updateTodo={updateTodo} setTodo={setTodo} />

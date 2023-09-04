@@ -5,6 +5,7 @@ import { Profile } from "./pages/profile/auth/Profile";
 import { Error } from "./pages/Error";
 import { Home } from "./pages/Home";
 import { HashRouter } from "react-router-dom";
+import TextEditor from "./pages/profile/EssayEditor/TextEditor";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/colleges" element={<CollegeGrid />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:id" element={<TextEditor />} />
           <Route path="/*" element={<Error />} />
         </Routes>
       </HashRouter>
