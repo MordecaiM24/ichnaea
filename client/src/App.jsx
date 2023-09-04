@@ -4,11 +4,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Profile } from "./pages/profile/auth/Profile";
 import { Error } from "./pages/Error";
 import { Home } from "./pages/Home";
+import { HashRouter } from "react-router-dom";
 
 function App() {
   return (
     <>
-      <Router>
+      <HashRouter>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -16,7 +17,7 @@ function App() {
           <Route path="/profile" element={<Profile />} />
           <Route path="/*" element={<Error />} />
         </Routes>
-      </Router>
+      </HashRouter>
     </>
   );
 }

@@ -1,25 +1,13 @@
 import { Bank, Coin, MortarboardFill } from "react-bootstrap-icons";
-import { Link, useSearchParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "bootstrap/dist/js/bootstrap.js";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 export const Navbar = () => {
   const location = useLocation();
-  const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate("/");
   const [navbarClasses, setNavbarClasses] = useState("");
-
-  const removeQueryParams = () => {
-    const param = searchParams.get("search");
-
-    if (param) {
-      // 👇️ delete each query param
-      searchParams.delete("search");
-
-      // 👇️ update state after
-      setSearchParams(searchParams);
-    }
-  };
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -36,12 +24,14 @@ export const Navbar = () => {
       {/* navbar */}
       <nav className={navbarClasses}>
         <div className="container-fluid px-5">
-          <Link to="/" className="navbar-brand me-5 d-flex align-items-center">
+          <Link to="" className="navbar-brand me-5 d-flex align-items-center">
             {/* TODO: change logo to text/svg. SVG not working (?) atm */}
             {/* BIGGER TODO: Change logo. Think of new name lol */}
             <img
               // src="src/assets/universitrack-logo-zip-file/png/logo-no-background.png"
-              src="src/assets/universitrack-logo-zip-file/universitrack-website-favicon.png"
+              src={
+                "/assets/universitrack-logo-zip-file/universitrack-website-favicon.png"
+              }
               alt="bootstrap"
               width="64"
             />
@@ -65,7 +55,13 @@ export const Navbar = () => {
               {/* TODO: change justify-around to make profile sit at end */}
               {/* TODO: Maybe make navbar smaller overall (?) */}
               <li className="nav-item">
-                <a href="/colleges" className="nav-link">
+                <a
+                  className="nav-link c-pointer"
+                  onClick={() => {
+                    navigate("/colleges");
+                    window.location.reload();
+                  }}
+                >
                   <p className="lead d-flex align-items-center gap-2">
                     <Bank />
                     Colleges

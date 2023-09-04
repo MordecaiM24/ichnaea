@@ -84,9 +84,7 @@ export const College = (props) => {
       }, 3000);
     } else if (isCollegeSaved) {
       const res = await axios.delete(
-        `http://${
-          import.meta.env.VITE_IP
-        }:5000/api/users/removeCollege/${userID}/${_id}`
+        `${import.meta.env.VITE_IP}/api/users/removeCollege/${userID}/${_id}`
       );
       updateSaved(shouldUpdate + 1);
       setCollegeSaved(!isCollegeSaved);
@@ -141,7 +139,7 @@ export const College = (props) => {
         <div className="row gx-0">
           <div className="col-6 col-md-5 bg-primary">
             <img
-              src={`src/assets/colleges/${college.kebabName}-1.webp`}
+              src={`/assets/colleges/${college.kebabName}-1.webp`}
               className="img-fluid rounded-start w-100 h-100 object-fit-cover"
               style={{ aspectRatio: 1 }}
             />
@@ -229,14 +227,11 @@ const Modal = (props) => {
   const [selected, setSelected] = useState("regularDecision");
 
   const handleSaveUpdate = async () => {
-    await axios.patch(
-      `http://${import.meta.env.VITE_IP}:5000/api/users/saveCollege`,
-      {
-        userID: localStorage.getItem("userID"),
-        collegeToSave: college._id,
-        decisionType: selected,
-      }
-    );
+    await axios.patch(`${import.meta.env.VITE_IP}/api/users/saveCollege`, {
+      userID: localStorage.getItem("userID"),
+      collegeToSave: college._id,
+      decisionType: selected,
+    });
     updateSaved(shouldUpdate + 1);
 
     setCollegeSaved(!isCollegeSaved);

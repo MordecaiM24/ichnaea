@@ -15,7 +15,10 @@ import "./auth.css";
 export const Auth = () => {
   const [hasAccount, setHasAccount] = useState(false);
   return (
-    <div className="auth-background vh-100 vw-100 m-0 pt-4">
+    <div
+      className="auth-background vh-100 vw-100 pt-4"
+      style={{ marginTop: "-16px" }}
+    >
       {hasAccount ? (
         <Login setHasAccount={setHasAccount} />
       ) : (
@@ -43,9 +46,7 @@ const Login = (props) => {
       );
 
       localStorage.setItem("userID", login.user.uid);
-      await axios.post(
-        `http://${import.meta.env.VITE_IP}:5000/api/users/login`
-      );
+      await axios.post(`${import.meta.env.VITE_IP}/api/users/login`);
       window.location.reload();
     } catch (err) {
       console.log(err);
@@ -182,10 +183,11 @@ const Register = (props) => {
       );
 
       localStorage.setItem("userID", signUp.user.uid);
-      await axios.post(
-        `http://${import.meta.env.VITE_IP}:5000/api/users/register`,
-        { ...signUp, firstName: newUser.firstName, lastName: newUser.lastName }
-      );
+      await axios.post(`${import.meta.env.VITE_IP}/api/users/register`, {
+        ...signUp,
+        firstName: newUser.firstName,
+        lastName: newUser.lastName,
+      });
       // Add "remember me state" to use sessionstorage instead of local storage if remember me not checked
       window.location.reload();
     } catch (err) {

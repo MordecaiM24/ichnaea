@@ -110,7 +110,7 @@ p {
 }
 
 .mt--5 {
-  margin-top: -12rem;
+  margin-top: -16rem;
 }
 
 .bg-transparent {
@@ -124,7 +124,7 @@ p {
       rgba(92, 77, 66, 0.8) 0%,
       rgba(92, 77, 66, 0.8) 100%
     ),
-    url("src/assets/bg-masthead.jpeg");
+    url("/assets/bg-masthead.jpeg");
 }
 
 hr.divider {
@@ -146,4 +146,9 @@ hr.divider-light {
   padding: 1rem 3rem;
   color: white;
   font-size: 1.25rem;
+}
+
+.z-0 {
+  color: red;
+  z-index: -5;
 }

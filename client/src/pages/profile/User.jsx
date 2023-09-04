@@ -32,9 +32,7 @@ export const User = () => {
     if (userID) {
       const getSavedColleges = async () => {
         const res = await axios.get(
-          `http://${
-            import.meta.env.VITE_IP
-          }:5000/api/users/savedColleges/${userID}`
+          `${import.meta.env.VITE_IP}/api/users/savedColleges/${userID}`
         );
 
         setSavedColleges(res.data);
@@ -48,7 +46,7 @@ export const User = () => {
     if (userID) {
       const getTodo = async () => {
         const res = await axios.get(
-          `http://${import.meta.env.VITE_IP}:5000/api/users/todo/${userID}`
+          `${import.meta.env.VITE_IP}/api/users/todo/${userID}`
         );
 
         setTodo(res.data);
@@ -171,9 +169,9 @@ const TodoList = (props) => {
   useEffect(() => {
     const setInitialStyles = async () => {
       const res = await axios.get(
-        `http://${
+        `${
           import.meta.env.VITE_IP
-        }:5000/api/users/todo/${window.localStorage.getItem("userID")}`
+        }/api/users/todo/${window.localStorage.getItem("userID")}`
       );
 
       const todoList = res.data;
@@ -197,7 +195,7 @@ const TodoList = (props) => {
     e.disabled = true;
     setTodoLoading(true);
     const res = await axios.patch(
-      `http://${import.meta.env.VITE_IP}:5000/api/users/completetask`,
+      `${import.meta.env.VITE_IP}/api/users/completetask`,
       {
         userID: window.localStorage.getItem("userID"),
         taskToComplete: task,
@@ -228,7 +226,7 @@ const TodoList = (props) => {
     ] = true;
     setFlagLoading(temp);
     const res = await axios.patch(
-      `http://${import.meta.env.VITE_IP}:5000/api/users/changeFlag`,
+      `${import.meta.env.VITE_IP}/api/users/changeFlag`,
       {
         userID: localStorage.getItem("userID"),
         task,
@@ -767,7 +765,7 @@ const TaskCalendar = (props) => {
     tempTask.targetDate = date;
 
     const res = await axios.patch(
-      `http://${import.meta.env.VITE_IP}:5000/api/users/editTaskDate`,
+      `${import.meta.env.VITE_IP}/api/users/editTaskDate`,
       {
         taskIdx,
         newTask: tempTask,
@@ -833,7 +831,7 @@ const NoteArea = (props) => {
 
   const handleSubmit = async () => {
     const res = await axios.patch(
-      `http://${import.meta.env.VITE_IP}:5000/api/users/editNote`,
+      `${import.meta.env.VITE_IP}/api/users/editNote`,
       {
         userID: localStorage.getItem("userID"),
         task: task.task,
@@ -890,7 +888,7 @@ const SuppEssays = (props) => {
 
     e.disabled = true;
     const res = await axios.patch(
-      `http://${import.meta.env.VITE_IP}:5000/api/users/clearColleges`,
+      `${import.meta.env.VITE_IP}/api/users/clearColleges`,
       { userID: window.localStorage.getItem("userID") }
     );
     toast.info("Colleges cleared!", {
@@ -1031,7 +1029,7 @@ const CollegeQs = (props) => {
 
     e.disabled = true;
     const res = await axios.patch(
-      `http://${import.meta.env.VITE_IP}:5000/api/users/completeQuestion`,
+      `${import.meta.env.VITE_IP}/api/users/completeQuestion`,
       {
         userID: window.localStorage.getItem("userID"),
         questionToUpdate: question,
@@ -1210,7 +1208,7 @@ const CollegeCalendar = (props) => {
     console.log(tempCollege);
 
     const res = await axios.patch(
-      `http://${import.meta.env.VITE_IP}:5000/api/users/editCollegeDate`,
+      `${import.meta.env.VITE_IP}/api/users/editCollegeDate`,
       {
         collegeIdx,
         newCollege: tempCollege,
@@ -1275,7 +1273,7 @@ const CollegeNote = (props) => {
 
   const handleSubmit = async () => {
     const res = await axios.patch(
-      `http://${import.meta.env.VITE_IP}:5000/api/users/editCollegeNote`,
+      `${import.meta.env.VITE_IP}/api/users/editCollegeNote`,
       {
         userID: localStorage.getItem("userID"),
         college: college.collegeName,

@@ -2,7 +2,6 @@ import { College } from "./College";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Search } from "react-bootstrap-icons";
-import { useSearchParams } from "react-router-dom";
 import { InfinitySpin } from "react-loader-spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -16,21 +15,23 @@ export const CollegeGrid = () => {
 
   const userID = window.localStorage.getItem("userID");
 
-  const [params, setParams] = useSearchParams();
+  const [searchQueryVal, setSearchQueryVal] = useState("");
 
-  // Get a specific query parameter
-  const searchQuery = params.get("search");
+  const [searchQuery, setSearchQuery] = useState();
 
   const [isLoading, setLoading] = useState(true);
 
   const [pageNum, setPageNum] = useState(0);
 
+  const handleSearch = (event) => {
+    event.preventDefault();
+    setSearchQuery(searchQueryVal);
+  };
+
   useEffect(() => {
     const url = searchQuery
-      ? `http://${
-          import.meta.env.VITE_IP
-        }:5000/api/colleges/search?search=${searchQuery}`
-      : `http://${import.meta.env.VITE_IP}:5000/api/colleges`;
+      ? `${import.meta.env.VITE_IP}/api/colleges/search?search=${searchQuery}`
+      : `${import.meta.env.VITE_IP}/api/colleges`;
 
     const getColleges = async () => {
       const res = await axios.get(url);
@@ -39,19 +40,14 @@ export const CollegeGrid = () => {
     };
 
     getColleges();
-    setTimeout(() => {
-      setLoading(false);
-    }, 250);
-  }, []);
+    setLoading(false);
+  }, [searchQuery]);
 
   useEffect(() => {
-    console.log("Getting colleges");
     if (userID) {
       const getSavedColleges = async () => {
         const res = await axios.get(
-          `http://${
-            import.meta.env.VITE_IP
-          }:5000/api/users/savedColleges/${userID}`
+          `${import.meta.env.VITE_IP}/api/users/savedColleges/${userID}`
         );
 
         setSavedColleges(res.data);
@@ -59,22 +55,16 @@ export const CollegeGrid = () => {
 
       getSavedColleges();
     }
-    console.log(savedColleges);
   }, [shouldUpdate]);
 
-  const [newParams, setNewParams] = useState("");
-
   const getMoreColleges = async () => {
-    console.log(colleges);
     setPageNum(pageNum + 1);
 
     const url = searchQuery
-      ? `http://${
+      ? `${
           import.meta.env.VITE_IP
-        }:5000/api/colleges/search?search=${searchQuery}&page=${pageNum + 1}`
-      : `http://${import.meta.env.VITE_IP}:5000/api/colleges?page=${
-          pageNum + 1
-        }`;
+        }/api/colleges/search?search=${searchQuery}&page=${pageNum + 1}`
+      : `${import.meta.env.VITE_IP}/api/colleges?page=${pageNum + 1}`;
 
     const res = await axios.get(url);
     const newColleges = res.data;
@@ -95,6 +85,16 @@ export const CollegeGrid = () => {
     setColleges([...colleges, ...newColleges]);
   };
 
+  // const anchorSubmit = () => {
+  //   document
+  //     .getElementById("search-form")
+  //     .addEventListener("submit", (event) => {
+  //       event.preventDefault();
+  //     });
+
+  //   document.getElementById("search-form").submit();
+  // };
+
   if (isLoading) {
     return (
       <div className="vh-50 vw-100 d-flex align-items-center justify-content-center">
@@ -105,22 +105,25 @@ export const CollegeGrid = () => {
     return (
       <div className="container-fluid px-5 mt-3">
         <div className="search-bar-container position-relative">
-          <form className="search-box d-flex align-items-center py-4">
+          <form
+            className="search-box d-flex align-items-center py-4"
+            id="search-form"
+            onSubmit={(e) => handleSearch(e)}
+          >
             <input
               type="text"
               className="search-input"
               placeholder="Start Looking For Something!"
               name="search"
               onChange={(e) => {
-                setNewParams(e.target.value);
+                setSearchQueryVal(e.target.value);
               }}
             />
+
             <a
-              className="search-btn"
-              type="submit"
-              onClick={() => {
-                setParams({ search: newParams });
-                window.location.reload();
+              className="search-btn c-pointer"
+              onClick={(e) => {
+                handleSearch(e);
               }}
             >
               <Search />

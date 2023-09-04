@@ -13,6 +13,9 @@ app.use(cors());
 app.use("/api/colleges", collegeRouter);
 app.use("/api/users", userRouter);
 
+app.get("/", (req, res, next) => {
+  res.status(200).send("Hello, world!");
+});
 mongoose.connect(
   // `mongodb+srv://${process.env.ATLAS_ID}:${process.env.ATLAS_PASSWORD}@cluster0.rnqhvef.mongodb.net/production?retryWrites=true&w=majority`
   `mongodb+srv://${process.env.ATLAS_ID}:${process.env.ATLAS_PASSWORD}@cluster0.rnqhvef.mongodb.net/?retryWrites=true&w=majority`

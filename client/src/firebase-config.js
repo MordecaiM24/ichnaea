@@ -31,15 +31,9 @@ export const signInWithGoogle = async () => {
 
     window.localStorage.setItem("userID", result.user.uid);
     if (result._tokenResponse.isNewUser) {
-      await axios.post(
-        `http://${import.meta.env.VITE_IP}:5000/api/users/register`,
-        result
-      );
+      await axios.post(`${import.meta.env.VITE_IP}/api/users/register`, result);
     } else {
-      await axios.post(
-        `http://${import.meta.env.VITE_IP}:5000/api/users/login`,
-        result
-      );
+      await axios.post(`${import.meta.env.VITE_IP}/api/users/login`, result);
     }
     window.location.reload();
   } catch (err) {}

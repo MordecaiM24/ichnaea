@@ -5,7 +5,7 @@ export const Home = () => {
   return (
     <div
       className="container-fluid d-flex flex-column justify-content-center align-items-center p-5 bg-img vw-100 mt--5 text-white"
-      style={{ height: "120vh" }}
+      style={{ height: "150vh" }}
     >
       {/* <img src="src/assets/bg-masthead.jpeg" /> */}
       <h1 className="display-3">Universitrack</h1>
