@@ -3,6 +3,7 @@ import bcrypt, { hash } from "bcrypt";
 import { UserModel } from "../models/User.js";
 import "dotenv/config";
 import { CollegeModel } from "../models/College.js";
+import { v4 as uuidV4 } from "uuid";
 
 const createUser = async (req, res) => {
   console.log("CREATING USER");
@@ -124,7 +125,7 @@ const saveCollege = async (req, res, next) => {
     });
 
     const questions = collegeQs.map((question) => {
-      return { question: question, status: 0 };
+      return { question: question, status: 0, _id: uuidV4() };
     });
 
     const decision = college.deadlines.find((deadline) => {

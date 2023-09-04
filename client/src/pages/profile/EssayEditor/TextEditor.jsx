@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const TOOLBAR_OPTIONS = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -16,9 +16,11 @@ const TOOLBAR_OPTIONS = [
   ["clean"],
 ];
 
-const SAVE_INTERVAL_MS = 200000;
+const SAVE_INTERVAL_MS = 1000;
 
 export default function TextEditor() {
+  const navigate = useNavigate();
+
   const { id: documentID } = useParams();
   const [socket, setSocket] = useState();
   const [quill, setQuill] = useState();
@@ -102,11 +104,12 @@ export default function TextEditor() {
 
   return (
     <>
-      <div class="container" ref={wrapperRef}></div>
+      <div className="container" ref={wrapperRef}></div>
       <button
         style={{ zIndex: 3, position: "fixed", top: "20px", right: "24px" }}
         onClick={() => {
           socket.emit("save-document", quill.getContents());
+          navigate("/profile");
         }}
       >
         SAVE
