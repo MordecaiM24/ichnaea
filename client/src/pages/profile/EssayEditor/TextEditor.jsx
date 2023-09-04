@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import Quill from "quill";
 import "quill/dist/quill.snow.css";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 const TOOLBAR_OPTIONS = [
   [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -25,6 +25,9 @@ export default function TextEditor() {
   const [socket, setSocket] = useState();
   const [quill, setQuill] = useState();
 
+  const location = useLocation();
+  const prompt = location.state.prompt;
+
   useEffect(() => {
     const s = io("http://localhost:3001");
     setSocket(s);
@@ -34,6 +37,7 @@ export default function TextEditor() {
     };
   }, []);
 
+  // Uploads data on text-change
   useEffect(() => {
     if (socket == null || quill == null) return;
 
@@ -48,11 +52,20 @@ export default function TextEditor() {
     };
   }, [socket, quill]);
 
+  // Initializes document
   useEffect(() => {
     if (socket == null || quill == null) return;
 
     socket.once("load-document", (document) => {
-      quill.setContents(document);
+      console.log(Boolean(document.ops[0].insert));
+
+      // Checks if doc is new
+      if (!document.ops[0].insert) {
+        quill.setText(" " + prompt);
+      } else {
+        quill.setContents(document);
+      }
+
       quill.enable();
     });
 

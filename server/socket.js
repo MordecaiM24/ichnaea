@@ -41,9 +41,6 @@ async function findOrCreateDocument(id) {
 
   const document = await DocumentModel.findById(id);
 
-  // if (document) console.log(document.data.ops[0].insert);
-  // console.log("empty doc");
-
   if (document) return document;
   return await DocumentModel.create({ _id: id, data: defaultValue });
 }

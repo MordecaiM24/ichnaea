@@ -1167,7 +1167,9 @@ const CollegeQs = (props) => {
                       <button
                         className="btn btn-primary"
                         onClick={() => {
-                          navigate(`/profile/${question._id}`);
+                          navigate(`/profile/${question._id}`, {
+                            state: { prompt: question.question },
+                          });
                         }}
                       >
                         Open new
