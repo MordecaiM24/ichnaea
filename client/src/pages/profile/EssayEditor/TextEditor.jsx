@@ -28,8 +28,10 @@ export default function TextEditor() {
   const location = useLocation();
   const prompt = location.state.prompt;
 
+  // Initializes socket connection
   useEffect(() => {
-    const s = io("http://localhost:3001");
+    // const s = io("http://localhost:3001");
+    const s = io(import.meta.env.VITE_SOCKET);
     setSocket(s);
 
     return () => {
@@ -61,7 +63,9 @@ export default function TextEditor() {
 
       // Checks if doc is new
       if (!document.ops[0].insert) {
-        quill.setText(" " + prompt);
+        quill.setText(" " + prompt + "\n\n\n\n");
+        quill.format("align", "center");
+        quill.format("header", 2);
       } else {
         quill.setContents(document);
       }

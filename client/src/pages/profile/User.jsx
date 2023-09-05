@@ -1163,20 +1163,25 @@ const CollegeQs = (props) => {
                         {question.question}
                       </p>
                     </div>
-                    <div className="col-1">
+
+                    <div className="col-1"></div>
+
+                    {/* These attributes are interchangeable for essay and status */}
+                    <div className="d-none d-lg-block col-lg-2">
                       <button
-                        className="btn btn-primary"
+                        className="btn w-md btn-primary d-none d-lg-block"
                         onClick={() => {
                           navigate(`/profile/${question._id}`, {
+                            replace: true,
                             state: { prompt: question.question },
                           });
                         }}
                       >
-                        Open new
+                        Open essay
                       </button>
                     </div>
-                    <div className="col-4 text-center pe-5">
-                      {/* <div className="col-12"> */}
+
+                    <div className="col-4 col-lg-2 text-center pe-5 ">
                       <div>
                         <button
                           onClick={(e) => {
@@ -1187,12 +1192,6 @@ const CollegeQs = (props) => {
                           {style(question.status).text}
                         </button>
                       </div>
-                      {/* <div className="col-md-6 col-0 d-none d-md-flex align-items-center justify-content-center">
-                        <Flag
-                          className="fs-5 c-pointer"
-                          onClick={() => changeFlag("satUpload")}
-                        />
-                      </div> */}
                     </div>
                   </div>
                 </a>
