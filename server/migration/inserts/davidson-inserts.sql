@@ -1,0 +1,11 @@
+INSERT INTO colleges (full_name, short_name, kebab_name, location, setting, campus_size, gen_ranking, acceptance_rate, num_students, base_cost, cost_after_aid, privacy, sat_25th_percentile, sat_50th_percentile, sat_75th_percentile, act_25th_percentile, act_50th_percentile, act_75th_percentile) VALUES ('Davidson College', 'Davidson', 'davidson', 'Davidson, NC', 'Suburban', 841, null, 17.8, 1927, 60050, 17057, 'Private', 1360, 1430, 1490, 31, 32, 33);
+-- Deadline 1 for Davidson College
+INSERT INTO deadlines (id, college_id, decision_type, date, special_name, financial_aid_deadline) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Davidson College'), 'regularDecision', '2024-01-11T00:00:00.000Z', 'Regular Decision', '2024-01-12T00:00:00.000Z');
+-- Deadline 2 for Davidson College
+INSERT INTO deadlines (id, college_id, decision_type, date, special_name, financial_aid_deadline) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Davidson College'), 'earlyDecision', '2023-11-16T00:00:00.000Z', 'Early Decision I', '2023-11-16T00:00:00.000Z');
+-- Deadline 3 for Davidson College
+INSERT INTO deadlines (id, college_id, decision_type, date, special_name, financial_aid_deadline) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Davidson College'), 'earlyDecision2', '2024-01-06T00:00:00.000Z', 'Early Decision II', '2024-01-09T00:00:00.000Z');
+-- Supplemental Essay 1 for Davidson College
+INSERT INTO supplemental_essays (id, college_id, prompt, word_limit) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Davidson College'), 'There are just under 4,000 4-year colleges and universities in the United States. Being as specific as possible, what interests you most about Davidson College (250-300 words)', 300);
+-- Supplemental Essay 2 for Davidson College
+INSERT INTO supplemental_essays (id, college_id, prompt, word_limit) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Davidson College'), 'Davidson encourages students to explore curiosities in and out of the classroom. What is a topic, activity or idea that excites you? Tell us why. Examples may include hobbies, books, interactions, music, podcasts, movies, etc. (250-300 words)', 300);

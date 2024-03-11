@@ -1,0 +1,17 @@
+INSERT INTO colleges (full_name, short_name, kebab_name, location, setting, campus_size, gen_ranking, acceptance_rate, num_students, base_cost, cost_after_aid, privacy, sat_25th_percentile, sat_50th_percentile, sat_75th_percentile, act_25th_percentile, act_50th_percentile, act_75th_percentile) VALUES ('Wake Forest University', 'Wake Forest', 'wake-forest', 'Winston-Salem, NC', 'Suburban', 340, 29, 25.2, 5472, 62128, 32845, 'Private', 1400, 1450, 1500, 31, 33, 34);
+-- Deadline 1 for Wake Forest University
+INSERT INTO deadlines (id, college_id, decision_type, date, special_name, financial_aid_deadline) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Wake Forest University'), 'regularDecision', '2024-01-02T00:00:00.000Z', 'Regular Decision', '2024-01-02T00:00:00.000Z');
+-- Deadline 2 for Wake Forest University
+INSERT INTO deadlines (id, college_id, decision_type, date, special_name, financial_aid_deadline) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Wake Forest University'), 'earlyAction', '2023-11-16T00:00:00.000Z', 'Early Action for First-Generation College Students', '2023-11-16T00:00:00.000Z');
+-- Deadline 3 for Wake Forest University
+INSERT INTO deadlines (id, college_id, decision_type, date, special_name, financial_aid_deadline) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Wake Forest University'), 'earlyDecision', '2023-11-16T00:00:00.000Z', 'Early Decision I ', '2023-11-16T00:00:00.000Z');
+-- Deadline 4 for Wake Forest University
+INSERT INTO deadlines (id, college_id, decision_type, date, special_name, financial_aid_deadline) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Wake Forest University'), 'earlyDecision2', '2024-01-02T00:00:00.000Z', 'Early Decision II', '2024-01-02T00:00:00.000Z');
+-- Supplemental Essay 1 for Wake Forest University
+INSERT INTO supplemental_essays (id, college_id, prompt, word_limit) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Wake Forest University'), '1. List five books you''ve read that intrigued you. ', 75);
+-- Supplemental Essay 2 for Wake Forest University
+INSERT INTO supplemental_essays (id, college_id, prompt, word_limit) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Wake Forest University'), '2. Tell us what piques your intellectual curiosity or has helped you understand the world''s complexity. This can include a work you''ve read, a project you''ve completed for a class, and even co-curricular activities in which you have been involved. ', 150);
+-- Supplemental Essay 3 for Wake Forest University
+INSERT INTO supplemental_essays (id, college_id, prompt, word_limit) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Wake Forest University'), '3. Dr. Maya Angelou, renowned author, poet, civil-rights activist, and former Wake Forest University Reynolds Professor of American Studies, inspired others to celebrate their identities and to honor each person’s dignity. Choose one of Dr. Angelou’s powerful quotes. How does this quote relate to your lived experience or reflect how you plan to contribute to the Wake Forest community? ', 300);
+-- Supplemental Essay 4 for Wake Forest University
+INSERT INTO supplemental_essays (id, college_id, prompt, word_limit) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Wake Forest University'), '4. Give us your Top Ten list. (The choice of theme is yours.)', 200);

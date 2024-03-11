@@ -5,8 +5,14 @@ import { Profile } from "./pages/profile/auth/Profile";
 import { Error } from "./pages/Error";
 import { Home } from "./pages/Home";
 import { HashRouter } from "react-router-dom";
-import TextEditor from "./pages/profile/EssayEdtior/TextEditor";
+import TextEditor from "./pages/profile/EssayEditor/TextEditor";
 import { CreateCollege } from "./pages/colleges/CreateCollege";
+import { createClient } from "@supabase/supabase-js";
+
+const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
+const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
+
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 function App() {
   return (

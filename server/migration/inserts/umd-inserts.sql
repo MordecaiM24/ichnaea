@@ -1,0 +1,17 @@
+INSERT INTO colleges (full_name, short_name, kebab_name, location, setting, campus_size, gen_ranking, acceptance_rate, num_students, base_cost, cost_after_aid, privacy, sat_25th_percentile, sat_50th_percentile, sat_75th_percentile, act_25th_percentile, act_50th_percentile, act_75th_percentile) VALUES ('University of Maryland, College Park', 'U Maryland', 'umd', 'College Park, MD', 'Suburban', 1340, 55, 52, 30353, 40306, 17500, 'Public', 1370, 1440, 1510, 31, 33, 34);
+-- Deadline 1 for University of Maryland, College Park
+INSERT INTO deadlines (id, college_id, decision_type, date, special_name, financial_aid_deadline) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'University of Maryland, College Park'), 'regularDecision', '2024-01-21T00:00:00.000Z', 'Regular Decision', '2024-03-02T00:00:00.000Z');
+-- Deadline 2 for University of Maryland, College Park
+INSERT INTO deadlines (id, college_id, decision_type, date, special_name, financial_aid_deadline) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'University of Maryland, College Park'), 'earlyAction', '2023-11-02T00:00:00.000Z', 'Early Action', '2024-03-02T00:00:00.000Z');
+-- Supplemental Essay 1 for University of Maryland, College Park
+INSERT INTO supplemental_essays (id, college_id, prompt, word_limit) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'University of Maryland, College Park'), 'If I could travel anywhere, I would go to...', 150);
+-- Supplemental Essay 2 for University of Maryland, College Park
+INSERT INTO supplemental_essays (id, college_id, prompt, word_limit) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'University of Maryland, College Park'), 'The most interesting fact I ever learned from research was...', 150);
+-- Supplemental Essay 3 for University of Maryland, College Park
+INSERT INTO supplemental_essays (id, college_id, prompt, word_limit) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'University of Maryland, College Park'), 'In addition to my major, my academic interests include...', 150);
+-- Supplemental Essay 4 for University of Maryland, College Park
+INSERT INTO supplemental_essays (id, college_id, prompt, word_limit) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'University of Maryland, College Park'), 'My favorite thing about last Thursday was...', 150);
+-- Supplemental Essay 5 for University of Maryland, College Park
+INSERT INTO supplemental_essays (id, college_id, prompt, word_limit) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'University of Maryland, College Park'), 'Something you might not know about me is...', 150);
+-- Supplemental Essay 6 for University of Maryland, College Park
+INSERT INTO supplemental_essays (id, college_id, prompt, word_limit) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'University of Maryland, College Park'), 'Because we know that diversity benefits the educational experience of all students, the University of Maryland values diversity in all of its many forms.  This includes (but is not limited to) racial, socio-economic, gender, geographical, and sexual orientation.  We are interested in hearing about your own individual life experiences.  In a few sentences, will you please describe how you have learned, grown, been inspired or developed skills through one or more components of diversity.', 150);

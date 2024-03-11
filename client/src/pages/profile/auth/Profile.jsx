@@ -1,6 +1,6 @@
 import { Auth } from "./Auth";
 import { User } from "../User";
-import { useCookies } from "react-cookie";
+import { supabase } from "../../../App";
 
 export const Profile = () => {
   return localStorage.getItem("userID") ? <User /> : <Auth />;
