@@ -11,20 +11,23 @@ export function SignUp({ setHasAccount }) {
 
   async function signUpNewUser() {
     setLoading(true);
-    const { data, error } = await supabase.auth.signUp({
+    const res = await supabase.auth.signUp({
       email: email,
       password: password,
     });
 
-    if (error.message === "User already registered") {
-      // Add toast here. Also navigate to a signin page. Also create welcome flow.
+    const { data, error } = res;
+
+    if (error?.message === "User already registered") {
+      // Add toast here. Also navigate to a signin page.
       alert(
         "Looks like you already have an account. How about we try logging in?",
       );
       setHasAccount(true);
     }
 
-    console.log({ data, error });
+    console.log(res);
+    navigate(`/welcome?user=${data.user.id}`);
 
     setLoading(false);
   }

@@ -15,7 +15,10 @@ export function SignIn({ setHasAccount }) {
       password,
     });
 
+    console.log("Sign in results");
     console.log({ data, error });
+
+    location.reload();
 
     setLoading(false);
   }
