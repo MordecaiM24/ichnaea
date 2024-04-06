@@ -4,7 +4,7 @@ export default {
   content: [
     "./src/pages/profile/auth/*.jsx",
     "./src/pages/profile/onboarding/*.jsx",
-    "./src/pages/profile/User2.jsx",
+    "./src/pages/profile/User.jsx",
   ],
   theme: {
     extend: {

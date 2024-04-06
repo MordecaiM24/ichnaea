@@ -1,32 +1,55 @@
 import { useState } from "react";
 import { supabase } from "../../../App.jsx";
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
 
 export function SignUp({ setHasAccount }) {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const navigate = useNavigate();
 
   async function signUpNewUser() {
     setLoading(true);
-    const res = await supabase.auth.signUp({
+    const signUpRes = await supabase.auth.signUp({
       email: email,
       password: password,
     });
 
-    const { data, error } = res;
+    const { data, error } = signUpRes;
 
     if (error?.message === "User already registered") {
       // Add toast here. Also navigate to a signin page.
-      alert(
+
+      toast.info(
         "Looks like you already have an account. How about we try logging in?",
+        {
+          position: "top-center",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        },
       );
+
       setHasAccount(true);
     }
 
-    console.log(res);
+    console.log({ firstName });
+    console.log({ lastName });
+    const insertRes = await supabase
+      .from("users")
+      .insert([
+        { id: data.user.id, first_name: firstName, last_name: lastName, email },
+      ]);
+
+    console.log(signUpRes);
+    console.log(insertRes);
     navigate(`/welcome?user=${data.user.id}`);
 
     setLoading(false);
@@ -34,7 +57,8 @@ export function SignUp({ setHasAccount }) {
 
   return (
     <form
-      className="tw-flex tw-max-w-xl tw-flex-col tw-items-center tw-gap-y-6 tw-px-4 tw-pt-8 md:tw-w-2/5 lg:tw-w-3/5"
+      //No idea why but putting whole thing as tw-w-3/5 breaks it. Keep it like this until further notice.
+      className="tw-flex tw-max-w-xl tw-flex-col tw-items-center tw-gap-y-6 tw-px-4 tw-pt-8 md:tw-w-3/5 lg:tw-w-3/5"
       onSubmit={(e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
@@ -57,6 +81,32 @@ export function SignUp({ setHasAccount }) {
           }}
         />
         <label htmlFor="email">Email address</label>
+      </div>
+
+      <div className="flex-row tw-flex tw-w-full tw-gap-x-2">
+        <div className="tw-flex tw-w-full tw-flex-col">
+          <input
+            required
+            className="tw-rounded tw-border tw-border-slate-300 tw-bg-transparent tw-px-2 tw-py-1"
+            id="firstName"
+            onChange={(e) => {
+              setFirstName(e.target.value);
+            }}
+          />
+          <label htmlFor="firstName">First Name</label>
+        </div>
+
+        <div className="tw-flex tw-w-full tw-flex-col">
+          <input
+            required
+            className="tw-rounded tw-border tw-border-slate-300 tw-bg-transparent tw-px-2 tw-py-1"
+            id="lastName"
+            onChange={(e) => {
+              setLastName(e.target.value);
+            }}
+          />
+          <label htmlFor="lastName">Last Name</label>
+        </div>
       </div>
 
       <div className="flex-row tw-flex tw-w-full tw-gap-x-2">
@@ -106,6 +156,8 @@ export function SignUp({ setHasAccount }) {
           Login
         </button>
       </div>
+
+      <ToastContainer />
     </form>
   );
 }

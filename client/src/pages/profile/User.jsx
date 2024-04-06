@@ -12,6 +12,7 @@ export default function User() {
 
   async function logout() {
     const { error } = await supabase.auth.signOut();
+    console.log(error);
     location.reload();
   }
 
@@ -25,7 +26,7 @@ export default function User() {
         <p>user:</p>
         <p>{JSON.stringify(user)}</p>
         <button
-          className="tw-rounded-lg tw-bg-primary tw-p-4 tw-px-6 tw-text-white"
+          className="tw-w-full tw-rounded-lg tw-bg-primary tw-p-4 tw-px-6 tw-text-white"
           onClick={() => logout()}
         >
           Logout
