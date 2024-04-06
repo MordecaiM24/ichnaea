@@ -5,9 +5,16 @@ export default function User() {
   const [user, setUser] = useState(null);
 
   async function getUser() {
-    const user = (await supabase.auth.getSession()).data.session.user;
+    const id = (await supabase.auth.getSession()).data.session.user.id;
 
-    setUser(user);
+    let { data: user, userError } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", id);
+
+    console.log(user[0]);
+
+    setUser(user[0]);
   }
 
   async function logout() {

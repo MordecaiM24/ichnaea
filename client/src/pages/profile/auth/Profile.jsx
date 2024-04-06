@@ -10,7 +10,12 @@ export const Profile = () => {
     console.log("getting user");
     const { data, error } = await supabase.auth.getSession();
 
-    setUser(data?.session?.user);
+    if (!data?.session?.user) {
+      setUser(false);
+      return;
+    }
+
+    setUser(true);
   }
 
   useEffect(() => {

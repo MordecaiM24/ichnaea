@@ -1,7 +1,7 @@
 import { useState, useEffect, Fragment, useRef } from "react";
 import axios from "axios";
 import { signOut } from "firebase/auth";
-import { auth } from "../../firebase-config";
+import { auth } from "../../../firebase-config";
 import {
   CalendarDate,
   CircleFill,
@@ -17,7 +17,7 @@ import "./calendar.css";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useNavigate } from "react-router-dom";
-import { supabase } from "../../App";
+import { supabase } from "../../../App";
 
 export const User_Old = () => {
   const [todo, setTodo] = useState([]);

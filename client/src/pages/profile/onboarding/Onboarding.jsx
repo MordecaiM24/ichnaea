@@ -31,8 +31,11 @@ export function Onboarding() {
     internalAttributes: "",
   });
 
-  // Get a specific query parameter
   const user = searchParams.get("user");
 
-  return <div className="tw-bg-primary">{user}</div>;
+  return (
+    <div className="-tw-mt-4 tw-flex tw-min-h-screen tw-w-full tw-items-start tw-justify-center tw-bg-sky-50">
+      {user}
+    </div>
+  );
 }

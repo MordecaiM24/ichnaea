@@ -12,7 +12,7 @@ export const Navbar = () => {
   useEffect(() => {
     if (location.pathname === "/") {
       setNavbarClasses(
-        "navbar navbar-expand-md bg-transparent mb-3 navbar-dark"
+        "navbar navbar-expand-md bg-transparent mb-3 navbar-dark",
       );
     } else {
       setNavbarClasses("navbar navbar-expand-md bg-primary mb-3 navbar-dark");
@@ -83,6 +83,15 @@ export const Navbar = () => {
                   <p className="lead  d-flex align-items-center gap-2">
                     <MortarboardFill />
                     My Profile
+                  </p>
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link to="/universities" className="nav-link">
+                  <p className="lead d-flex align-items-center gap-2">
+                    <Bank />
+                    Universities
                   </p>
                 </Link>
               </li>
