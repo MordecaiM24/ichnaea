@@ -6,6 +6,7 @@ import { Search } from "react-bootstrap-icons";
 export default function UniversityGrid() {
   const [userID, setUserID] = useState(null);
   const [universities, setUniversities] = useState([]);
+  const [saved, setSaved] = useState([]);
   const inputRef = useRef(null);
 
   async function getUniversities() {
@@ -17,9 +18,7 @@ export default function UniversityGrid() {
     setUniversities(universities);
   }
 
-  // Only getting userid b/c the user object doesn't have any relevant info.
-  async function getUser() {
-    console.log("getting user");
+  async function getSaved() {
     const { data, error } = await supabase.auth.getSession();
 
     if (!data?.session?.user) {
@@ -29,11 +28,22 @@ export default function UniversityGrid() {
 
     const id = data.session.user.id;
     setUserID(id);
+
+    const { data: savedColleges, err } = await supabase
+      .from("user_saved_colleges")
+      .select("college_id")
+      .eq("user_id", id);
+
+    const saved = savedColleges.map((college) => {
+      return college.college_id;
+    });
+
+    setSaved(saved);
   }
 
   useEffect(() => {
     getUniversities();
-    getUser();
+    getSaved();
   }, []);
 
   async function searchUniversities(query) {
@@ -81,7 +91,15 @@ export default function UniversityGrid() {
       {/* 1 card on sm screen, 2 on md screen, 3 on xl screen */}
       <div className="tw-grid tw-grid-cols-1 tw-gap-x-10 tw-gap-y-16 tw-py-4 md:tw-grid-cols-2 xl:tw-grid-cols-3">
         {universities.map((university) => {
-          return <University university={university} userID={userID} />;
+          const isSaved = saved.includes(university.id);
+
+          return (
+            <University
+              university={university}
+              userID={userID}
+              isSaved={isSaved}
+            />
+          );
         })}
       </div>
     </div>

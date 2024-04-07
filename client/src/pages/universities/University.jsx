@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { PlusLg } from "react-bootstrap-icons";
+import { PlusLg, Trash3Fill } from "react-bootstrap-icons";
 import { supabase } from "../../App";
 
-export default function University({ university, userID }) {
+export default function University({ university, userID, isSaved }) {
   const [modal, showModal] = useState(false);
 
   const {
@@ -19,9 +19,14 @@ export default function University({ university, userID }) {
   } = university;
 
   async function addUniversity() {
-    console.log({ id });
-    console.log({ userID });
     showModal(true);
+  }
+
+  async function deleteUniversity() {
+    const { error } = await supabase
+      .from("user_saved_colleges")
+      .delete()
+      .eq("college_id", id);
   }
 
   return (
@@ -52,9 +57,15 @@ export default function University({ university, userID }) {
         {/* Calculating the percent (1/2 or 5/12) - (1/2(font size (30)) + padding (12)) = (50 || 41.667)% - 27px */}
         <button
           className="tw-group/plus tw-border-secondary hover:tw-bg-secondary tw-peer tw-absolute -tw-bottom-12 tw-left-[calc(50%-27px)] tw-hidden tw-rounded-full tw-border-2 tw-bg-white  tw-p-3 tw-transition-all group-hover:tw-inline-block md:tw-left-[calc(41.667%-27px)]"
-          onClick={() => addUniversity()}
+          onClick={() => {
+            isSaved ? deleteUniversity() : addUniversity();
+          }}
         >
-          <PlusLg className="tw-text-secondary tw-text-3xl group-hover/plus:tw-text-white" />
+          {isSaved ? (
+            <Trash3Fill className="tw-text-secondary tw-text-3xl group-hover/plus:tw-text-white" />
+          ) : (
+            <PlusLg className="tw-text-secondary tw-text-3xl group-hover/plus:tw-text-white" />
+          )}
         </button>
       </div>
 
@@ -81,9 +92,16 @@ function DeadlineModal({ showModal, uniID, userID }) {
   }
 
   async function saveCollege() {
+    if (!deadline) {
+      alert("Choose a deadline");
+      return;
+    }
+
     const { data, error } = await supabase
       .from("user_saved_colleges")
       .insert([{ user_id: userID, college_id: uniID, deadline_id: deadline }]);
+
+    location.reload();
   }
 
   useEffect(() => {
