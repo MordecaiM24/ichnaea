@@ -69,6 +69,7 @@ export default function University({ university, userID }) {
 
 function DeadlineModal({ showModal, uniID, userID }) {
   const [deadlines, setDeadlines] = useState([]);
+  const [deadline, setDeadline] = useState("");
 
   async function getDeadlines() {
     let { data: deadlines, err } = await supabase
@@ -77,6 +78,12 @@ function DeadlineModal({ showModal, uniID, userID }) {
       .eq("college_id", uniID);
 
     setDeadlines(deadlines);
+  }
+
+  async function saveCollege() {
+    const { data, error } = await supabase
+      .from("user_saved_colleges")
+      .insert([{ user_id: userID, college_id: uniID, deadline_id: deadline }]);
   }
 
   useEffect(() => {
@@ -89,37 +96,54 @@ function DeadlineModal({ showModal, uniID, userID }) {
         Choose your decision plan:
       </p>
 
-      {deadlines.map((deadline) => {
-        return (
-          <div className="pb-2 tw-flex tw-items-center">
-            <input type="radio" name={deadline.decision_type} />
+      <form
+        onSubmit={(e) => {
+          e.preventDefault();
+          saveCollege();
+        }}
+      >
+        {deadlines.map((deadline) => {
+          return (
+            <div className="pb-2 tw-flex tw-items-center" key={deadline.id}>
+              <input
+                type="radio"
+                name="deadline"
+                value={deadline.id}
+                id={deadline.id}
+                onClick={(e) => setDeadline(e.target.value)}
+              />
 
-            <label className="tw-pl-2">
-              {deadline.special_name} -{" "}
-              {new Date(deadline.date).toLocaleDateString("en-us", {
-                weekday: "long",
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </label>
-          </div>
-        );
-      })}
+              <label className="tw-pl-2" htmlFor={deadline.id}>
+                {deadline.special_name} -{" "}
+                {new Date(deadline.date).toLocaleDateString("en-us", {
+                  weekday: "long",
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                })}
+              </label>
+            </div>
+          );
+        })}
 
-      <div className="tw-absolute tw-bottom-4 tw-right-4 tw-flex tw-items-center tw-gap-6">
-        <button
-          className="tw-text-secondary tw-border-secondary hover:tw-bg-secondary tw-rounded-lg tw-border tw-px-4 tw-py-2 hover:tw-text-white"
-          onClick={() => {
-            showModal(false);
-          }}
-        >
-          Cancel
-        </button>
-        <button className="tw-rounded-lg tw-border tw-border-primary tw-px-4 tw-py-2 tw-text-primary hover:tw-bg-primary hover:tw-text-white">
-          Submit
-        </button>
-      </div>
+        <div className="tw-absolute tw-bottom-4 tw-right-4 tw-flex tw-items-center tw-gap-6">
+          <button
+            className="tw-text-secondary tw-border-secondary hover:tw-bg-secondary tw-rounded-lg tw-border tw-px-4 tw-py-2 hover:tw-text-white"
+            onClick={() => {
+              showModal(false);
+            }}
+          >
+            Cancel
+          </button>
+
+          <button
+            className="tw-rounded-lg tw-border tw-border-primary tw-px-4 tw-py-2 tw-text-primary hover:tw-bg-primary hover:tw-text-white"
+            type="submit"
+          >
+            Submit
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
