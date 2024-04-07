@@ -91,13 +91,12 @@ export default function UniversityGrid() {
       {/* 1 card on sm screen, 2 on md screen, 3 on xl screen */}
       <div className="tw-grid tw-grid-cols-1 tw-gap-x-10 tw-gap-y-16 tw-py-4 md:tw-grid-cols-2 xl:tw-grid-cols-3">
         {universities.map((university) => {
-          const isSaved = saved.includes(university.id);
-
           return (
             <University
               university={university}
               userID={userID}
-              isSaved={isSaved}
+              saved={saved}
+              key={university.id}
             />
           );
         })}

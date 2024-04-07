@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { PlusLg, Trash3Fill } from "react-bootstrap-icons";
 import { supabase } from "../../App";
 
-export default function University({ university, userID, isSaved }) {
+export default function University({ university, userID, saved }) {
   const [modal, showModal] = useState(false);
+  const [isSaved, setIsSaved] = useState(false);
 
   const {
     full_name,
@@ -20,6 +21,7 @@ export default function University({ university, userID, isSaved }) {
 
   async function addUniversity() {
     showModal(true);
+    setIsSaved(true);
   }
 
   async function deleteUniversity() {
@@ -27,7 +29,14 @@ export default function University({ university, userID, isSaved }) {
       .from("user_saved_colleges")
       .delete()
       .eq("college_id", id);
+
+    setIsSaved(false);
   }
+
+  useEffect(() => {
+    let _ = saved.includes(id);
+    setIsSaved(_);
+  }, []);
 
   return (
     <div>
@@ -39,6 +48,7 @@ export default function University({ university, userID, isSaved }) {
             className="tw-aspect-square tw-h-full tw-rounded-l-[10px]"
           />
         </div>
+
         {/* rounded right medium instead of xl w/ parent div b/c of weird borders  */}
         <div className="tw-flex tw-h-full tw-w-1/2 tw-flex-col tw-justify-between tw-rounded-r-md tw-p-2 tw-text-sm tw-transition-all group-hover:tw-bg-primary md:tw-w-7/12">
           <p className="tw-text-xl tw-font-extralight">
@@ -54,6 +64,7 @@ export default function University({ university, userID, isSaved }) {
           <p>{num_students.toLocaleString("en-us")} Undergraduate Students</p>
           <p>Test Optional</p>
         </div>
+
         {/* Calculating the percent (1/2 or 5/12) - (1/2(font size (30)) + padding (12)) = (50 || 41.667)% - 27px */}
         <button
           className="tw-group/plus tw-border-secondary hover:tw-bg-secondary tw-peer tw-absolute -tw-bottom-12 tw-left-[calc(50%-27px)] tw-hidden tw-rounded-full tw-border-2 tw-bg-white  tw-p-3 tw-transition-all group-hover:tw-inline-block md:tw-left-[calc(41.667%-27px)]"
@@ -101,7 +112,7 @@ function DeadlineModal({ showModal, uniID, userID }) {
       .from("user_saved_colleges")
       .insert([{ user_id: userID, college_id: uniID, deadline_id: deadline }]);
 
-    location.reload();
+    showModal(false);
   }
 
   useEffect(() => {
