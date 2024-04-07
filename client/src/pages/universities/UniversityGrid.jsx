@@ -7,15 +7,22 @@ export default function UniversityGrid() {
   const [userID, setUserID] = useState(null);
   const [universities, setUniversities] = useState([]);
   const [saved, setSaved] = useState([]);
+  const [page, setPage] = useState(0);
   const inputRef = useRef(null);
 
   async function getUniversities() {
-    const { data: universities, err } = await supabase
+    let from = page ? page * 6 : 0;
+    let to = from + 5;
+
+    const { data: newUniversities, err } = await supabase
       .from("colleges")
       .select("*")
       .order("gen_ranking")
-      .limit(6);
-    setUniversities(universities);
+      .range(from, to);
+
+    const arr = [...universities, ...newUniversities];
+
+    setUniversities(arr);
   }
 
   async function getSaved() {
@@ -42,9 +49,12 @@ export default function UniversityGrid() {
   }
 
   useEffect(() => {
-    getUniversities();
     getSaved();
   }, []);
+
+  useEffect(() => {
+    getUniversities();
+  }, [page]);
 
   async function searchUniversities(query) {
     // ilike is case insensitive search, the percents mean "contains", so any string that contains the query, i.e. princeton contains 'prince'
@@ -100,6 +110,17 @@ export default function UniversityGrid() {
             />
           );
         })}
+      </div>
+
+      <div className="tw-flex tw-justify-center tw-py-12 xl:tw-pe-[4.5rem] 2xl:tw-pe-20">
+        <button
+          className="tw-rounded-lg tw-border tw-border-primary tw-px-4 tw-py-2 tw-font-semibold tw-text-primary tw-transition-all hover:tw-bg-primary hover:tw-text-white"
+          onClick={() => {
+            setPage((page) => page + 1);
+          }}
+        >
+          Show More
+        </button>
       </div>
     </div>
   );
