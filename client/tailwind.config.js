@@ -16,5 +16,5 @@ export default {
     },
   },
   prefix: "tw-",
-  plugins: [],
+  plugins: [require("autoprefixer")],
 };

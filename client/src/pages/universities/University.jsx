@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PlusLg, Trash3Fill } from "react-bootstrap-icons";
 import { supabase } from "../../App";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function University({ university, userID, saved }) {
   const [modal, showModal] = useState(false);
@@ -20,6 +21,21 @@ export default function University({ university, userID, saved }) {
   } = university;
 
   async function addUniversity() {
+    if (!userID) {
+      toast.info("Make an account to start working on your application!", {
+        position: "top-center",
+        autoClose: 2500,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
+
+      return;
+    }
+
     showModal(true);
     setIsSaved(true);
   }
@@ -67,7 +83,7 @@ export default function University({ university, userID, saved }) {
 
         {/* Calculating the percent (1/2 or 5/12) - (1/2(font size (30)) + padding (12)) = (50 || 41.667)% - 27px */}
         <button
-          className="tw-group/plus tw-border-secondary hover:tw-bg-secondary tw-peer tw-absolute -tw-bottom-12 tw-left-[calc(50%-27px)] tw-hidden tw-rounded-full tw-border-2 tw-bg-white  tw-p-3 tw-transition-all group-hover:tw-inline-block md:tw-left-[calc(41.667%-27px)]"
+          className="tw-group/plus tw-border-secondary hover:tw-bg-secondary tw-peer tw-absolute -tw-bottom-12 tw-left-[calc(50%-27px)] tw-inline-block tw-rounded-full tw-border-2 tw-bg-white  tw-p-3 tw-transition-all group-hover:tw-inline-block md:tw-left-[calc(41.667%-27px)] md:tw-hidden"
           onClick={() => {
             isSaved ? deleteUniversity() : addUniversity();
           }}
@@ -85,6 +101,8 @@ export default function University({ university, userID, saved }) {
           <DeadlineModal showModal={showModal} uniID={id} userID={userID} />
         </div>
       )}
+
+      <ToastContainer />
     </div>
   );
 }

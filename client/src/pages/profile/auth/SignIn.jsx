@@ -26,6 +26,7 @@ export function SignIn({ setHasAccount }) {
   return (
     <form
       className="tw-flex tw-max-w-xl tw-flex-col tw-items-center tw-gap-y-6 tw-px-4 tw-pt-8 md:tw-w-2/5 lg:tw-w-3/5"
+      autoComplete="off"
       onSubmit={(e) => {
         e.preventDefault();
 
@@ -38,7 +39,7 @@ export function SignIn({ setHasAccount }) {
         <input
           required
           type="email"
-          className="tw-w-full tw-rounded tw-border tw-border-slate-300 tw-bg-transparent tw-px-2 tw-py-1 autofill:tw-text-black"
+          className="tw-w-full tw-rounded tw-border tw-border-slate-300 tw-bg-transparent tw-px-2 tw-py-2"
           id="email"
           onChange={(e) => {
             setEmail(e.target.value);
@@ -51,7 +52,7 @@ export function SignIn({ setHasAccount }) {
         <input
           required
           type="password"
-          className="tw-rounded tw-border tw-border-slate-300 tw-bg-transparent tw-px-2 tw-py-1"
+          className="tw-rounded tw-border tw-border-slate-300 tw-bg-transparent tw-px-2 tw-py-2"
           id="password"
           onChange={(e) => {
             setPassword(e.target.value);
