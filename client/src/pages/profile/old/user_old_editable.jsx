@@ -247,14 +247,6 @@ const TodoList = (props) => {
   return (
     <>
       <div className="container-xxl my-5 px-md-5">
-        {calendar.isVisible && (
-          <TaskCalendar
-            taskIdx={calendar.taskIdx}
-            setCalendar={setCalendar}
-            todo={todo}
-            setTodo={setTodo}
-          />
-        )}
         <div className="list-group">
           <div className="list-group-item list-group-item-action p-0 border-0">
             <div className="row d-flex align-items-center">
@@ -278,24 +270,12 @@ const TodoList = (props) => {
             <div className="row d-flex align-items-center">
               <div className="col-5 d-flex align-items-center">
                 <div>
-                  <CircleFill
-                    role="button"
-                    className={"fs-8 me-2 " + elStyles.commonAppEssay.bullet}
-                    onClick={(e) => completeTask(e, "commonAppEssay")}
-                  />
+                  <CircleFill role="button" className="fs-8 me-2" />
                 </div>
                 <p>Finish Common App Essay</p>
               </div>
               <div className="row col-7 text-center">
                 <div className="col-2 position-relative">
-                  {noteAreaVisibility.commonAppEssay && (
-                    <NoteArea
-                      showNoteArea={showNoteArea}
-                      setTodo={props.setTodo}
-                      element={"commonAppEssay"}
-                      todo={todo}
-                    />
-                  )}
                   <JournalBookmarkFill
                     className="fs-5 c-pointer"
                     onClick={() => {
