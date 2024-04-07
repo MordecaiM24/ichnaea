@@ -11,7 +11,7 @@ export default function UniversityGrid() {
   const inputRef = useRef(null);
 
   async function getUniversities() {
-    let from = page ? page * 6 : 0;
+    let from = page * 6;
     let to = from + 5;
 
     const { data: newUniversities, err } = await supabase
