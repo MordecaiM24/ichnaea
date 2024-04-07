@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import University from "./University";
 import { supabase } from "../../App";
 import { Search } from "react-bootstrap-icons";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function UniversityGrid() {
   const [userID, setUserID] = useState(null);
@@ -19,6 +20,19 @@ export default function UniversityGrid() {
       .select("*")
       .order("gen_ranking")
       .range(from, to);
+
+    if (newUniversities.length === 0) {
+      toast.info("All out!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+      });
+    }
 
     const arr = [...universities, ...newUniversities];
 
@@ -122,6 +136,8 @@ export default function UniversityGrid() {
           Show More
         </button>
       </div>
+
+      <ToastContainer />
     </div>
   );
 }
