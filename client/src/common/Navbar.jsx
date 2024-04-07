@@ -11,11 +11,9 @@ export const Navbar = () => {
 
   useEffect(() => {
     if (location.pathname === "/") {
-      setNavbarClasses(
-        "navbar navbar-expand-md bg-transparent mb-3 navbar-dark",
-      );
+      setNavbarClasses("navbar navbar-expand-md bg-transparent navbar-dark");
     } else {
-      setNavbarClasses("navbar navbar-expand-md bg-primary mb-3 navbar-dark");
+      setNavbarClasses("navbar navbar-expand-md bg-primary navbar-dark");
     }
   }, [location]);
 
