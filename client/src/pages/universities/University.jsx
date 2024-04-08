@@ -158,7 +158,7 @@ function DeadlineModal({ showModal, uniID, userID }) {
   }, []);
 
   return (
-    <div className="tw-relative tw-h-64 tw-w-1/3 tw-rounded-lg tw-border tw-border-gray-200 tw-bg-gray-100 tw-p-8 tw-shadow-lg">
+    <div className="tw-relative tw-h-64 tw-min-h-fit tw-w-1/3 tw-rounded-lg tw-border tw-border-gray-200 tw-bg-gray-100 tw-p-8 tw-shadow-lg">
       <p className="tw-pb-4 tw-pl-5 tw-text-xl tw-font-thin">
         Choose your decision plan:
       </p>
