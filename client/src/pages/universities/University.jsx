@@ -41,10 +41,13 @@ export default function University({ university, userID, saved }) {
   }
 
   async function deleteUniversity() {
-    const { error } = await supabase
-      .from("user_saved_colleges")
+    await supabase.from("user_saved_colleges").delete().eq("college_id", id);
+
+    await supabase
+      .from("user_supplemental_essays")
       .delete()
-      .eq("college_id", id);
+      .eq("college_id", id)
+      .eq("user_id", userID);
 
     setIsSaved(false);
   }
@@ -52,7 +55,7 @@ export default function University({ university, userID, saved }) {
   useEffect(() => {
     let _ = saved.includes(id);
     setIsSaved(_);
-  }, []);
+  }, [saved]);
 
   return (
     <div>
@@ -83,15 +86,15 @@ export default function University({ university, userID, saved }) {
 
         {/* Calculating the percent (1/2 or 5/12) - (1/2(font size (30)) + padding (12)) = (50 || 41.667)% - 27px */}
         <button
-          className="tw-group/plus tw-border-secondary hover:tw-bg-secondary tw-peer tw-absolute -tw-bottom-12 tw-left-[calc(50%-27px)] tw-inline-block tw-rounded-full tw-border-2 tw-bg-white  tw-p-3 tw-transition-all group-hover:tw-inline-block md:tw-left-[calc(41.667%-27px)] md:tw-hidden"
+          className="tw-group/plus tw-peer tw-absolute -tw-bottom-12 tw-left-[calc(50%-27px)] tw-inline-block tw-rounded-full tw-border-2 tw-border-secondary tw-bg-white tw-p-3  tw-transition-all hover:tw-bg-secondary group-hover:tw-inline-block md:tw-left-[calc(41.667%-27px)] md:tw-hidden"
           onClick={() => {
             isSaved ? deleteUniversity() : addUniversity();
           }}
         >
           {isSaved ? (
-            <Trash3Fill className="tw-text-secondary tw-text-3xl group-hover/plus:tw-text-white" />
+            <Trash3Fill className="tw-text-3xl tw-text-secondary group-hover/plus:tw-text-white" />
           ) : (
-            <PlusLg className="tw-text-secondary tw-text-3xl group-hover/plus:tw-text-white" />
+            <PlusLg className="tw-text-3xl tw-text-secondary group-hover/plus:tw-text-white" />
           )}
         </button>
       </div>
@@ -126,9 +129,26 @@ function DeadlineModal({ showModal, uniID, userID }) {
       return;
     }
 
-    const { data, error } = await supabase
+    await supabase
       .from("user_saved_colleges")
       .insert([{ user_id: userID, college_id: uniID, deadline_id: deadline }]);
+
+    const { data: essays, err } = await supabase
+      .from("supplemental_essays")
+      .select("*")
+      .eq("college_id", uniID);
+
+    essays.map(async (essay) => {
+      await supabase.from("user_supplemental_essays").insert([
+        {
+          user_id: userID,
+          supplemental_essay_id: essay.id,
+          supplemental_essay_prompt: essay.prompt,
+          word_limit: essay.word_limit,
+          college_id: uniID,
+        },
+      ]);
+    });
 
     showModal(false);
   }
@@ -175,7 +195,7 @@ function DeadlineModal({ showModal, uniID, userID }) {
 
         <div className="tw-absolute tw-bottom-4 tw-right-4 tw-flex tw-items-center tw-gap-6">
           <button
-            className="tw-text-secondary tw-border-secondary hover:tw-bg-secondary tw-rounded-lg tw-border tw-px-4 tw-py-2 hover:tw-text-white"
+            className="tw-rounded-lg tw-border tw-border-secondary tw-px-4 tw-py-2 tw-text-secondary hover:tw-bg-secondary hover:tw-text-white"
             onClick={() => {
               showModal(false);
             }}
