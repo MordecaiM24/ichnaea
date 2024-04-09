@@ -1,13 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../App";
-import { CalendarDate, ChevronDown, FlagFill } from "react-bootstrap-icons";
 import TodoList from "./TodoList";
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion";
+
+import { CollegeList } from "./CollegeList";
 
 export default function User() {
   const [user, setUser] = useState(null);
@@ -29,7 +24,7 @@ export default function User() {
       .eq("user_id", id)
       .order("created_at");
 
-    let { data: colleges, error } = await supabase
+    let { data: colleges, error: collegesError } = await supabase
       .from("user_saved_colleges")
       .select(
         `
@@ -69,83 +64,7 @@ export default function User() {
       <div className="tw-w-full tw-max-w-[1220px]">
         <TodoList todos={todos} />
 
-        <div className="tw-mt-12 tw-flex tw-w-full">
-          <div className="tw-w-5/12">
-            <p className="tw-inline-block tw-rounded-lg tw-rounded-b-none tw-bg-orange-600 tw-px-3 tw-py-2.5 tw-text-white md:tw-px-12">
-              Universities
-            </p>
-          </div>
-
-          <div className="tw-mr-20 tw-flex tw-w-7/12 tw-items-center tw-ps-6 *:tw-flex *:tw-justify-center">
-            <div className="tw-w-1/6">Target Date</div>
-
-            <div className="tw-w-1/2">Application Cycle</div>
-
-            <div className="tw-w-1/6">Completion</div>
-          </div>
-        </div>
-
-        <Accordion
-          type="single"
-          collapsible
-          className="tw-w-full tw-rounded-lg tw-rounded-tl-none tw-border tw-border-gray-300"
-        >
-          {colleges.map((obj, idx) => {
-            let { full_name, id } = obj.colleges;
-            let deadline = obj.deadlines.special_name;
-
-            return (
-              <AccordionItem
-                className="tw-border-b tw-pr-4 first:tw-rounded-tr-lg last:tw-rounded-b-lg last:tw-border-b-0 hover:tw-bg-gray-50"
-                value={`item-${idx}`}
-              >
-                <AccordionTrigger>
-                  <div className="tw-flex tw-w-full tw-items-center tw-px-6 tw-font-normal">
-                    <div className="tw-flex tw-h-full tw-w-5/12 tw-items-center">
-                      <p>{full_name}</p>
-                    </div>
-
-                    <div className="tw-flex tw-w-7/12 tw-items-center tw-pe-4 *:tw-flex *:tw-justify-center *:tw-text-xl">
-                      <a className="tw-w-1/6">
-                        <CalendarDate className="tw-cursor-pointer" />
-                      </a>
-
-                      <div className="tw-w-1/2">
-                        <button className="tw-w-1/2 tw-rounded-lg tw-py-2 tw-text-base tw-text-opacity-100 tw-transition-all">
-                          {deadline}
-                        </button>
-                      </div>
-
-                      <a className="tw-w-1/6">
-                        <FlagFill className="tw-cursor-pointer tw-text-[#0D6EFD]" />
-                      </a>
-                    </div>
-                  </div>
-                </AccordionTrigger>
-
-                <AccordionContent className="tw-pe-6 tw-pr-8">
-                  {essays
-                    .filter((essay) => {
-                      console.log("Filtering");
-                      console.log(essay);
-                      return essay.college_id == id;
-                    })
-                    .map((essay) => {
-                      console.log("Mapping");
-                      console.log(essay);
-                      return (
-                        <div className="py-3 tw-rounded-r-lg tw-border-r tw-border-t tw-border-gray-300 tw-ps-6 last:tw-border-b">
-                          <p className="tw-w-7/12">
-                            {essay.supplemental_essay_prompt}
-                          </p>
-                        </div>
-                      );
-                    })}
-                </AccordionContent>
-              </AccordionItem>
-            );
-          })}
-        </Accordion>
+        <CollegeList colleges={colleges} essays={essays} />
       </div>
 
       <button

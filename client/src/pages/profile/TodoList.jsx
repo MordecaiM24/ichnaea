@@ -81,7 +81,7 @@ function Todo({ task }) {
   }
 
   return (
-    <div className="tw-flex tw-w-full tw-items-center tw-rounded-md tw-border tw-border-t-0 tw-border-gray-300 tw-py-2 first:tw-rounded-tl-none first:tw-border-t hover:tw-bg-gray-50 ">
+    <div className="tw-flex tw-w-full tw-items-center tw-rounded-r-md tw-border tw-border-t-0 tw-border-gray-300 tw-py-2 first:tw-border-t last:tw-rounded-bl-md hover:tw-bg-gray-50 ">
       <div className="tw-flex tw-h-full tw-w-5/12 tw-items-center tw-pl-4">
         <CircleFill className={`tw-me-2 tw-text-[8px] tw-text-${color}`} />
         <p>{task.name}</p>
