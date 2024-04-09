@@ -7,11 +7,10 @@ import {
 import { CalendarDate, FlagFill } from "react-bootstrap-icons";
 import React, { useState } from "react";
 import { supabase } from "../../App";
-import { CircularProgressbar } from "react-circular-progressbar";
-import "react-circular-progressbar/dist/styles.css";
+import { useNavigate } from "react-router-dom";
 
 export function CollegeList({ colleges, essays }) {
-  let percentage = 66;
+  const navigate = useNavigate();
 
   return (
     <>
@@ -66,7 +65,7 @@ export function CollegeList({ colleges, essays }) {
                         className="tw-rounded-lg tw-bg-primary tw-px-4 tw-py-2 tw-text-white"
                         onClick={(e) => {
                           e.stopPropagation();
-                          console.log(id);
+                          navigate(`/profile/${id}`);
                         }}
                       >
                         Open Essays

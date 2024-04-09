@@ -53,18 +53,12 @@ export const Navbar = () => {
               {/* TODO: change justify-around to make profile sit at end */}
               {/* TODO: Maybe make navbar smaller overall (?) */}
               <li className="nav-item">
-                <a
-                  className="nav-link c-pointer"
-                  onClick={() => {
-                    navigate("/colleges");
-                    window.location.reload();
-                  }}
-                >
+                <Link to="/universities" className="nav-link">
                   <p className="lead d-flex align-items-center gap-2">
                     <Bank />
-                    Colleges
+                    Universities
                   </p>
-                </a>
+                </Link>
               </li>
 
               <li className="nav-item">
@@ -81,15 +75,6 @@ export const Navbar = () => {
                   <p className="lead  d-flex align-items-center gap-2">
                     <MortarboardFill />
                     My Profile
-                  </p>
-                </Link>
-              </li>
-
-              <li className="nav-item">
-                <Link to="/universities" className="nav-link">
-                  <p className="lead d-flex align-items-center gap-2">
-                    <Bank />
-                    Universities
                   </p>
                 </Link>
               </li>

@@ -11,6 +11,7 @@ import { createClient } from "@supabase/supabase-js";
 import { UserInfo } from "./pages/profile/UserInfo";
 import UniversityGrid from "./pages/universities/UniversityGrid";
 import { NextUIProvider } from "@nextui-org/react";
+import { Essays } from "./pages/profile/EssayEditor/Essays";
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -25,9 +26,8 @@ function App() {
           <Navbar />
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/colleges" element={<CollegeGrid />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/profile/:id" element={<TextEditor />} />
+            <Route path="/profile/:college_id" element={<Essays />} />
             <Route path="/createcollege" element={<CreateCollege />} />
             <Route path="/info" element={<UserInfo />} />
             <Route path="/universities" element={<UniversityGrid />} />
