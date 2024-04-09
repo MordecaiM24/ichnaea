@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-export function Onboarding() {
+export function UserInfo() {
   const [searchParams, _] = useSearchParams();
   const extracurriculars = useState({
     activites: [

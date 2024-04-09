@@ -98,12 +98,12 @@ function Todo({ task }) {
 
         <div className="tw-w-1/2">
           <button
-            className={`tw-bg-${color} tw-w-1/2 tw-rounded-lg tw-py-2 tw-text-base tw-text-opacity-100 tw-transition-all`}
+            className={`tw-bg-${color} tw-rounded-lg tw-px-10 tw-py-2 tw-text-base tw-text-opacity-100 tw-transition-all`}
             onClick={async (e) => {
               //this is all unnecessary, but whatever.
               e.target.disabled = true;
               let oldClasses = e.target.className;
-              e.target.className = `tw-bg-${color} tw-w-1/2 tw-rounded-lg tw-py-2 tw-text-base tw-opacity-60 tw-transition-all`;
+              e.target.className = `tw-bg-${color} tw-px-11 tw-rounded-lg tw-py-2 tw-text-base tw-opacity-60 tw-transition-all`;
               await updateStatus();
 
               e.target.className = oldClasses;
@@ -128,6 +128,11 @@ function Todo({ task }) {
           )}
         </a>
       </div>
+
+      {/* Makes sure tailwind classes are loaded */}
+      <div className="tw-hidden tw-bg-amber-400 tw-bg-opacity-85 tw-text-red-500  hover:tw-bg-opacity-85"></div>
+      <div className="tw-hidden  tw-bg-green-500 tw-bg-opacity-95  tw-text-green-500 hover:tw-bg-opacity-80 "></div>
+      <div className="tw  tw tw-hidden tw-bg-red-500 tw-text-amber-400  hover:tw-bg-opacity-70"></div>
     </div>
   );
 }
