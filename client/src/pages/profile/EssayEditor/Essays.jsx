@@ -35,7 +35,7 @@ export function Essays() {
   return (
     <div className="tw-mx-auto tw-px-36 xl:tw-max-w-6xl 2xl:tw-max-w-7xl">
       <div className="py-4 tw-self-center tw-text-center">
-        <p className="tw-text-5xl tw-font-thin">Princeton University</p>
+        <p className="tw-text-5xl tw-font-thin">{essays[0].college_name}</p>
       </div>
 
       {essays.map((essay) => {

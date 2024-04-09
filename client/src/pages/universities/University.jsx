@@ -101,7 +101,12 @@ export default function University({ university, userID, saved }) {
 
       {modal && (
         <div className="tw-fixed tw-left-0 tw-top-0 tw-z-10 tw-flex tw-h-screen tw-w-screen tw-cursor-default tw-items-center tw-justify-center tw-bg-gray-100 tw-bg-opacity-15 tw-text-black">
-          <DeadlineModal showModal={showModal} uniID={id} userID={userID} />
+          <DeadlineModal
+            showModal={showModal}
+            uniID={id}
+            userID={userID}
+            uniName={full_name}
+          />
         </div>
       )}
 
@@ -110,7 +115,7 @@ export default function University({ university, userID, saved }) {
   );
 }
 
-function DeadlineModal({ showModal, uniID, userID }) {
+function DeadlineModal({ showModal, uniID, userID, uniName }) {
   const [deadlines, setDeadlines] = useState([]);
   const [deadline, setDeadline] = useState("");
 
@@ -146,6 +151,7 @@ function DeadlineModal({ showModal, uniID, userID }) {
           supplemental_essay_prompt: essay.prompt,
           word_limit: essay.word_limit,
           college_id: uniID,
+          college_name: uniName,
         },
       ]);
     });
