@@ -31,6 +31,25 @@ export function UserInfo() {
     internalAttributes: "",
   });
 
+  let x = {
+    activites: [
+      {
+        name: "",
+        role: "",
+        description: "",
+        duration: "",
+      },
+    ],
+    coursework: [{ name: "", description: "" }],
+    projects: [{ name: "", description: "" }],
+    firstChoiceMajor: "",
+    secondChoiceMajor: "",
+    careerGoal: "",
+    uniqueExperiences: "",
+    uniqueExternalAttributes: "",
+    uniqueInternalAttributes: "",
+  };
+
   const user = searchParams.get("user");
 
   return (

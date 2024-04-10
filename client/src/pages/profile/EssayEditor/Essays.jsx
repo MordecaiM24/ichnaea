@@ -35,7 +35,7 @@ export function Essays() {
   return (
     <div className="tw-mx-auto tw-px-36 xl:tw-max-w-6xl 2xl:tw-max-w-7xl">
       <div className="py-4 tw-self-center tw-text-center">
-        <p className="tw-text-5xl tw-font-thin">{essays[0].college_name}</p>
+        <p className="tw-text-5xl tw-font-thin">{essays[0]?.college_name}</p>
       </div>
 
       {essays.map((essay) => {
@@ -69,11 +69,25 @@ function Essay({ essay }) {
               e.target.style.height = `${e.target.scrollHeight + 18}px`;
               setResponse(e.target.value);
             }}
-            className="tw-border-input tw-bg-background placeholder:tw-text-muted-foreground tw-flex tw-h-fit tw-min-h-56 tw-w-full tw-rounded-md tw-border tw-px-3 tw-py-2 tw-text-sm"
+            className="tw-flex tw-h-fit tw-min-h-56 tw-w-full tw-rounded-md tw-border tw-border-input tw-bg-background tw-px-3 tw-py-2 tw-text-sm placeholder:tw-text-muted-foreground"
             value={response}
           />
 
-          <div className="tw-flex tw-flex-row-reverse">
+          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between">
+            <div className="tw-flex tw-gap-x-3">
+              <button className="tw-rounded-lg tw-border tw-border-primary tw-bg-white tw-px-6 tw-py-2 tw-text-primary tw-transition-all hover:tw-bg-primary hover:tw-text-white">
+                Brainstorm
+              </button>
+
+              <button className="tw-rounded-lg tw-border tw-border-primary tw-bg-white tw-px-6 tw-py-2 tw-text-primary tw-transition-all hover:tw-bg-primary hover:tw-text-white">
+                Edit
+              </button>
+
+              <button className="tw-rounded-lg tw-border tw-border-primary tw-bg-white tw-px-6 tw-py-2 tw-text-primary tw-transition-all hover:tw-bg-primary hover:tw-text-white">
+                Critique
+              </button>
+            </div>
+
             <button
               className="tw-rounded-lg tw-bg-primary tw-px-6 tw-py-2 tw-text-white"
               onClick={() => saveEssay()}
