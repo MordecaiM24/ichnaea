@@ -7,7 +7,7 @@ import { SignIn } from "./SignIn.jsx";
 export const Auth = () => {
   const [hasAccount, setHasAccount] = useState(false);
   return (
-    <div className="-tw-mt-4 tw-flex tw-min-h-screen tw-w-full tw-items-start tw-justify-center tw-bg-sky-50 tw-text-black ">
+    <div className="-mt-4 flex min-h-screen w-full items-start justify-center bg-sky-50 text-black ">
       {hasAccount ? (
         <SignIn setHasAccount={setHasAccount} />
       ) : (

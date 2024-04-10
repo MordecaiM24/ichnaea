@@ -1,9 +1,0 @@
-INSERT INTO colleges (full_name, short_name, kebab_name, location, setting, campus_size, gen_ranking, acceptance_rate, num_students, base_cost, cost_after_aid, privacy, sat_25th_percentile, sat_50th_percentile, sat_75th_percentile, act_25th_percentile, act_50th_percentile, act_75th_percentile) VALUES ('Brandeis University', 'Brandeis', 'brandeis', 'Waltham, MA', 'Suburban', 235, 44, 39.1, 3591, 62722, 33663, 'Private', 1360, 1440, 1500, 31, 33, 34);
--- Deadline 1 for Brandeis University
-INSERT INTO deadlines (id, college_id, decision_type, date, special_name, financial_aid_deadline) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Brandeis University'), 'regularDecision', '2024-01-03T00:00:00.000Z', 'Regular Decision', '2024-01-16T00:00:00.000Z');
--- Deadline 2 for Brandeis University
-INSERT INTO deadlines (id, college_id, decision_type, date, special_name, financial_aid_deadline) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Brandeis University'), 'earlyDecision', '2023-11-02T00:00:00.000Z', 'Early Decision I', '2023-11-02T00:00:00.000Z');
--- Deadline 3 for Brandeis University
-INSERT INTO deadlines (id, college_id, decision_type, date, special_name, financial_aid_deadline) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Brandeis University'), 'earlyDecision2', '2024-01-03T00:00:00.000Z', 'Early Decision II', '2024-01-03T00:00:00.000Z');
--- Supplemental Essay 1 for Brandeis University
-INSERT INTO supplemental_essays (id, college_id, prompt, word_limit) VALUES (gen_random_uuid(), (SELECT id FROM colleges WHERE full_name = 'Brandeis University'), 'Brandeis was established 75 years ago to address antisemitism, racism, and gender discrimination in higher education, and today, the university remains dedicated to its founding values of inclusivity and justice. How has your educational experience shaped your perspective on these values? (250 words max.)', 250);

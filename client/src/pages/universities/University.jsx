@@ -59,22 +59,22 @@ export default function University({ university, userID, saved }) {
 
   return (
     <div>
-      <div className="tw-group tw-relative tw-flex tw-h-full tw-w-full tw-cursor-pointer tw-items-center tw-rounded-xl tw-border-2 tw-border-primary hover:tw-text-white">
-        <div className="tw-h-full tw-w-1/2 md:tw-w-5/12">
+      <div className="group relative flex h-full w-full cursor-pointer items-center rounded-xl border-2 border-primary hover:text-white">
+        <div className="h-full w-1/2 md:w-5/12">
           <img
             src={`/assets/colleges/${kebab_name}-1.webp`}
             alt="college_picture"
-            className="tw-aspect-square tw-h-full tw-rounded-l-[10px]"
+            className="aspect-square h-full rounded-l-[10px]"
           />
         </div>
 
         {/* rounded right medium instead of xl w/ parent div b/c of weird borders  */}
-        <div className="tw-flex tw-h-full tw-w-1/2 tw-flex-col tw-justify-between tw-rounded-r-md tw-p-2 tw-text-sm tw-transition-all group-hover:tw-bg-primary md:tw-w-7/12">
-          <p className="tw-text-xl tw-font-extralight">
+        <div className="flex h-full w-1/2 flex-col justify-between rounded-r-md p-2 text-sm transition-all group-hover:bg-primary md:w-7/12">
+          <p className="text-xl font-extralight">
             {full_name.length < 30 ? full_name : short_name}
           </p>
 
-          <p className="tw-font-bold">{location}</p>
+          <p className="font-bold">{location}</p>
 
           <p>
             {length} &#183; {privacy} &#183; {setting}
@@ -86,21 +86,21 @@ export default function University({ university, userID, saved }) {
 
         {/* Calculating the percent (1/2 or 5/12) - (1/2(font size (30)) + padding (12)) = (50 || 41.667)% - 27px */}
         <button
-          className="tw-group/plus tw-peer tw-absolute -tw-bottom-12 tw-left-[calc(50%-27px)] tw-inline-block tw-rounded-full tw-border-2 tw-border-secondary tw-bg-white tw-p-3  tw-transition-all hover:tw-bg-secondary group-hover:tw-inline-block md:tw-left-[calc(41.667%-27px)] md:tw-hidden"
+          className="group/plus peer absolute -bottom-12 left-[calc(50%-27px)] inline-block rounded-full border-2 border-secondary bg-white p-3  transition-all hover:bg-secondary group-hover:inline-block md:left-[calc(41.667%-27px)] md:hidden"
           onClick={() => {
             isSaved ? deleteUniversity() : addUniversity();
           }}
         >
           {isSaved ? (
-            <Trash3Fill className="tw-text-3xl tw-text-secondary group-hover/plus:tw-text-white" />
+            <Trash3Fill className="text-3xl text-secondary group-hover/plus:text-white" />
           ) : (
-            <PlusLg className="tw-text-3xl tw-text-secondary group-hover/plus:tw-text-white" />
+            <PlusLg className="text-3xl text-secondary group-hover/plus:text-white" />
           )}
         </button>
       </div>
 
       {modal && (
-        <div className="tw-fixed tw-left-0 tw-top-0 tw-z-10 tw-flex tw-h-screen tw-w-screen tw-cursor-default tw-items-center tw-justify-center tw-bg-gray-100 tw-bg-opacity-15 tw-text-black">
+        <div className="fixed left-0 top-0 z-10 flex h-screen w-screen cursor-default items-center justify-center bg-gray-100 bg-opacity-15 text-black">
           <DeadlineModal
             showModal={showModal}
             uniID={id}
@@ -164,10 +164,8 @@ function DeadlineModal({ showModal, uniID, userID, uniName }) {
   }, []);
 
   return (
-    <div className="tw-relative tw-h-64 tw-min-h-fit tw-w-1/3 tw-rounded-lg tw-border tw-border-gray-200 tw-bg-gray-100 tw-p-8 tw-shadow-lg">
-      <p className="tw-pb-4 tw-pl-5 tw-text-xl tw-font-thin">
-        Choose your decision plan:
-      </p>
+    <div className="relative h-64 min-h-fit w-1/3 rounded-lg border border-gray-200 bg-gray-100 p-8 shadow-lg">
+      <p className="pb-4 pl-5 text-xl font-thin">Choose your decision plan:</p>
 
       <form
         onSubmit={(e) => {
@@ -177,7 +175,7 @@ function DeadlineModal({ showModal, uniID, userID, uniName }) {
       >
         {deadlines.map((deadline) => {
           return (
-            <div className="pb-2 tw-flex tw-items-center" key={deadline.id}>
+            <div className="pb-2 flex items-center" key={deadline.id}>
               <input
                 type="radio"
                 name="deadline"
@@ -186,7 +184,7 @@ function DeadlineModal({ showModal, uniID, userID, uniName }) {
                 onClick={(e) => setDeadline(e.target.value)}
               />
 
-              <label className="tw-pl-2" htmlFor={deadline.id}>
+              <label className="pl-2" htmlFor={deadline.id}>
                 {deadline.special_name} -{" "}
                 {new Date(deadline.date).toLocaleDateString("en-us", {
                   weekday: "long",
@@ -199,9 +197,9 @@ function DeadlineModal({ showModal, uniID, userID, uniName }) {
           );
         })}
 
-        <div className="tw-absolute tw-bottom-4 tw-right-4 tw-flex tw-items-center tw-gap-6">
+        <div className="absolute bottom-4 right-4 flex items-center gap-6">
           <button
-            className="tw-rounded-lg tw-border tw-border-secondary tw-px-4 tw-py-2 tw-text-secondary hover:tw-bg-secondary hover:tw-text-white"
+            className="rounded-lg border border-secondary px-4 py-2 text-secondary hover:bg-secondary hover:text-white"
             onClick={() => {
               showModal(false);
             }}
@@ -210,7 +208,7 @@ function DeadlineModal({ showModal, uniID, userID, uniName }) {
           </button>
 
           <button
-            className="tw-rounded-lg tw-border tw-border-primary tw-px-4 tw-py-2 tw-text-primary hover:tw-bg-primary hover:tw-text-white"
+            className="rounded-lg border border-primary px-4 py-2 text-primary hover:bg-primary hover:text-white"
             type="submit"
           >
             Submit

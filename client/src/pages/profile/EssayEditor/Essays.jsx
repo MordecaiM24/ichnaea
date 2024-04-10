@@ -33,9 +33,9 @@ export function Essays() {
   }, []);
 
   return (
-    <div className="tw-mx-auto tw-px-36 xl:tw-max-w-6xl 2xl:tw-max-w-7xl">
-      <div className="py-4 tw-self-center tw-text-center">
-        <p className="tw-text-5xl tw-font-thin">{essays[0]?.college_name}</p>
+    <div className="mx-auto px-36 xl:max-w-6xl 2xl:max-w-7xl">
+      <div className="py-4 self-center text-center">
+        <p className="text-5xl font-thin">{essays[0]?.college_name}</p>
       </div>
 
       {essays.map((essay) => {
@@ -58,10 +58,8 @@ function Essay({ essay }) {
   return (
     <>
       {!!essay.word_limit && (
-        <div className="tw-mb-12 tw-flex tw-flex-col tw-gap-y-4">
-          <p className="tw-text-md tw-ps-1">
-            {essay.supplemental_essay_prompt}
-          </p>
+        <div className="mb-12 flex flex-col gap-y-4">
+          <p className="text-md ps-1">{essay.supplemental_essay_prompt}</p>
 
           <textarea
             onChange={(e) => {
@@ -69,27 +67,27 @@ function Essay({ essay }) {
               e.target.style.height = `${e.target.scrollHeight + 18}px`;
               setResponse(e.target.value);
             }}
-            className="tw-flex tw-h-fit tw-min-h-56 tw-w-full tw-rounded-md tw-border tw-border-input tw-bg-background tw-px-3 tw-py-2 tw-text-sm placeholder:tw-text-muted-foreground"
+            className="flex h-fit min-h-56 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground"
             value={response}
           />
 
-          <div className="tw-flex tw-flex-row tw-items-center tw-justify-between">
-            <div className="tw-flex tw-gap-x-3">
-              <button className="tw-rounded-lg tw-border tw-border-primary tw-bg-white tw-px-6 tw-py-2 tw-text-primary tw-transition-all hover:tw-bg-primary hover:tw-text-white">
+          <div className="flex flex-row items-center justify-between">
+            <div className="flex gap-x-3">
+              <button className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white">
                 Brainstorm
               </button>
 
-              <button className="tw-rounded-lg tw-border tw-border-primary tw-bg-white tw-px-6 tw-py-2 tw-text-primary tw-transition-all hover:tw-bg-primary hover:tw-text-white">
+              <button className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white">
                 Edit
               </button>
 
-              <button className="tw-rounded-lg tw-border tw-border-primary tw-bg-white tw-px-6 tw-py-2 tw-text-primary tw-transition-all hover:tw-bg-primary hover:tw-text-white">
+              <button className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white">
                 Critique
               </button>
             </div>
 
             <button
-              className="tw-rounded-lg tw-bg-primary tw-px-6 tw-py-2 tw-text-white"
+              className="rounded-lg bg-primary px-6 py-2 text-white"
               onClick={() => saveEssay()}
             >
               Save

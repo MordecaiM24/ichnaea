@@ -25,7 +25,7 @@ export function SignIn({ setHasAccount }) {
 
   return (
     <form
-      className="tw-flex tw-max-w-xl tw-flex-col tw-items-center tw-gap-y-6 tw-px-4 tw-pt-8 md:tw-w-2/5 lg:tw-w-3/5"
+      className="flex max-w-xl flex-col items-center gap-y-6 px-4 pt-8 md:w-2/5 lg:w-3/5"
       autoComplete="off"
       onSubmit={(e) => {
         e.preventDefault();
@@ -33,13 +33,13 @@ export function SignIn({ setHasAccount }) {
         signInWithEmail();
       }}
     >
-      <p className="tw-text-5xl tw-font-light">Welcome Back</p>
+      <p className="text-5xl font-light">Welcome Back</p>
 
-      <div className="tw-flex tw-w-full tw-flex-col">
+      <div className="flex w-full flex-col">
         <input
           required
           type="email"
-          className="tw-w-full tw-rounded tw-border tw-border-slate-300 tw-bg-transparent tw-px-2 tw-py-2"
+          className="w-full rounded border border-slate-300 bg-transparent px-2 py-2"
           id="email"
           onChange={(e) => {
             setEmail(e.target.value);
@@ -48,11 +48,11 @@ export function SignIn({ setHasAccount }) {
         <label htmlFor="email">Email address</label>
       </div>
 
-      <div className="tw-flex tw-w-full tw-flex-col">
+      <div className="flex w-full flex-col">
         <input
           required
           type="password"
-          className="tw-rounded tw-border tw-border-slate-300 tw-bg-transparent tw-px-2 tw-py-2"
+          className="rounded border border-slate-300 bg-transparent px-2 py-2"
           id="password"
           onChange={(e) => {
             setPassword(e.target.value);
@@ -63,16 +63,16 @@ export function SignIn({ setHasAccount }) {
 
       <button
         type="submit"
-        className="tw-w-full tw-rounded-md tw-border tw-border-black tw-p-2 tw-text-xl tw-font-normal tw-transition-all tw-duration-200 hover:tw-bg-black hover:tw-text-white focus:tw-bg-black focus:tw-text-white"
+        className="w-full rounded-md border border-black p-2 text-xl font-normal transition-all duration-200 hover:bg-black hover:text-white focus:bg-black focus:text-white"
         disabled={loading}
       >
         Log In
       </button>
 
-      <div className="tw-flex tw-w-full tw-items-center tw-justify-around">
+      <div className="flex w-full items-center justify-around">
         <p>Don't have an account?</p>
         <button
-          className="tw-underline"
+          className="underline"
           onClick={() => {
             setHasAccount(false);
           }}

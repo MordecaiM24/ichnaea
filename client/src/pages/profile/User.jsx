@@ -60,15 +60,15 @@ export default function User() {
   }, []);
 
   return (
-    <div className="tw-relative tw-mb-96 tw-flex tw-w-full tw-justify-center tw-px-10 tw-py-14">
-      <div className="tw-w-full tw-max-w-[1220px]">
+    <div className="relative mb-96 flex w-full justify-center px-10 py-14">
+      <div className="w-full max-w-[1220px]">
         <TodoList todos={todos} />
 
         <CollegeList colleges={colleges} essays={essays} />
       </div>
 
       <button
-        className="tw-absolute tw-right-6 tw-top-4 tw-rounded-lg tw-bg-primary tw-px-4 tw-py-2 tw-text-white"
+        className="absolute right-6 top-4 rounded-lg bg-primary px-4 py-2 text-white"
         onClick={() => logout()}
       >
         Logout

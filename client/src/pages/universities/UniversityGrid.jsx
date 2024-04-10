@@ -85,11 +85,11 @@ export default function UniversityGrid() {
   }
 
   return (
-    <div className="tw-p-4 tw-px-12">
+    <div className="p-4 px-12">
       {/* Didn't refactor into tailwind b/c the css for this was written by the elder gods */}
-      <div className="search-bar-container tw-relative">
+      <div className="search-bar-container relative">
         <form
-          className="search-box tw-flex tw-items-center tw-py-6"
+          className="search-box flex items-center py-6"
           id="search-form"
           onSubmit={(e) => {
             e.preventDefault();
@@ -100,20 +100,20 @@ export default function UniversityGrid() {
         >
           <input
             type="text"
-            className="search-input tw-text-sm"
+            className="search-input text-sm"
             placeholder="Start Looking For Something!"
             id="search"
             ref={inputRef}
           />
 
-          <a className="search-btn tw-cursor-pointer" type="submit">
+          <a className="search-btn cursor-pointer" type="submit">
             <Search />
           </a>
         </form>
       </div>
 
       {/* 1 card on sm screen, 2 on md screen, 3 on xl screen */}
-      <div className="tw-grid tw-grid-cols-1 tw-gap-x-10 tw-gap-y-16 tw-py-4 md:tw-grid-cols-2 xl:tw-grid-cols-3">
+      <div className="grid grid-cols-1 gap-x-10 gap-y-16 py-4 md:grid-cols-2 xl:grid-cols-3">
         {universities.map((university) => {
           return (
             <University
@@ -126,9 +126,9 @@ export default function UniversityGrid() {
         })}
       </div>
 
-      <div className="tw-flex tw-justify-center tw-py-12 xl:tw-pe-[4.5rem] 2xl:tw-pe-20">
+      <div className="flex justify-center py-12 xl:pe-[4.5rem] 2xl:pe-20">
         <button
-          className="tw-rounded-lg tw-border tw-border-primary tw-px-4 tw-py-2 tw-font-semibold tw-text-primary tw-transition-all hover:tw-bg-primary hover:tw-text-white"
+          className="rounded-lg border border-primary px-4 py-2 font-semibold text-primary transition-all hover:bg-primary hover:text-white"
           onClick={() => {
             setPage((page) => page + 1);
           }}
