@@ -1,6 +1,5 @@
 import { Bank, Coin, MortarboardFill } from "react-bootstrap-icons";
 import { Link, useNavigate } from "react-router-dom";
-import "bootstrap/dist/js/bootstrap.js";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
 

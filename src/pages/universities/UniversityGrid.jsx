@@ -89,7 +89,7 @@ export default function UniversityGrid() {
       {/* Didn't refactor into tailwind b/c the css for this was written by the elder gods */}
       <div className="search-bar-container relative">
         <form
-          className="search-box flex items-center py-6"
+          className="search-box flex items-center"
           id="search-form"
           onSubmit={(e) => {
             e.preventDefault();

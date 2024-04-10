@@ -9,7 +9,7 @@ export const Home = () => {
     >
       {/* <img src="src/assets/bg-masthead.jpeg" /> */}
       <h1 className="py-2 text-7xl font-light text-white">Universitrack</h1>
-      <hr class="divider" />
+      <hr className="divider" />
       <p className="text-xl font-light text-white">
         College applications give you a lot to keep track of. We can help you
         organize all of it.
