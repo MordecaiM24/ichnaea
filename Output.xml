@@ -1,0 +1,43 @@
+<?xml version='1.0'?>
+<info>
+    <activities>
+        <name>Student Government Association</name>
+        <role>Vice President</role>
+        <description>Organized school-wide initiatives, including a sustainability week and mental health workshops, leading a team of 10 students.</description>
+        <duration>2 years</duration>
+    </activities>
+    <activities>
+        <name>Varsity Soccer Team</name>
+        <role>Captain</role>
+        <description>Led team practices and strategies, improved team's win rate by 20%, and coordinated community soccer clinics for youth.</description>
+        <duration>3 years</duration>
+    </activities>
+    <activities>
+        <name>Math Club</name>
+        <role>Member</role>
+        <description>Participated in regional and national math competitions, achieving top 10% placements. Also tutored underclassmen in advanced mathematics.</description>
+        <duration>4 years</duration>
+    </activities>
+    <coursework>
+        <name>AP Calculus BC</name>
+        <description>Covered advanced topics in calculus, including sequences, series, and multivariable calculus.</description>
+    </coursework>
+    <coursework>
+        <name>AP Physics C: Mechanics</name>
+        <description>Explored principles of mechanics, work, energy, and power, with an emphasis on problem-solving and laboratory work.</description>
+    </coursework>
+    <projects>
+        <name>Renewable Energy Science Fair Project</name>
+        <description>Designed and constructed a small-scale wind turbine to explore efficient energy production, which won 2nd place at the state science fair.</description>
+    </projects>
+    <projects>
+        <name>Mobile App for Community Service</name>
+        <description>Developed a mobile application that connects volunteers with local non-profit organizations, facilitating over 1,000 hours of community service.</description>
+    </projects>
+    <firstChoiceMajor>Mechanical Engineering</firstChoiceMajor>
+    <secondChoiceMajor>Applied Mathematics</secondChoiceMajor>
+    <careerGoal>To become an innovative mechanical engineer focused on developing sustainable energy solutions.</careerGoal>
+    <uniqueExperiences>Participated in a summer internship with a local engineering firm, contributing to the design of an eco-friendly irrigation system.</uniqueExperiences>
+    <uniqueExternalAttributes>Recipient of the Community Leadership Award for outstanding service and commitment to local environmental initiatives.</uniqueExternalAttributes>
+    <uniqueInternalAttributes>Strong problem-solving skills, creativity in approaching complex challenges, and a passion for sustainability and engineering.</uniqueInternalAttributes>
+</info>

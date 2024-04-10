@@ -1,9 +1,32 @@
 import { Auth } from "./Auth";
-import { User } from "../User";
-import { useCookies } from "react-cookie";
+import { supabase } from "../../../App";
+import { useEffect, useState } from "react";
+import User from "../User";
 
 export const Profile = () => {
-  return localStorage.getItem("userID") ? <User /> : <Auth />;
+  const [user, setUser] = useState(null);
+
+  async function getUser() {
+    console.log("getting user");
+    const { data, error } = await supabase.auth.getSession();
+
+    if (!data?.session?.user) {
+      setUser(false);
+      return;
+    }
+
+    setUser(true);
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  if (user) {
+    return <User user={user} />;
+  } else {
+    return <Auth />;
+  }
 };
 
 // If user is not logged in, render sign up page. If user is logged in, render profile.

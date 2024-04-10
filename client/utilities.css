@@ -76,7 +76,7 @@ p {
   left: -4rem;
   width: 12rem;
   height: 6rem;
-  z-index: 2000;
+  z-index: 9000;
 }
 
 @media (min-width: 576px) {
@@ -107,4 +107,51 @@ p {
 
 .outline-primary {
   outline-color: var(--bs-primary);
+}
+
+.mt--5 {
+  margin-top: -16rem;
+}
+
+.bg-transparent {
+  background: transparent;
+  background-color: #eee;
+}
+
+.bg-img {
+  background: linear-gradient(
+      to bottom,
+      rgba(92, 77, 66, 0.8) 0%,
+      rgba(92, 77, 66, 0.8) 100%
+    ),
+    url("/assets/bg-masthead.jpeg");
+}
+
+hr.divider {
+  height: 0.2rem;
+  width: 3.25rem;
+  margin: 1.5rem auto;
+  background-color: #f4623a;
+  border: none;
+  opacity: 1;
+  border-radius: 50px;
+}
+hr.divider-light {
+  background-color: #fff;
+}
+
+.btn-orange {
+  border: none;
+  background-color: #f4623a;
+  padding: 1rem 3rem;
+  color: white;
+  font-size: 1.25rem;
+}
+
+.z-0 {
+  color: red;
+  z-index: -5;
+}
+
+.auto-complete {
 }
