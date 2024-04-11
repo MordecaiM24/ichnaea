@@ -17,7 +17,7 @@ export const Home = () => {
       <button
         className="my-3 rounded-full bg-[rgb(244,98,58)] px-12 py-4 text-xl text-white"
         onClick={() => {
-          navigate("/colleges");
+          navigate("/univerisites");
         }}
       >
         Try it out
