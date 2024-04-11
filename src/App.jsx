@@ -9,6 +9,11 @@ import { UserInfo } from "./pages/profile/UserInfo";
 import UniversityGrid from "./pages/universities/UniversityGrid";
 import { Essays } from "./pages/profile/EssayEditor/Essays";
 import { SpeedInsights } from "@vercel/speed-insights/react"
+import { injectSpeedInsights } from '@vercel/speed-insights';
+import { inject } from '@vercel/analytics';
+ 
+injectSpeedInsights(); 
+inject();
 
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
@@ -17,20 +22,17 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 function App() {
   return (
-    <>
-    <SpeedInsights />
-        <HashRouter>
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/profile/:college_id" element={<Essays />} />
-            <Route path="/info" element={<UserInfo />} />
-            <Route path="/universities" element={<UniversityGrid />} />
-            <Route path="/*" element={<Error />} />
-          </Routes>
-        </HashRouter>
-    </>
+      <HashRouter>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/:college_id" element={<Essays />} />
+          <Route path="/info" element={<UserInfo />} />
+          <Route path="/universities" element={<UniversityGrid />} />
+          <Route path="/*" element={<Error />} />
+        </Routes>
+      </HashRouter>
   );
 }
 
