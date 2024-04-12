@@ -1,6 +1,8 @@
 import { supabase } from "@/App";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 export function Essays() {
   let { college_id } = useParams();
@@ -9,15 +11,12 @@ export function Essays() {
 
   async function getUser() {
     const user_id = (await supabase.auth.getSession()).data.session.user.id;
-    console.log(user_id);
 
     let { data: user, error: userError } = await supabase
       .from("users")
       .select("*")
       .eq("id", user_id);
-    console.log({ user });
 
-    console.log(college_id);
     let { data: essays, error: essayErr } = await supabase
       .from("user_supplemental_essays")
       .select("*")
@@ -34,12 +33,12 @@ export function Essays() {
 
   return (
     <div className="mx-auto px-36 xl:max-w-6xl 2xl:max-w-7xl">
-      <div className="py-4 self-center text-center">
+      <div className="self-center py-4 text-center">
         <p className="text-5xl font-thin">{essays[0]?.college_name}</p>
       </div>
 
       {essays.map((essay) => {
-        return <Essay essay={essay} />;
+        return <Essay essay={essay} key={essay.id} />;
       })}
     </div>
   );
@@ -53,6 +52,94 @@ function Essay({ essay }) {
       .from("user_supplemental_essays")
       .update({ response })
       .eq("id", essay.id);
+  }
+
+  function brainstorm() {
+    toast.info("Coming soon!", {
+      position: "top-center",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+    });
+
+    // if (response.length < 100) {
+    //   toast.info(
+    //     "Editing works best with a minimum of 100 characters. Start writing and we'll start helping!",
+    //     {
+    //       position: "top-center",
+    //       autoClose: 2500,
+    //       hideProgressBar: false,
+    //       closeOnClick: true,
+    //       pauseOnHover: true,
+    //       draggable: true,
+    //       theme: "dark",
+    //     },
+    //   );
+
+    //   return;
+    // }
+
+    // const editedEssay = await axios.post(
+    //   `${import.meta.env.VITE_FUNCTION_ENDPOINT}/api/brainstorm`,
+    //   { essay: response },
+    // );
+
+    // const originalEssay = response;
+
+    // const newEssay = originalEssay.concat(
+    //   "\n\nEdited Essay: \n\n",
+    //   editedEssay.data.final_essay,
+    // );
+
+    // setResponse(newEssay);
+  }
+
+  async function edit() {
+    if (response.length < 100) {
+      toast.info(
+        "Editing works best with a minimum of 100 characters. Start writing and we'll start helping!",
+        {
+          position: "top-center",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        },
+      );
+
+      return;
+    }
+
+    const editedEssay = await axios.post(
+      `${import.meta.env.VITE_FUNCTION_ENDPOINT}/api/edit`,
+      { essay: response },
+    );
+
+    const originalEssay = response;
+
+    const newEssay = originalEssay.concat(
+      "\n\nEdited Essay: \n\n",
+      editedEssay.data.final_essay,
+    );
+
+    setResponse(newEssay);
+  }
+
+  function critique() {
+    toast.info("Coming soon!", {
+      position: "top-center",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+    });
   }
 
   return (
@@ -73,15 +160,24 @@ function Essay({ essay }) {
 
           <div className="flex flex-row items-center justify-between">
             <div className="flex gap-x-3">
-              <button className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white">
+              <button
+                className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white"
+                onClick={() => brainstorm()}
+              >
                 Brainstorm
               </button>
 
-              <button className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white">
+              <button
+                className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white"
+                onClick={() => edit()}
+              >
                 Edit
               </button>
 
-              <button className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white">
+              <button
+                className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white"
+                onClick={() => critique()}
+              >
                 Critique
               </button>
             </div>
@@ -95,6 +191,8 @@ function Essay({ essay }) {
           </div>
         </div>
       )}
+
+      <ToastContainer />
     </>
   );
 }

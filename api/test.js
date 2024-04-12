@@ -1,6 +1,5 @@
-const fs = require("fs");
-var convert = require("xml-js");
-var js2xmlparser = require("js2xmlparser");
+import { writeFile } from "fs";
+import { parse } from "js2xmlparser";
 
 let x = {
   activities: [
@@ -62,12 +61,12 @@ let x = {
     "Strong problem-solving skills, creativity in approaching complex challenges, and a passion for sustainability and engineering.",
 };
 
-let xml = js2xmlparser.parse("info", x);
+let xml = parse("info", x);
 
 console.log(xml);
 
 // Write data in 'Output.txt' .
-fs.writeFile("Output.xml", xml, (err) => {
+writeFile("Output.xml", xml, (err) => {
   // In case of a error throw err.
   if (err) throw err;
 });
