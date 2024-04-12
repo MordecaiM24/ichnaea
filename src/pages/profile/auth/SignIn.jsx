@@ -6,6 +6,8 @@ export function SignIn({ setHasAccount }) {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [formError, setFormError] = useState("");
+  const navigate = useNavigate();
 
   async function signInWithEmail() {
     setLoading(true);
@@ -15,8 +17,11 @@ export function SignIn({ setHasAccount }) {
       password,
     });
 
-    console.log("Sign in results");
-    console.log({ data, error });
+    if (error?.name === "AuthApiError") {
+      setFormError(true);
+      setLoading(false);
+      return;
+    }
 
     location.reload();
 
@@ -39,7 +44,7 @@ export function SignIn({ setHasAccount }) {
         <input
           required
           type="email"
-          className="w-full rounded border border-slate-300 bg-transparent px-2 py-2"
+          className="w-full rounded border border-slate-400 bg-transparent px-2 py-2"
           id="email"
           onChange={(e) => {
             setEmail(e.target.value);
@@ -52,18 +57,21 @@ export function SignIn({ setHasAccount }) {
         <input
           required
           type="password"
-          className="rounded border border-slate-300 bg-transparent px-2 py-2"
+          className="rounded border border-slate-400 bg-transparent px-2 py-2"
           id="password"
           onChange={(e) => {
             setPassword(e.target.value);
           }}
         />
         <label htmlFor="password">Password</label>
+        {!!formError && (
+          <p className="pt-2 text-red-500">Incorrect username or password</p>
+        )}
       </div>
 
       <button
         type="submit"
-        className="w-full rounded-md border border-black p-2 text-xl font-normal transition-all duration-200 hover:bg-black hover:text-white focus:bg-black focus:text-white"
+        className="w-full rounded-md border border-black p-2 text-xl font-normal transition-all duration-200 hover:bg-black hover:text-white focus:bg-black focus:text-white disabled:border-gray-50 disabled:bg-gray-300 disabled:text-gray-600"
         disabled={loading}
       >
         Log In
@@ -72,6 +80,7 @@ export function SignIn({ setHasAccount }) {
       <div className="flex w-full items-center justify-around">
         <p>Don't have an account?</p>
         <button
+          type="button"
           className="underline"
           onClick={() => {
             setHasAccount(false);

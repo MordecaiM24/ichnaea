@@ -83,7 +83,7 @@ export function SignUp({ setHasAccount }) {
         <label htmlFor="email">Email address</label>
       </div>
 
-      <div className="flex-row flex w-full gap-x-2">
+      <div className="flex w-full flex-row gap-x-2">
         <div className="flex w-full flex-col">
           <input
             required
@@ -109,7 +109,7 @@ export function SignUp({ setHasAccount }) {
         </div>
       </div>
 
-      <div className="flex-row flex w-full gap-x-2">
+      <div className="flex w-full flex-row gap-x-2">
         <div className="flex w-full flex-col">
           <input
             required
@@ -148,6 +148,7 @@ export function SignUp({ setHasAccount }) {
       <div className="flex w-full items-center justify-around">
         <p>Already have an account?</p>
         <button
+          type="button"
           className="underline"
           onClick={() => {
             setHasAccount(true);
