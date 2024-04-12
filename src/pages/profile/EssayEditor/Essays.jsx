@@ -123,6 +123,11 @@ function Essay({ essay }) {
               e.target.style.height = `${e.target.scrollHeight + 18}px`;
               setResponse(e.target.value);
             }}
+            onClick={(e) => {
+              console.log("Clicked");
+              e.target.style.height = "inherit";
+              e.target.style.height = `${e.target.scrollHeight + 18}px`;
+            }}
             className="flex h-fit min-h-56 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground"
             value={response}
           />
