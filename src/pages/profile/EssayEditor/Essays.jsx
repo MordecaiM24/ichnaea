@@ -54,49 +54,6 @@ function Essay({ essay }) {
       .eq("id", essay.id);
   }
 
-  function brainstorm() {
-    toast.info("Coming soon!", {
-      position: "top-center",
-      autoClose: 2500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "dark",
-    });
-
-    // if (response.length < 100) {
-    //   toast.info(
-    //     "Editing works best with a minimum of 100 characters. Start writing and we'll start helping!",
-    //     {
-    //       position: "top-center",
-    //       autoClose: 2500,
-    //       hideProgressBar: false,
-    //       closeOnClick: true,
-    //       pauseOnHover: true,
-    //       draggable: true,
-    //       theme: "dark",
-    //     },
-    //   );
-
-    //   return;
-    // }
-
-    // const editedEssay = await axios.post(
-    //   `${import.meta.env.VITE_FUNCTION_ENDPOINT}/api/brainstorm`,
-    //   { essay: response },
-    // );
-
-    // const originalEssay = response;
-
-    // const newEssay = originalEssay.concat(
-    //   "\n\nEdited Essay: \n\n",
-    //   editedEssay.data.final_essay,
-    // );
-
-    // setResponse(newEssay);
-  }
-
   async function edit() {
     if (response.length < 100) {
       toast.info(
@@ -142,6 +99,18 @@ function Essay({ essay }) {
     });
   }
 
+  function brainstorm() {
+    toast.info("Coming soon!", {
+      position: "top-center",
+      autoClose: 2500,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      theme: "dark",
+    })
+  }
+    
   return (
     <>
       {!!essay.word_limit && (
@@ -168,8 +137,12 @@ function Essay({ essay }) {
               </button>
 
               <button
-                className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white"
-                onClick={() => edit()}
+                className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white disabled:opacity-50"
+                onClick={async (e) => {
+                  e.target.disabled = true;
+                  await edit();
+                  e.target.disabled = false;
+                }}
               >
                 Edit
               </button>
@@ -191,7 +164,6 @@ function Essay({ essay }) {
           </div>
         </div>
       )}
-
       <ToastContainer />
     </>
   );

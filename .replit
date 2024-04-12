@@ -1,0 +1,41 @@
+modules = ["nodejs-20:v8-20230920-bd784b9"]
+hidden = [".config", "package-lock.json"]
+run = "vercel dev --listen 5173"
+
+[gitHubImport]
+requiredFiles = [".replit", "replit.nix", "package.json", "package-lock.json"]
+
+[nix]
+channel = "stable-23_05"
+
+[unitTest]
+language = "nodejs"
+
+[deployment]
+run = ["sh", "-c", "vercel dev --listen 5173"]
+deploymentTarget = "cloudrun"
+ignorePorts = false
+
+[[ports]]
+localPort = 3000
+externalPort = 3000
+
+[[ports]]
+localPort = 5173
+externalPort = 80
+exposeLocalhost = true
+
+[[ports]]
+localPort = 35941
+externalPort = 3003
+exposeLocalhost = true
+
+[[ports]]
+localPort = 38011
+externalPort = 3002
+exposeLocalhost = true
+
+[[ports]]
+localPort = 43991
+externalPort = 3001
+exposeLocalhost = true
