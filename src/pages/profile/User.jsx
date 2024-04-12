@@ -41,7 +41,9 @@ export default function User() {
     let { data: essays, error: essayErr } = await supabase
       .from("user_supplemental_essays")
       .select("*")
-      .eq("user_id", id);
+      .eq("user_id", id)
+      .order("created_at");
+;
 
     setEssays(essays);
     setUser(user[0]);
