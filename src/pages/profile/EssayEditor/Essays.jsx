@@ -1,5 +1,5 @@
 import { supabase } from "@/App";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
@@ -50,6 +50,14 @@ function Essay({ essay }) {
   const [isAILoading, setAILoading] = useState(false);
   const [changeDelta, setChangeDelta] = useState(0);
   const [isEssaySaving, setEssaySaving] = useState(false);
+  const textareaRef = useRef(null);
+
+  useEffect(() => {
+    if (textareaRef.current && changeDelta !== 0) {
+      textareaRef.current.style.height = "inherit"; // Reset the height to inherit to correctly reduce size if needed
+      textareaRef.current.style.height = `${textareaRef.current.scrollHeight + 18}px`;
+    }
+  }, [response, changeDelta]); // This will trigger every time the response state changes
 
   async function saveEssay(userResponse = response) {
     setEssaySaving(true);
@@ -136,16 +144,13 @@ function Essay({ essay }) {
             <textarea
               onChange={(e) => {
                 setChangeDelta((changeDelta) => changeDelta + 1);
-                e.target.style.height = "inherit";
-                e.target.style.height = `${e.target.scrollHeight + 18}px`;
                 setResponse(e.target.value);
               }}
-              onClick={(e) => {
-                e.target.style.height = "inherit";
-                e.target.style.height = `${e.target.scrollHeight + 18}px`;
-              }}
+              onClick={() => setChangeDelta((changeDelta) => changeDelta + 1)}
+              ref={textareaRef}
               className="flex h-fit min-h-56 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground"
               value={response}
+              style={{ height: "100px" }} // Set a default height inline
             />
 
             {isAILoading && (
