@@ -137,7 +137,7 @@ function Essay({ essay, name }) {
     const originalEssay = response;
 
     const newEssay = originalEssay.concat(
-      "\n\nEdited Essay: \n\n",
+      "\n\nCritiques: \n\n",
       criticizedEssay.data.critiques,
     );
 
@@ -165,10 +165,19 @@ function Essay({ essay, name }) {
 
     const originalEssay = response;
 
-    const newEssay = originalEssay.concat(
-      "\n\nIdeas : \n\n",
-      brainstormedEssay.data.brainstorm,
-    );
+    let newEssay;
+
+    if (originalEssay.length === 0) {
+      newEssay = originalEssay.concat(
+        "Ideas : \n\n",
+        brainstormedEssay.data.brainstorm,
+      );
+    } else {
+      newEssay = originalEssay.concat(
+        "\n\nIdeas : \n\n",
+        brainstormedEssay.data.brainstorm,
+      );
+    }
 
     setResponse(newEssay);
     saveEssay(newEssay);
