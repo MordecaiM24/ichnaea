@@ -39,13 +39,13 @@ export function Essays() {
       </div>
 
       {essays.map((essay) => {
-        return <Essay essay={essay} key={essay.id} />;
+        return <Essay essay={essay} key={essay.id} name={user.first_name} />;
       })}
     </div>
   );
 }
 
-function Essay({ essay }) {
+function Essay({ essay, name }) {
   const [response, setResponse] = useState(essay.response);
   const [isAILoading, setAILoading] = useState(false);
   const [changeDelta, setChangeDelta] = useState(0);
@@ -111,28 +111,67 @@ function Essay({ essay }) {
     saveEssay(newEssay);
   }
 
-  function critique() {
-    toast.info("Coming soon!", {
-      position: "top-center",
-      autoClose: 2500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "dark",
-    });
+  async function critique() {
+    if (response.length < 100) {
+      toast.info(
+        "Criticism works best with a minimum of 100 characters. Start writing and we'll start helping!",
+        {
+          position: "top-center",
+          autoClose: 2500,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "dark",
+        },
+      );
+
+      return;
+    }
+
+    const criticizedEssay = await axios.post(
+      `${import.meta.env.VITE_FUNCTION_ENDPOINT}/api/critique`,
+      { essay: response, prompt: essay.supplemental_essay_prompt },
+    );
+
+    const originalEssay = response;
+
+    const newEssay = originalEssay.concat(
+      "\n\nEdited Essay: \n\n",
+      criticizedEssay.data.critiques,
+    );
+
+    setResponse(newEssay);
+    saveEssay(newEssay);
   }
 
-  function brainstorm() {
-    toast.info("Coming soon!", {
-      position: "top-center",
-      autoClose: 2500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      theme: "dark",
-    });
+  async function brainstorm() {
+    if (name != "Mordecai") {
+      toast.info("Coming soon!", {
+        position: "top-center",
+        autoClose: 2500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        theme: "dark",
+      });
+    }
+
+    const brainstormedEssay = await axios.post(
+      `${import.meta.env.VITE_FUNCTION_ENDPOINT}/api/brainstorm`,
+      { prompt: essay.supplemental_essay_prompt },
+    );
+
+    const originalEssay = response;
+
+    const newEssay = originalEssay.concat(
+      "\n\nIdeas : \n\n",
+      brainstormedEssay.data.brainstorm,
+    );
+
+    setResponse(newEssay);
+    saveEssay(newEssay);
   }
 
   return (
@@ -172,7 +211,11 @@ function Essay({ essay }) {
             <div className="flex gap-x-3">
               <button
                 className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-primary"
-                onClick={() => brainstorm()}
+                onClick={async () => {
+                  setAILoading(true);
+                  await brainstorm();
+                  setAILoading(false);
+                }}
                 disabled={isAILoading}
               >
                 Brainstorm
@@ -192,7 +235,11 @@ function Essay({ essay }) {
 
               <button
                 className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-primary"
-                onClick={() => critique()}
+                onClick={async () => {
+                  setAILoading(true);
+                  await critique();
+                  setAILoading(false);
+                }}
                 disabled={isAILoading}
               >
                 Critique

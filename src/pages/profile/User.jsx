@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../App";
 import TodoList, { TodoListSkeleton } from "./TodoList";
-
 import { CollegeList, CollegeListSkeleton } from "./CollegeList";
+import { UserInfo } from "./UserInfo";
 
 export default function User() {
   const [user, setUser] = useState(null);
   const [todos, setTodos] = useState([]);
   const [colleges, setColleges] = useState([]);
   const [essays, setEssays] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [isLoading, setLoading] = useState(false);
 
   async function getUser() {
     setLoading(true);
@@ -67,13 +67,19 @@ export default function User() {
   return (
     <div className="relative mb-96 flex w-full justify-center px-10 py-14">
       <div className="w-full max-w-[1220px]">
-        {!loading ? <TodoList todos={todos} /> : <TodoListSkeleton />}
-
-        {!loading ? (
-          <CollegeList colleges={colleges} essays={essays} />
+        {!isLoading ? (
+          <>
+            <TodoList todos={todos} />
+            <CollegeList colleges={colleges} essays={essays} />
+          </>
         ) : (
-          <CollegeListSkeleton />
+          <>
+            <TodoListSkeleton />
+            <CollegeListSkeleton />
+          </>
         )}
+
+        {/* {user && <UserInfo user={user} />} */}
       </div>
 
       <button
