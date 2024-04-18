@@ -568,6 +568,10 @@ video {
   }
 }
 
+.visible {
+  visibility: visible;
+}
+
 .fixed {
   position: fixed;
 }
@@ -610,6 +614,14 @@ video {
 
 .top-4 {
   top: 1rem;
+}
+
+.bottom-0 {
+  bottom: 0px;
+}
+
+.right-0 {
+  right: 0px;
 }
 
 .z-10 {
@@ -1004,6 +1016,11 @@ video {
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
+.bg-gray-300 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(209 213 219 / var(--tw-bg-opacity));
+}
+
 .bg-opacity-15 {
   --tw-bg-opacity: 0.15;
 }
@@ -1014,6 +1031,10 @@ video {
 
 .bg-opacity-95 {
   --tw-bg-opacity: 0.95;
+}
+
+.bg-opacity-50 {
+  --tw-bg-opacity: 0.5;
 }
 
 .p-2 {
@@ -1305,14 +1326,6 @@ video {
   text-decoration-line: underline;
 }
 
-.opacity-25 {
-  opacity: 0.25;
-}
-
-.opacity-50 {
-  opacity: 0.5;
-}
-
 .opacity-55 {
   opacity: 0.55;
 }
@@ -1462,6 +1475,10 @@ video {
   justify-content: center;
 }
 
+.\*\:rounded-lg > * {
+  border-radius: 0.5rem;
+}
+
 .\*\:text-center > * {
   text-align: center;
 }
@@ -1582,6 +1599,16 @@ video {
 
 .disabled\:opacity-50:disabled {
   opacity: 0.5;
+}
+
+.disabled\:hover\:bg-white:hover:disabled {
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.disabled\:hover\:text-primary:hover:disabled {
+  --tw-text-opacity: 1;
+  color: rgb(145 0 22 / var(--tw-text-opacity));
 }
 
 .group:hover .group-hover\:inline-block {

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
+import { Circles } from "react-loader-spinner";
 
 export function Essays() {
   let { college_id } = useParams();
@@ -46,6 +47,7 @@ export function Essays() {
 
 function Essay({ essay }) {
   const [response, setResponse] = useState(essay.response);
+  const [isAILoading, setAILoading] = useState(false);
 
   async function saveEssay() {
     await supabase
@@ -71,20 +73,21 @@ function Essay({ essay }) {
 
       return;
     }
+    await new Promise((resolve) => setTimeout(null, 100000));
 
-    const editedEssay = await axios.post(
-      `${import.meta.env.VITE_FUNCTION_ENDPOINT}/api/edit`,
-      { essay: response },
-    );
+    // const editedEssay = await axios.post(
+    //   `${import.meta.env.VITE_FUNCTION_ENDPOINT}/api/edit`,
+    //   { essay: response },
+    // );
 
-    const originalEssay = response;
+    // const originalEssay = response;
 
-    const newEssay = originalEssay.concat(
-      "\n\nEdited Essay: \n\n",
-      editedEssay.data.final_essay,
-    );
+    // const newEssay = originalEssay.concat(
+    //   "\n\nEdited Essay: \n\n",
+    //   editedEssay.data.final_essay,
+    // );
 
-    setResponse(newEssay);
+    // setResponse(newEssay);
   }
 
   function critique() {
@@ -108,53 +111,67 @@ function Essay({ essay }) {
       pauseOnHover: true,
       draggable: true,
       theme: "dark",
-    })
+    });
   }
-    
+
   return (
     <>
       {!!essay.word_limit && (
         <div className="mb-12 flex flex-col gap-y-4">
           <p className="text-md ps-1">{essay.supplemental_essay_prompt}</p>
 
-          <textarea
-            onChange={(e) => {
-              e.target.style.height = "inherit";
-              e.target.style.height = `${e.target.scrollHeight + 18}px`;
-              setResponse(e.target.value);
-            }}
-            onClick={(e) => {
-              console.log("Clicked");
-              e.target.style.height = "inherit";
-              e.target.style.height = `${e.target.scrollHeight + 18}px`;
-            }}
-            className="flex h-fit min-h-56 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground"
-            value={response}
-          />
+          <div className="relative min-h-56 w-full">
+            <textarea
+              onChange={(e) => {
+                e.target.style.height = "inherit";
+                e.target.style.height = `${e.target.scrollHeight + 18}px`;
+                setResponse(e.target.value);
+              }}
+              onClick={(e) => {
+                e.target.style.height = "inherit";
+                e.target.style.height = `${e.target.scrollHeight + 18}px`;
+              }}
+              className="flex h-fit min-h-56 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground"
+              value={response}
+            />
+            {isAILoading && (
+              <div className="primary absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center bg-gray-100 bg-opacity-50">
+                <Circles
+                  height={"33%"}
+                  width={"33%"}
+                  color="rgb(145,0,22)"
+                  wrapperClass="flex items-center justify-center"
+                />
+              </div>
+            )}
+          </div>
 
           <div className="flex flex-row items-center justify-between">
             <div className="flex gap-x-3">
               <button
-                className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white"
+                className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-primary"
                 onClick={() => brainstorm()}
+                disabled={isAILoading}
               >
                 Brainstorm
               </button>
 
               <button
-                className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white disabled:opacity-50"
-                onClick={async (e) => {
-                  e.target.disabled = true;
+                className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-primary"
+                disabled={isAILoading}
+                onClick={async () => {
+                  setAILoading(true);
                   await edit();
-                  e.target.disabled = false;
+                  setAILoading(false);
                 }}
               >
                 Edit
               </button>
 
               <button
-                className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white"
+                className="rounded-lg border border-primary bg-white px-6 py-2 text-primary transition-all hover:bg-primary hover:text-white disabled:opacity-50 disabled:hover:bg-white disabled:hover:text-primary"
                 onClick={() => critique()}
+                disabled={isAILoading}
               >
                 Critique
               </button>
@@ -170,6 +187,7 @@ function Essay({ essay }) {
         </div>
       )}
       <ToastContainer />
+      <div className="w-50 h-50 hidden"></div>
     </>
   );
 }
