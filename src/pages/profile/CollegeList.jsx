@@ -100,6 +100,7 @@ export function CollegeList({ colleges, essays }) {
     </>
   );
 }
+
 function Essay({ essay }) {
   const [status, setStatus] = useState(essay.status);
 
@@ -155,5 +156,52 @@ function Essay({ essay }) {
         {/* <div className="w-1/6">QWERTY</div> */}
       </div>
     </div>
+  );
+}
+
+export function CollegeListSkeleton() {
+  return (
+    <>
+      <div className="mt-12 flex w-full">
+        <div className="w-7/12">
+          <p className="inline-block rounded-lg rounded-b-none bg-orange-600 px-3 py-2.5 text-white md:px-12">
+            Universities
+          </p>
+        </div>
+
+        <div className="mr-20 flex w-5/12 items-center ps-5 *:flex *:justify-center">
+          <div className="w-1/6">Date</div>
+
+          <div className="w-1/3">Application Cycle</div>
+
+          <div className="w-1/2"></div>
+
+          {/* <div className="w-1/6">Completion</div> */}
+        </div>
+      </div>
+      <div>
+        {Array.from({ length: 2 }).map((_, index) => (
+          <div className="flex w-full animate-pulse items-center rounded-r-md border border-t-0 border-gray-300 py-6 first:border-t last:rounded-bl-md hover:bg-gray-50">
+            <div className="flex h-full w-7/12 items-center ps-4">
+              <div className="h-2 w-1/2 rounded-full bg-gray-300" />
+            </div>
+
+            <div className="mr-20 flex h-full w-5/12 items-center pe-4 ps-5 *:flex *:justify-center">
+              <div className="w-1/6">
+                <div className="h-4 w-4 rounded bg-gray-300" />
+              </div>
+
+              <div className="w-1/3">
+                <div className="h-2 w-full rounded-lg bg-gray-300" />
+              </div>
+
+              <div className="w-1/2">
+                <div className="h-6 w-1/2 rounded bg-gray-300" />
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
   );
 }

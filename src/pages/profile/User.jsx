@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../App";
-import TodoList from "./TodoList";
+import TodoList, { TodoListSkeleton } from "./TodoList";
 
-import { CollegeList } from "./CollegeList";
+import { CollegeList, CollegeListSkeleton } from "./CollegeList";
 
 export default function User() {
   const [user, setUser] = useState(null);
   const [todos, setTodos] = useState([]);
   const [colleges, setColleges] = useState([]);
   const [essays, setEssays] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   async function getUser() {
+    setLoading(true);
+
     const id = (await supabase.auth.getSession()).data.session.user.id;
 
     let { data: user, error: userError } = await supabase
@@ -43,12 +46,12 @@ export default function User() {
       .select("*")
       .eq("user_id", id)
       .order("created_at");
-;
-
     setEssays(essays);
     setUser(user[0]);
     setTodos(todos);
     setColleges(colleges);
+
+    setLoading(false);
   }
 
   async function logout() {
@@ -64,9 +67,13 @@ export default function User() {
   return (
     <div className="relative mb-96 flex w-full justify-center px-10 py-14">
       <div className="w-full max-w-[1220px]">
-        <TodoList todos={todos} />
+        {!loading ? <TodoList todos={todos} /> : <TodoListSkeleton />}
 
-        <CollegeList colleges={colleges} essays={essays} />
+        {!loading ? (
+          <CollegeList colleges={colleges} essays={essays} />
+        ) : (
+          <CollegeListSkeleton />
+        )}
       </div>
 
       <button
