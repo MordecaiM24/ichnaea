@@ -1,356 +1,190 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { X } from "lucide-react";
+import { supabase } from "@/App";
 
-export function UserInfo({ user }) {
-  console.log(user);
-  console.log(JSON.parse(user.extracurriculars));
+export const UserInfo = ({ isOpen, onClose, onSubmit }) => {
+  const [user, setUser] = useState(null);
 
-  const [extracurriculars, setExtracurriculars] = useState([
-    { name: "", role: "", description: "", duration: "" },
-  ]);
-  const [academics, setAcademics] = useState({
-    coursework: [{ name: "", description: "" }],
-    projects: [{ name: "", description: "" }],
-  });
-  const [goals, setGoals] = useState({
-    firstChoiceMajor: "",
-    secondChoiceMajor: "",
-    careerGoal: "",
-  });
-  const [diversity, setDiversity] = useState({
-    experiences: "",
-    externalAttributes: "",
-    internalAttributes: "",
+  async function getUser() {
+    const user_id = (await supabase.auth.getSession()).data.session.user.id;
+    console.log(user_id);
+
+    let { data: user, error: userError } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", user_id);
+
+    console.log(user);
+
+    setUser(user[0]);
+    setUserInfo(user[0].user_info);
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const [step, setStep] = useState(0);
+  const [userInfo, setUserInfo] = useState({
+    goals: "",
+    extracurriculars: "",
+    academics: "",
+    experience: "",
   });
 
-  // Handlers for dynamic fields
-  const handleDynamicChange = (state, setState, index, field, value) => {
-    const newState = [...state];
-    newState[index] = { ...newState[index], [field]: value };
-    setState(newState);
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserInfo((prevInfo) => ({ ...prevInfo, [name]: value }));
   };
 
-  const handleSimpleChange = (setState, field, value) => {
-    setState((prev) => ({ ...prev, [field]: value }));
+  const handleNext = () => {
+    if (step < 4) setStep(step + 1);
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // Here you can integrate an API call or any other submission logic
-    console.log("Submitted", { extracurriculars, academics, goals, diversity });
+  const handlePrevious = () => {
+    if (step > 0) setStep(step - 1);
   };
+
+  const handleSubmit = async () => {
+    console.log("Doing in userinfo");
+    const { data, error } = await supabase
+      .from("users")
+      .update({ user_info: userInfo })
+      .eq("id", user.id)
+      .select("*");
+
+    onSubmit(userInfo);
+    onClose();
+  };
+
+  if (!isOpen) return null;
 
   return (
-    <div className="p-5">
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Extracurriculars */}
-        <div className="group flex flex-col gap-y-2 pb-12 hover:pb-0.5">
-          <h3 className="-ml-2 py-2 text-xl font-light">Extracurriculars</h3>
-
-          {extracurriculars.map((activity, index) => (
-            <div key={index} className="flex items-center gap-x-2">
-              <input
-                type="text"
-                placeholder="Name"
-                value={activity.name}
-                onChange={(e) =>
-                  handleDynamicChange(
-                    extracurriculars,
-                    setExtracurriculars,
-                    index,
-                    "name",
-                    e.target.value,
-                  )
-                }
-                className="w-1/4 rounded border p-2"
-              />
-              <input
-                type="text"
-                placeholder="Role"
-                value={activity.role}
-                onChange={(e) =>
-                  handleDynamicChange(
-                    extracurriculars,
-                    setExtracurriculars,
-                    index,
-                    "role",
-                    e.target.value,
-                  )
-                }
-                className="w-1/8 rounded border p-2"
-              />
-              <input
-                type="text"
-                placeholder="Description"
-                value={activity.description}
-                onChange={(e) =>
-                  handleDynamicChange(
-                    extracurriculars,
-                    setExtracurriculars,
-                    index,
-                    "description",
-                    e.target.value,
-                  )
-                }
-                className="w-1/2 rounded border p-2"
-              />
-              <input
-                type="text"
-                placeholder="Duration"
-                value={activity.duration}
-                onChange={(e) =>
-                  handleDynamicChange(
-                    extracurriculars,
-                    setExtracurriculars,
-                    index,
-                    "duration",
-                    e.target.value,
-                  )
-                }
-                className="w-1/8 rounded border p-2"
-              />
-            </div>
-          ))}
-
-          <button
-            type="button"
-            className="hidden self-start rounded-md border border-slate-500 px-5 py-1.5 transition-all hover:border-slate-500 hover:bg-slate-500 hover:text-white group-hover:block"
-            onClick={() =>
-              setExtracurriculars([
-                ...extracurriculars,
-                { name: "", role: "", description: "", duration: "" },
-              ])
-            }
-          >
-            Add Extracurriculars
-          </button>
-        </div>
-
-        {/* Academics */}
-        <div className=" flex flex-col gap-y-2 hover:mb-0">
-          <h3 className="-ml-2 py-2 text-xl font-light">Academics</h3>
-          <div className="space-y-2">
-            <div className="group mb-4 space-y-2 pb-12 hover:pb-0.5">
-              <h4>Coursework</h4>
-
-              {academics.coursework.map((course, index) => (
-                <div key={index} className="flex items-center gap-x-2">
-                  <input
-                    type="text"
-                    placeholder="Name"
-                    value={course.name}
-                    onChange={(e) =>
-                      handleDynamicChange(
-                        academics.coursework,
-                        setAcademics,
-                        index,
-                        "name",
-                        e.target.value,
-                      )
-                    }
-                    className="w-3/5 rounded border p-2"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Description"
-                    value={course.description}
-                    onChange={(e) =>
-                      handleDynamicChange(
-                        academics.coursework,
-                        setAcademics,
-                        index,
-                        "description",
-                        e.target.value,
-                      )
-                    }
-                    className="w-2/5 rounded border p-2"
-                  />
-                </div>
-              ))}
-
-              <div className="hidden w-full items-center justify-between text-slate-700 group-hover:flex">
-                <button
-                  type="button"
-                  className="rounded-md border border-slate-500 px-5 py-1.5 transition-all hover:border-slate-500 hover:bg-slate-500 hover:text-white"
-                  onClick={() =>
-                    setAcademics({
-                      ...academics,
-                      coursework: [
-                        ...academics.coursework,
-                        { name: "", description: "" },
-                      ],
-                    })
-                  }
-                >
-                  Add Coursework
-                </button>
-
-                <button
-                  type="button"
-                  className="rounded-md border border-slate-500 px-5 py-1.5 transition-all hover:border-slate-500 hover:bg-slate-500 hover:text-white"
-                  onClick={() => {
-                    if (academics.coursework.length > 1) {
-                      setAcademics({
-                        ...academics,
-                        coursework: academics.coursework.slice(0, -1),
-                      });
-                    }
-                  }}
-                >
-                  Remove Coursework
-                </button>
-              </div>
-            </div>
-
-            <div className="group mb-4 space-y-2 pb-12 hover:pb-0.5">
-              <h4>Projects</h4>
-
-              {academics.projects.map((course, index) => (
-                <div key={index} className="flex items-center gap-x-2">
-                  <input
-                    type="text"
-                    placeholder="Name"
-                    value={course.name}
-                    onChange={(e) =>
-                      handleDynamicChange(
-                        academics.projects,
-                        setAcademics,
-                        index,
-                        "name",
-                        e.target.value,
-                      )
-                    }
-                    className="w-3/5 rounded border p-2"
-                  />
-                  <input
-                    type="text"
-                    placeholder="Description"
-                    value={course.description}
-                    onChange={(e) =>
-                      handleDynamicChange(
-                        academics.projects,
-                        setAcademics,
-                        index,
-                        "description",
-                        e.target.value,
-                      )
-                    }
-                    className="w-2/5 rounded border p-2"
-                  />
-                </div>
-              ))}
-
-              <div className="hidden w-full items-center justify-between text-slate-700 group-hover:flex">
-                <button
-                  type="button"
-                  className="rounded-md border border-slate-500 px-5 py-1.5 transition-all hover:border-slate-500 hover:bg-slate-500 hover:text-white"
-                  onClick={() =>
-                    setAcademics({
-                      ...academics,
-                      projects: [
-                        ...academics.projects,
-                        { name: "", description: "" },
-                      ],
-                    })
-                  }
-                >
-                  Add projects
-                </button>
-
-                <button
-                  type="button"
-                  className="rounded-md border border-slate-500 px-5 py-1.5 transition-all hover:border-slate-500 hover:bg-slate-500 hover:text-white"
-                  onClick={() => {
-                    if (academics.projects.length > 1) {
-                      setAcademics({
-                        ...academics,
-                        projects: academics.projects.slice(0, -1),
-                      });
-                    }
-                  }}
-                >
-                  Remove projects
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Goals */}
-        <div className="group mb-20 flex flex-col gap-y-2 hover:mb-0">
-          <h3 className="-ml-2 py-2 text-xl font-light">Goals</h3>
-          <input
-            type="text"
-            placeholder="First Choice Major"
-            value={goals.firstChoiceMajor}
-            onChange={(e) =>
-              handleSimpleChange(setGoals, "firstChoiceMajor", e.target.value)
-            }
-            className="w-1/3 rounded border p-2"
-          />
-          <input
-            type="text"
-            placeholder="Second Choice Major"
-            value={goals.secondChoiceMajor}
-            onChange={(e) =>
-              handleSimpleChange(setGoals, "secondChoiceMajor", e.target.value)
-            }
-            className="w-1/3 rounded border p-2"
-          />
-          <input
-            type="text"
-            placeholder="Career Goal"
-            value={goals.careerGoal}
-            onChange={(e) =>
-              handleSimpleChange(setGoals, "careerGoal", e.target.value)
-            }
-            className="w-1/3 rounded border p-2"
-          />
-        </div>
-
-        {/* Diversity */}
-        <div className="group mb-20 flex flex-col gap-y-2 hover:mb-0">
-          <h3 className="-ml-2 py-2 text-xl font-light">Diversity</h3>
-          <textarea
-            placeholder="Experiences"
-            value={diversity.experiences}
-            onChange={(e) =>
-              handleSimpleChange(setDiversity, "experiences", e.target.value)
-            }
-            className="w-1/2 rounded border p-2"
-          />
-          <textarea
-            placeholder="External Attributes"
-            value={diversity.externalAttributes}
-            onChange={(e) =>
-              handleSimpleChange(
-                setDiversity,
-                "externalAttributes",
-                e.target.value,
-              )
-            }
-            className="w-1/2 rounded border p-2"
-          />
-          <textarea
-            placeholder="Internal Attributes"
-            value={diversity.internalAttributes}
-            onChange={(e) =>
-              handleSimpleChange(
-                setDiversity,
-                "internalAttributes",
-                e.target.value,
-              )
-            }
-            className="w-1/2 rounded border p-2"
-          />
-        </div>
-
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="relative w-full max-w-3xl rounded-lg bg-white p-8 shadow-xl">
         <button
-          type="submit"
-          className="rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
+          onClick={onClose}
+          className="absolute right-6 top-6 text-gray-500 hover:text-gray-700"
         >
-          Submit
+          <X size={24} />
         </button>
-      </form>
+        <h2 className="mb-6 text-3xl font-thin">
+          Welcome to Your College Application Journey
+        </h2>
+        <form className="space-y-6">
+          {step === 0 && (
+            <div>
+              <p className="mb-4 text-lg">
+                We're excited to help you on your college application journey!
+                To provide you with the best experience, we'd like to collect
+                some information about you.
+              </p>
+              <p className="mb-4 text-lg">
+                <strong>Important:</strong> The data you provide will only be
+                used if you choose to use our AI-powered features. These
+                features can help brainstorm ideas for your essays and provide
+                personalized suggestions.
+              </p>
+              <p className="text-lg">
+                Your privacy is important to us. You can always choose not to
+                use the AI features, and your data will not be processed in that
+                case. You can always come back and edit or delete your
+                information.
+              </p>
+            </div>
+          )}
+          {step === 1 && (
+            <div>
+              <label className="mb-2 block text-lg font-medium text-gray-700">
+                What are your goals?
+              </label>
+              <textarea
+                name="goals"
+                value={userInfo.goals}
+                onChange={handleInputChange}
+                className="w-full rounded-md border border-gray-300 p-3 text-base"
+                rows="6"
+                placeholder="Describe your academic and career goals..."
+              />
+            </div>
+          )}
+          {step === 2 && (
+            <div>
+              <label className="mb-2 block text-lg font-medium text-gray-700">
+                List your extracurricular activities:
+              </label>
+              <textarea
+                name="extracurriculars"
+                value={userInfo.extracurriculars}
+                onChange={handleInputChange}
+                className="w-full rounded-md border border-gray-300 p-3 text-base"
+                rows="6"
+                placeholder="Include clubs, sports, volunteer work, etc..."
+              />
+            </div>
+          )}
+          {step === 3 && (
+            <div>
+              <label className="mb-2 block text-lg font-medium text-gray-700">
+                Relevant academics/coursework:
+              </label>
+              <textarea
+                name="academics"
+                value={userInfo.academics}
+                onChange={handleInputChange}
+                className="w-full rounded-md border border-gray-300 p-3 text-base"
+                rows="6"
+                placeholder="List advanced courses, academic achievements, research projects..."
+              />
+            </div>
+          )}
+          {step === 4 && (
+            <div>
+              <label className="mb-2 block text-lg font-medium text-gray-700">
+                Any other relevant experience:
+              </label>
+              <textarea
+                name="experience"
+                value={userInfo.experience}
+                onChange={handleInputChange}
+                className="w-full rounded-md border border-gray-300 p-3 text-base"
+                rows="6"
+                placeholder="Include internships, work experience, personal projects..."
+              />
+            </div>
+          )}
+          <div className="mt-8 flex justify-end space-x-4">
+            <div className="flex-1">
+              {step > 0 && (
+                <button
+                  type="button"
+                  onClick={handlePrevious}
+                  className="rounded-lg border border-primary bg-white px-6 py-2 text-lg text-primary transition-all hover:bg-primary hover:text-white"
+                >
+                  Previous
+                </button>
+              )}
+            </div>
+            {step < 4 ? (
+              <button
+                type="button"
+                onClick={handleNext}
+                className="rounded-lg bg-primary px-6 py-2 text-lg text-white"
+              >
+                Next
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={handleSubmit}
+                className="rounded-lg bg-primary px-6 py-2 text-lg text-white"
+              >
+                Submit
+              </button>
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   );
-}
+};

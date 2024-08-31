@@ -10,6 +10,7 @@ export default function User() {
   const [colleges, setColleges] = useState([]);
   const [essays, setEssays] = useState([]);
   const [isLoading, setLoading] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   async function getUser() {
     setLoading(true);
@@ -46,10 +47,16 @@ export default function User() {
       .select("*")
       .eq("user_id", id)
       .order("created_at");
+
     setEssays(essays);
     setUser(user[0]);
     setTodos(todos);
     setColleges(colleges);
+
+    // Check if it's the user's first visit and open the modal if so
+    if (user[0] && !user[0].has_visited) {
+      setIsModalOpen(true);
+    }
 
     setLoading(false);
   }
@@ -88,6 +95,24 @@ export default function User() {
       >
         Logout
       </button>
+
+      <UserInfo
+        isOpen={isModalOpen}
+        onClose={async () => {
+          console.log("Updating has_visited");
+          const { data, error } = await supabase
+            .from("users")
+            .update({ has_visited: "TRUE" })
+            .eq("id", user.id)
+            .select("*");
+
+          console.log("Should've updated has_visited");
+
+          console.log(data);
+          console.log(error);
+          setIsModalOpen(false);
+        }}
+      />
     </div>
   );
 }
