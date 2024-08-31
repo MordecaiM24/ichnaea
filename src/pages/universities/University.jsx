@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { PlusLg, Trash3Fill } from "react-bootstrap-icons";
 import { supabase } from "../../App";
 import { ToastContainer, toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 export default function University({ university, userID, saved }) {
   const [modal, showModal] = useState(false);
@@ -58,7 +59,11 @@ export default function University({ university, userID, saved }) {
   }, [saved]);
 
   return (
-    <div>
+    <div
+      onClick={() => {
+        isSaved ? null : addUniversity();
+      }}
+    >
       <div className="group relative flex h-full w-full cursor-pointer items-center rounded-xl border-2 border-primary hover:text-white">
         <div className="h-full w-1/2 md:w-5/12">
           <img
@@ -86,10 +91,10 @@ export default function University({ university, userID, saved }) {
 
         {/* Calculating the percent (1/2 or 5/12) - (1/2(font size (30)) + padding (12)) = (50 || 41.667)% - 27px */}
         <button
-          className="group/plus peer absolute -bottom-12 left-[calc(50%-27px)] inline-block rounded-full border-2 border-secondary bg-white p-3  transition-all hover:bg-secondary group-hover:inline-block md:left-[calc(41.667%-27px)] md:hidden"
           onClick={() => {
             isSaved ? deleteUniversity() : addUniversity();
           }}
+          className="group/plus peer absolute -bottom-12 left-[calc(50%-27px)] inline-block rounded-full border-2 border-secondary bg-white p-3  transition-all hover:bg-secondary group-hover:inline-block md:left-[calc(41.667%-27px)] md:hidden"
         >
           {isSaved ? (
             <Trash3Fill className="text-3xl text-secondary group-hover/plus:text-white" />
@@ -118,6 +123,7 @@ export default function University({ university, userID, saved }) {
 function DeadlineModal({ showModal, uniID, userID, uniName }) {
   const [deadlines, setDeadlines] = useState([]);
   const [deadline, setDeadline] = useState("");
+  const navigate = useNavigate();
 
   async function getDeadlines() {
     let { data: deadlines, err } = await supabase
@@ -157,6 +163,7 @@ function DeadlineModal({ showModal, uniID, userID, uniName }) {
     });
 
     showModal(false);
+    navigate("/profile#colleges");
   }
 
   useEffect(() => {
@@ -175,7 +182,7 @@ function DeadlineModal({ showModal, uniID, userID, uniName }) {
       >
         {deadlines.map((deadline) => {
           return (
-            <div className="pb-2 flex items-center" key={deadline.id}>
+            <div className="flex items-center pb-2" key={deadline.id}>
               <input
                 type="radio"
                 name="deadline"
