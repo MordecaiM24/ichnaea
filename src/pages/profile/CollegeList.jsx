@@ -13,8 +13,8 @@ export function CollegeList({ colleges, essays }) {
   const navigate = useNavigate();
 
   return (
-    <div className="mb-24">
-      <div id="colleges" className="mt-12 flex w-full">
+    <div className="mb-12">
+      <div id="colleges" className="flex w-full">
         <div className="w-7/12">
           <p className="inline-block rounded-lg rounded-b-none bg-orange-600 px-3 py-2.5 text-white md:px-12">
             Universities
@@ -161,8 +161,8 @@ function Essay({ essay }) {
 
 export function CollegeListSkeleton() {
   return (
-    <>
-      <div className="mt-12 flex w-full" id="colleges">
+    <div className="mb-12">
+      <div className="flex w-full" id="colleges">
         <div className="w-7/12">
           <p className="inline-block rounded-lg rounded-b-none bg-orange-600 px-3 py-2.5 text-white md:px-12">
             Universities
@@ -202,6 +202,6 @@ export function CollegeListSkeleton() {
           </div>
         ))}
       </div>
-    </>
+    </div>
   );
 }

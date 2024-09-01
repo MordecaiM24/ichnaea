@@ -39,13 +39,13 @@ export function Essays() {
       </div>
 
       {essays.map((essay) => {
-        return <Essay essay={essay} key={essay.id} name={user.first_name} />;
+        return <Essay essay={essay} key={essay.id} student={user.user_info} />;
       })}
     </div>
   );
 }
 
-function Essay({ essay, name }) {
+function Essay({ essay, student }) {
   const [response, setResponse] = useState(essay.response);
   const [isAILoading, setAILoading] = useState(false);
   const [changeDelta, setChangeDelta] = useState(0);
@@ -160,7 +160,7 @@ function Essay({ essay, name }) {
 
     const brainstormedEssay = await axios.post(
       `${import.meta.env.VITE_FUNCTION_ENDPOINT}/api/brainstorm`,
-      { prompt: essay.supplemental_essay_prompt },
+      { prompt: essay.supplemental_essay_prompt, student: userInfo },
     );
 
     const originalEssay = response;

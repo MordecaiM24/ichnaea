@@ -3,6 +3,7 @@ import { supabase } from "../../App";
 import TodoList, { TodoListSkeleton } from "./TodoList";
 import { CollegeList, CollegeListSkeleton } from "./CollegeList";
 import { UserInfo } from "./UserInfo";
+import { EditUserInfo } from "./UserInfo";
 
 export default function User() {
   const [user, setUser] = useState(null);
@@ -11,6 +12,7 @@ export default function User() {
   const [essays, setEssays] = useState([]);
   const [isLoading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   async function getUser() {
     setLoading(true);
@@ -76,13 +78,14 @@ export default function User() {
       <div className="w-full max-w-[1220px]">
         {!isLoading ? (
           <>
-            <TodoList todos={todos} />
+            <div></div>
             <CollegeList colleges={colleges} essays={essays} />
+            <TodoList todos={todos} />
           </>
         ) : (
           <>
-            <TodoListSkeleton />
             <CollegeListSkeleton />
+            <TodoListSkeleton />
           </>
         )}
 
@@ -90,7 +93,14 @@ export default function User() {
       </div>
 
       <button
-        className="absolute right-6 top-4 rounded-lg bg-primary px-4 py-2 text-white"
+        className="absolute right-56 top-4 rounded-lg bg-primary px-4 py-2 text-white"
+        onClick={() => setIsEditModalOpen(true)}
+      >
+        Edit Profile
+      </button>
+
+      <button
+        className="absolute right-28 top-4 rounded-lg bg-primary px-4 py-2 text-white"
         onClick={() => logout()}
       >
         Logout
@@ -112,6 +122,12 @@ export default function User() {
           console.log(error);
           setIsModalOpen(false);
         }}
+      />
+
+      <EditUserInfo
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        user={user}
       />
     </div>
   );

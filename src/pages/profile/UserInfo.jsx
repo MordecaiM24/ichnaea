@@ -4,6 +4,13 @@ import { supabase } from "@/App";
 
 export const UserInfo = ({ isOpen, onClose, onSubmit }) => {
   const [user, setUser] = useState(null);
+  const [step, setStep] = useState(0);
+  const [userInfo, setUserInfo] = useState({
+    goals: "",
+    extracurriculars: "",
+    academics: "",
+    experience: "",
+  });
 
   async function getUser() {
     const user_id = (await supabase.auth.getSession()).data.session.user.id;
@@ -23,14 +30,6 @@ export const UserInfo = ({ isOpen, onClose, onSubmit }) => {
   useEffect(() => {
     getUser();
   }, []);
-
-  const [step, setStep] = useState(0);
-  const [userInfo, setUserInfo] = useState({
-    goals: "",
-    extracurriculars: "",
-    academics: "",
-    experience: "",
-  });
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -182,6 +181,166 @@ export const UserInfo = ({ isOpen, onClose, onSubmit }) => {
                 Submit
               </button>
             )}
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+export const EditUserInfo = ({ isOpen, onClose, onSubmit }) => {
+  const [activeTab, setActiveTab] = useState("goals");
+  const [user, setUser] = useState(null);
+  const [userInfo, setUserInfo] = useState({
+    goals: "",
+    extracurriculars: "",
+    academics: "",
+    experience: "",
+  });
+
+  async function getUser() {
+    const user_id = (await supabase.auth.getSession()).data.session.user.id;
+    console.log(user_id);
+
+    let { data: user, error: userError } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", user_id);
+
+    console.log(user);
+
+    setUser(user[0]);
+    setUserInfo(user[0].user_info);
+  }
+
+  useEffect(() => {
+    getUser();
+  }, []);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setUserInfo((prevInfo) => ({ ...prevInfo, [name]: value }));
+  };
+
+  const handleSubmit = async () => {
+    console.log("Doing in userinfo");
+    const { data, error } = await supabase
+      .from("users")
+      .update({ user_info: userInfo })
+      .eq("id", user.id)
+      .select("*");
+
+    onSubmit(userInfo);
+    onClose();
+  };
+
+  const tabs = [
+    { id: "goals", label: "Goals" },
+    { id: "extracurriculars", label: "Extracurriculars" },
+    { id: "academics", label: "Academics" },
+    { id: "experience", label: "Experience" },
+  ];
+
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+      <div className="relative w-full max-w-3xl rounded-lg bg-white p-8 shadow-xl">
+        <button
+          onClick={onClose}
+          className="absolute right-6 top-6 text-gray-500 hover:text-gray-700"
+        >
+          <X size={24} />
+        </button>
+        <h2 className="mb-6 text-3xl font-thin">Edit Your Information</h2>
+        <div className="mb-6">
+          <div className="border-b border-gray-200">
+            <nav className="-mb-px flex" aria-label="Tabs">
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`w-1/4 border-b-2 px-1 py-4 text-center text-sm font-medium ${
+                    activeTab === tab.id
+                      ? "border-primary text-primary"
+                      : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </nav>
+          </div>
+        </div>
+        <form className="space-y-6">
+          {activeTab === "goals" && (
+            <div>
+              <label className="mb-2 block text-lg font-medium text-gray-700">
+                Your Goals
+              </label>
+              <textarea
+                name="goals"
+                value={userInfo.goals}
+                onChange={handleInputChange}
+                className="w-full rounded-md border border-gray-300 p-3 text-base"
+                rows="6"
+                placeholder="Describe your academic and career goals..."
+              />
+            </div>
+          )}
+          {activeTab === "extracurriculars" && (
+            <div>
+              <label className="mb-2 block text-lg font-medium text-gray-700">
+                Extracurricular Activities
+              </label>
+              <textarea
+                name="extracurriculars"
+                value={userInfo.extracurriculars}
+                onChange={handleInputChange}
+                className="w-full rounded-md border border-gray-300 p-3 text-base"
+                rows="6"
+                placeholder="List your extracurricular activities..."
+              />
+            </div>
+          )}
+          {activeTab === "academics" && (
+            <div>
+              <label className="mb-2 block text-lg font-medium text-gray-700">
+                Relevant Academics/Coursework
+              </label>
+              <textarea
+                name="academics"
+                value={userInfo.academics}
+                onChange={handleInputChange}
+                className="w-full rounded-md border border-gray-300 p-3 text-base"
+                rows="6"
+                placeholder="Describe your relevant academics and coursework..."
+              />
+            </div>
+          )}
+          {activeTab === "experience" && (
+            <div>
+              <label className="mb-2 block text-lg font-medium text-gray-700">
+                Other Relevant Experience
+              </label>
+              <textarea
+                name="experience"
+                value={userInfo.experience}
+                onChange={handleInputChange}
+                className="w-full rounded-md border border-gray-300 p-3 text-base"
+                rows="6"
+                placeholder="Describe any other relevant experience..."
+              />
+            </div>
+          )}
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={handleSubmit}
+              className="rounded-lg bg-primary px-4 py-3 text-white"
+            >
+              Save Changes
+            </button>
           </div>
         </form>
       </div>
