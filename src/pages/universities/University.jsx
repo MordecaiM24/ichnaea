@@ -138,27 +138,55 @@ function DeadlineModal({ showModal, uniID, userID, uniName }) {
       return;
     }
 
-    await supabase
+    const res = await supabase
       .from("user_saved_colleges")
       .insert([{ user_id: userID, college_id: uniID, deadline_id: deadline }]);
 
+    console.log("Insert college response:");
+    console.log(res);
+
     const { data: essays, err } = await supabase
+      // const res2 = await supabase
       .from("supplemental_essays")
       .select("*")
       .eq("college_id", uniID);
 
-    essays.map(async (essay) => {
-      await supabase.from("user_supplemental_essays").insert([
-        {
-          user_id: userID,
-          supplemental_essay_id: essay.id,
-          supplemental_essay_prompt: essay.prompt,
-          word_limit: essay.word_limit,
-          college_id: uniID,
-          college_name: uniName,
-        },
-      ]);
-    });
+    try {
+      const essaysToInsert = essays.map((essay) => ({
+        user_id: userID,
+        supplemental_essay_id: essay.id,
+        supplemental_essay_prompt: essay.prompt,
+        word_limit: essay.word_limit,
+        college_id: uniID,
+        college_name: uniName,
+      }));
+
+      const { data, error } = await supabase
+        .from("user_supplemental_essays")
+        .insert(essaysToInsert);
+
+      if (error) throw error;
+
+      console.log("Successfully inserted essays:", data);
+    } catch (error) {
+      console.error("Error inserting essays:", error);
+      throw error;
+    }
+
+    // essays.map(async (essay) => {
+    //   await supabase.from("user_supplemental_essays").insert([
+    //     {
+    //       user_id: userID,
+    //       supplemental_essay_id: essay.id,
+    //       supplemental_essay_prompt: essay.prompt,
+    //       word_limit: essay.word_limit,
+    //       college_id: uniID,
+    //       college_name: uniName,
+    //     },
+    //   ]);
+    // });
+
+    console.log("Insert essays response: ");
 
     showModal(false);
     navigate("/profile#colleges");
