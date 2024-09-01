@@ -37,65 +37,65 @@ export function CollegeList({ colleges, essays }) {
         collapsible
         className="w-full rounded-lg rounded-tl-none border border-gray-300"
       >
-        {colleges.map((obj, idx) => {
-          let { full_name, id } = obj.colleges;
-          let deadline = obj.deadlines.special_name;
+        {colleges.length === 0 ? (
+          <button
+            className="px-6 py-8 text-start text-xl font-thin hover:text-primary"
+            onClick={() => {
+              navigate("/universities");
+            }}
+          >
+            Start adding schools now!
+          </button>
+        ) : (
+          colleges.map((obj, idx) => {
+            let { full_name, id } = obj.colleges;
+            let deadline = obj.deadlines.special_name;
 
-          return (
-            <AccordionItem
-              className="border-b pr-4 first:rounded-tr-lg last:rounded-b-lg last:border-b-0 hover:bg-gray-50"
-              value={`item-${idx}`}
-              key={id}
-            >
-              <AccordionTrigger>
-                <div className="flex w-full items-center px-6 py-3 font-normal">
-                  <div className="flex h-full w-7/12 items-center">
-                    <p>{full_name}</p>
-                  </div>
-
-                  <div className="flex w-5/12 items-center pe-4 *:flex *:justify-center">
-                    <a className="w-1/6 text-xl">
-                      <CalendarDate className="cursor-pointer" />
-                    </a>
-
-                    <div className="w-1/3 text-base">{deadline}</div>
-
-                    <div className="w-1/2">
-                      <a
-                        className="rounded-lg bg-primary px-4 py-2 text-white"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/profile/${id}`);
-                        }}
-                      >
-                        Open Essays
-                      </a>
+            return (
+              <AccordionItem
+                className="border-b pr-4 first:rounded-tr-lg last:rounded-b-lg last:border-b-0 hover:bg-gray-50"
+                value={`item-${idx}`}
+                key={id}
+              >
+                <AccordionTrigger>
+                  <div className="flex w-full items-center px-6 py-3 font-normal">
+                    <div className="flex h-full w-7/12 items-center">
+                      <p>{full_name}</p>
                     </div>
 
-                    {/* <a className="w-1/6">
-                      <div className="aspect-square w-full md:w-3/4 lg:w-1/2">
-                        <CircularProgressbar
-                          value={percentage}
-                          text={`${percentage}%`}
-                        />
-                      </div>
-                    </a> */}
-                  </div>
-                </div>
-              </AccordionTrigger>
+                    <div className="flex w-5/12 items-center pe-4 *:flex *:justify-center">
+                      <a className="w-1/6 text-xl">
+                        <CalendarDate className="cursor-pointer" />
+                      </a>
 
-              <AccordionContent className="pe-6 pr-8">
-                {essays
-                  .filter((essay) => {
-                    return essay.college_id == id;
-                  })
-                  .map((essay) => {
-                    return <Essay essay={essay} key={essay.id} />;
-                  })}
-              </AccordionContent>
-            </AccordionItem>
-          );
-        })}
+                      <div className="w-1/3 text-base">{deadline}</div>
+
+                      <div className="w-1/2">
+                        <a
+                          className="rounded-lg bg-primary px-4 py-2 text-white"
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            navigate(`/profile/${id}`);
+                          }}
+                        >
+                          Open Essays
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </AccordionTrigger>
+
+                <AccordionContent className="pe-6 pr-8">
+                  {essays
+                    .filter((essay) => essay.college_id == id)
+                    .map((essay) => (
+                      <Essay essay={essay} key={essay.id} />
+                    ))}
+                </AccordionContent>
+              </AccordionItem>
+            );
+          })
+        )}
       </Accordion>
     </div>
   );

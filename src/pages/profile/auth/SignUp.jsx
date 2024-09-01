@@ -48,9 +48,37 @@ export function SignUp({ setHasAccount }) {
         { id: data.user.id, first_name: firstName, last_name: lastName, email },
       ]);
 
+    await supabase.from("todos").insert([
+      {
+        user_id: data.user.id,
+        name: "Ask for / upload teacher recommendations",
+        status: 0,
+      },
+      {
+        user_id: data.user.id,
+        name: "Upload ACT",
+        status: 0,
+      },
+      {
+        user_id: data.user.id,
+        name: "Upload SAT",
+        status: 0,
+      },
+      {
+        user_id: data.user.id,
+        name: "Finish Common App Essay",
+        status: 0,
+      },
+      {
+        user_id: data.user.id,
+        name: "Upload extracurriculars",
+        status: 0,
+      },
+    ]);
+
     console.log(signUpRes);
     console.log(insertRes);
-    navigate(`/welcome?user=${data.user.id}`);
+    location.reload();
 
     setLoading(false);
   }
@@ -63,7 +91,28 @@ export function SignUp({ setHasAccount }) {
       onSubmit={(e) => {
         e.preventDefault();
         if (password !== confirmPassword) {
-          alert("Passwords don't match.");
+          toast.info("Passwords don't match.", {
+            position: "top-center",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+          });
+          return;
+        }
+
+        if (password.length < 6) {
+          toast.info("Passwords must be at least 6 characters.", {
+            position: "top-center",
+            autoClose: 2500,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            theme: "dark",
+          });
           return;
         }
         signUpNewUser();
@@ -75,6 +124,8 @@ export function SignUp({ setHasAccount }) {
         <input
           required
           autoComplete="off"
+          type="email"
+          id="email"
           className="w-full rounded border border-slate-300 bg-transparent px-2 py-2 autofill:text-black"
           onChange={(e) => {
             setEmail(e.target.value);
@@ -139,7 +190,7 @@ export function SignUp({ setHasAccount }) {
 
       <button
         type="submit"
-        className="w-full rounded-md border border-black p-2 text-xl font-normal transition-all duration-200 hover:bg-black hover:text-white focus:bg-black focus:text-white"
+        className="w-full rounded-md border border-black p-2 text-xl font-normal transition-all duration-200 hover:bg-black hover:text-white focus:bg-black focus:text-white disabled:border-gray-50 disabled:bg-gray-300 disabled:text-gray-600"
         disabled={loading}
       >
         Sign Up
