@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PlusLg, Trash3Fill } from "react-bootstrap-icons";
 import { supabase } from "../../App";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 
 export default function University({ university, userID, saved }) {
@@ -114,8 +114,6 @@ export default function University({ university, userID, saved }) {
           />
         </div>
       )}
-
-      <ToastContainer />
     </div>
   );
 }

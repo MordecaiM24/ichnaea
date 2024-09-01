@@ -10,6 +10,7 @@ import { Essays } from "./pages/profile/EssayEditor/Essays";
 import { SpeedInsights } from "@vercel/speed-insights/react";
 import { injectSpeedInsights } from "@vercel/speed-insights";
 import { inject } from "@vercel/analytics";
+import { ToastContainer } from "react-toastify";
 
 injectSpeedInsights();
 inject();
@@ -23,6 +24,7 @@ function App() {
   return (
     <HashRouter>
       <Navbar />
+      <ToastContainer />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />

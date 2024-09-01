@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 import University from "./University";
 import { supabase } from "../../App";
 import { Search } from "react-bootstrap-icons";
-import { ToastContainer, toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function UniversityGrid() {
   const [userID, setUserID] = useState(null);
@@ -86,7 +86,7 @@ export default function UniversityGrid() {
   }
 
   return (
-<div className="p-4 px-12">
+    <div className="p-4 px-12">
       {/* Didn't refactor into tailwind b/c the css for this was written by the elder gods */}
       <div className="search-bar-container relative">
         <form
@@ -97,14 +97,15 @@ export default function UniversityGrid() {
             const query = inputRef.current.value;
             console.log(query);
             searchUniversities(query);
-          } }
+          }}
         >
           <input
             type="text"
             className="search-input text-sm"
             placeholder="Start Looking For Something!"
             id="search"
-            ref={inputRef} />
+            ref={inputRef}
+          />
 
           <a className="search-btn cursor-pointer" type="submit">
             <Search />
@@ -120,7 +121,8 @@ export default function UniversityGrid() {
               university={university}
               userID={userID}
               saved={saved}
-              key={university.id} />
+              key={university.id}
+            />
           );
         })}
       </div>
@@ -130,14 +132,11 @@ export default function UniversityGrid() {
           className="rounded-lg border border-primary px-4 py-2 font-semibold text-primary transition-all hover:bg-primary hover:text-white"
           onClick={() => {
             setPage((page) => page + 1);
-          } }
+          }}
         >
           Show More
         </button>
       </div>
-
-<ToastContainer />
     </div>
-
   );
 }

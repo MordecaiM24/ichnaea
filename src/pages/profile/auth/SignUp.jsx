@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { supabase } from "../../../App.jsx";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 
 export function SignUp({ setHasAccount }) {
   const [loading, setLoading] = useState(false);
@@ -157,8 +157,6 @@ export function SignUp({ setHasAccount }) {
           Login
         </button>
       </div>
-
-      <ToastContainer />
     </form>
   );
 }

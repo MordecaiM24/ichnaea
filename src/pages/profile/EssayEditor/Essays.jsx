@@ -2,7 +2,7 @@ import { supabase } from "@/App";
 import React, { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { Circles } from "react-loader-spinner";
 import { EditUserInfo } from "../UserInfo";
 
@@ -96,8 +96,9 @@ function Essay({ essay, student }) {
       toast.info(
         "Editing works best with a minimum of 100 characters. Start writing and we'll start helping!",
         {
+          toastId: "Edit",
           position: "top-center",
-          autoClose: 1000,
+          autoClose: 2500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -130,8 +131,9 @@ function Essay({ essay, student }) {
       toast.info(
         "Criticism works best with a minimum of 100 characters. Start writing and we'll start helping!",
         {
+          toastId: "Critique",
           position: "top-center",
-          autoClose: 1000,
+          autoClose: 2500,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -266,7 +268,6 @@ function Essay({ essay, student }) {
           </div>
         </div>
       )}
-      <ToastContainer />
       <div className="w-50 h-50 hidden"></div>
     </>
   );
