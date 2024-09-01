@@ -16,7 +16,7 @@ const TOOLBAR_OPTIONS = [
   ["clean"],
 ];
 
-const SAVE_INTERVAL_MS = 10000;
+const SAVE_INTERVAL_MS = 1000;
 
 export default function TextEditor() {
   const navigate = useNavigate();

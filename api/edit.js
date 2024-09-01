@@ -27,14 +27,14 @@ export default async function index(req, res) {
     model: "claude-3-haiku-20240307",
     max_tokens: 1000,
     temperature: 0,
-    system: `Given a college application essay, make it clearer. Do not rewrite it entirely. Just make it clearer and more readable. Take care to emulate the original text's tone, style, and meaning. Approach it like an editor — not a rewriter. Return only the revised essay within a JSON. Do so in this format: { "final_essay": final_essay_here }. DO NOT PUT ANY NEWLINES IN THE ESSAY. ESCAPE ANY NECESSARY NEWLINES WITH THE BACKSLASH N OPERATOR. I REPEAT, DO NOT PUT ANY NEWLINES IN THE JSON WITH THE ESSAY. KEEP EVERY SINGLE THING ON ONE LINE.`,
+    system: `Given a college application essay, make it clearer. Do not rewrite it entirely. Just make it clearer and more readable. Take care to emulate the original text's tone, style, and meaning. Approach it like an editor — not a rewriter. Return only the revised essay within a JSON. Do so in this format: { "final_essay": final_essay_here }. DO NOT PUT ANY NEWLINES IN THE ESSAY. INSERT LINE BREAKS WHEN YOU THINK APPROPRIATE, BUT ESCAPE ANY NECESSARY NEWLINES WITH THE BACKSLASH N OPERATOR. I REPEAT, DO NOT PUT ANY NEWLINES IN THE JSON WITH THE ESSAY. KEEP EVERY SINGLE THING ON ONE LINE.`,
     messages: [
       {
         role: "user",
         content: [
           {
             type: "text",
-            text: `<CollegeEssay>${essay}</CollegeEssay>`,
+            text: `<CollegeEssay>${JSON.stringify(essay)}</CollegeEssay>`,
           },
         ],
       },

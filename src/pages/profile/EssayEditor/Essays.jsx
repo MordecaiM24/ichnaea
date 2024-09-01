@@ -4,11 +4,13 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { toast, ToastContainer } from "react-toastify";
 import { Circles } from "react-loader-spinner";
+import { EditUserInfo } from "../UserInfo";
 
 export function Essays() {
   let { college_id } = useParams();
   const [user, setUser] = useState(null);
   const [essays, setEssays] = useState([]);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   async function getUser() {
     const user_id = (await supabase.auth.getSession()).data.session.user.id;
@@ -33,14 +35,26 @@ export function Essays() {
   }, []);
 
   return (
-    <div className="mx-auto px-36 xl:max-w-6xl 2xl:max-w-7xl">
-      <div className="self-center py-4 text-center">
+    <div className="relative mx-auto px-36 xl:max-w-6xl 2xl:max-w-7xl">
+      <div className="flex flex-col items-center justify-between gap-y-5 py-8">
         <p className="text-5xl font-thin">{essays[0]?.college_name}</p>
+        <button
+          className="rounded-lg border border-primary bg-white px-6 py-1 text-lg text-primary transition-all hover:bg-primary hover:text-white"
+          onClick={() => setIsEditModalOpen(true)}
+        >
+          Edit Profile
+        </button>
       </div>
 
       {essays.map((essay) => {
         return <Essay essay={essay} key={essay.id} student={user.user_info} />;
       })}
+
+      <EditUserInfo
+        isOpen={isEditModalOpen}
+        onClose={() => setIsEditModalOpen(false)}
+        user={user}
+      />
     </div>
   );
 }
@@ -83,7 +97,7 @@ function Essay({ essay, student }) {
         "Editing works best with a minimum of 100 characters. Start writing and we'll start helping!",
         {
           position: "top-center",
-          autoClose: 2500,
+          autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -117,7 +131,7 @@ function Essay({ essay, student }) {
         "Criticism works best with a minimum of 100 characters. Start writing and we'll start helping!",
         {
           position: "top-center",
-          autoClose: 2500,
+          autoClose: 1000,
           hideProgressBar: false,
           closeOnClick: true,
           pauseOnHover: true,
@@ -146,21 +160,9 @@ function Essay({ essay, student }) {
   }
 
   async function brainstorm() {
-    if (name != "Mordecai") {
-      toast.info("Coming soon!", {
-        position: "top-center",
-        autoClose: 2500,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        theme: "dark",
-      });
-    }
-
     const brainstormedEssay = await axios.post(
       `${import.meta.env.VITE_FUNCTION_ENDPOINT}/api/brainstorm`,
-      { prompt: essay.supplemental_essay_prompt, student: userInfo },
+      { prompt: essay.supplemental_essay_prompt, student },
     );
 
     const originalEssay = response;

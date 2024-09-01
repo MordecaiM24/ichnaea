@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { X } from "lucide-react";
 import { supabase } from "@/App";
 
-export const UserInfo = ({ isOpen, onClose, onSubmit }) => {
+export const UserInfo = ({ isOpen, onClose }) => {
   const [user, setUser] = useState(null);
   const [step, setStep] = useState(0);
   const [userInfo, setUserInfo] = useState({
@@ -52,7 +52,6 @@ export const UserInfo = ({ isOpen, onClose, onSubmit }) => {
       .eq("id", user.id)
       .select("*");
 
-    onSubmit(userInfo);
     onClose();
   };
 
@@ -188,7 +187,7 @@ export const UserInfo = ({ isOpen, onClose, onSubmit }) => {
   );
 };
 
-export const EditUserInfo = ({ isOpen, onClose, onSubmit }) => {
+export const EditUserInfo = ({ isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState("goals");
   const [user, setUser] = useState(null);
   const [userInfo, setUserInfo] = useState({
@@ -230,7 +229,6 @@ export const EditUserInfo = ({ isOpen, onClose, onSubmit }) => {
       .eq("id", user.id)
       .select("*");
 
-    onSubmit(userInfo);
     onClose();
   };
 
